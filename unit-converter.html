@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free Unit Converter - Length, Weight, Temperature and Area</title>
+    <meta name="description" content="Convert length, weight, temperature, and area units online for free. Fast, accurate, and easy-to-use unit conversion tool.">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #f4f7f5;
+            --card: #ffffff;
+            --text: #18201b;
+            --secondary-text: #66706a;
+            --border: #dce4df;
+            --input-background: #ffffff;
+            --green: #22a45d;
+            --green-hover: #198a4c;
+            --light-green: #e9f8ef;
+            --danger: #dc3545;
+            --shadow: 0 12px 35px rgba(31, 71, 48, 0.10);
+        }
+
+        body.dark {
+            --background: #101713;
+            --card: #19231d;
+            --text: #f0f5f2;
+            --secondary-text: #aebbb3;
+            --border: #35443a;
+            --input-background: #111914;
+            --light-green: #203c2c;
+            --shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 24px;
+            color: var(--text);
+            background: var(--background);
+            font-family: Arial, Helvetica, sans-serif;
+            transition: background 0.25s, color 0.25s;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .logo {
+            color: var(--green);
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        .theme-button {
+            padding: 10px 14px;
+            color: var(--text);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .theme-button:hover {
+            border-color: var(--green);
+        }
+
+        .card {
+            padding: 32px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            text-align: center;
+            font-size: 32px;
+        }
+
+        .description {
+            margin: 0 auto 28px;
+            color: var(--secondary-text);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .category-label {
+            display: block;
+            margin-bottom: 9px;
+            font-weight: 700;
+        }
+
+        .category-select {
+            width: 100%;
+            min-height: 48px;
+            padding: 10px 13px;
+            color: var(--text);
+            background: var(--input-background);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .category-select:focus,
+        .unit-select:focus,
+        .number-input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(34, 164, 93, 0.14);
+        }
+
+        .converter {
+            display: grid;
+            grid-template-columns: 1fr 56px 1fr;
+            gap: 16px;
+            align-items: end;
+            margin-top: 22px;
+        }
+
+        .field-label {
+            display: block;
+            margin-bottom: 9px;
+            font-weight: 700;
+        }
+
+        .number-input,
+        .unit-select {
+            width: 100%;
+            min-height: 48px;
+            padding: 11px 13px;
+            color: var(--text);
+            background: var(--input-background);
+            border: 1px solid var(--border);
+            outline: none;
+        }
+
+        .number-input {
+            border-radius: 10px 10px 0 0;
+            border-bottom: 0;
+            font-size: 18px;
+        }
+
+        .unit-select {
+            border-radius: 0 0 10px 10px;
+            cursor: pointer;
+        }
+
+        .result-input {
+            color: var(--green);
+            background: var(--light-green);
+            font-weight: 700;
+        }
+
+        .swap-button {
+            width: 56px;
+            height: 48px;
+            margin-bottom: 1px;
+            color: #ffffff;
+            background: var(--green);
+            border: 1px solid var(--green);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .swap-button:hover {
+            background: var(--green-hover);
+        }
+
+        .formula-box {
+            margin-top: 22px;
+            padding: 17px;
+            color: var(--secondary-text);
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .formula-box strong {
+            color: var(--text);
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            min-height: 44px;
+            padding: 11px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .primary-button {
+            color: #ffffff;
+            background: var(--green);
+            border: 1px solid var(--green);
+        }
+
+        .primary-button:hover {
+            background: var(--green-hover);
+        }
+
+        .secondary-button {
+            color: var(--text);
+            background: transparent;
+            border: 1px solid var(--border);
+        }
+
+        .secondary-button:hover {
+            border-color: var(--green);
+        }
+
+        .message {
+            min-height: 22px;
+            margin-top: 14px;
+            color: var(--danger);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .message.success {
+            color: var(--green);
+        }
+
+        .privacy-note {
+            margin: 18px 0 0;
+            padding: 14px;
+            color: var(--secondary-text);
+            background: var(--light-green);
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 14px;
+            }
+
+            .card {
+                padding: 22px 18px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .converter {
+                grid-template-columns: 1fr;
+            }
+
+            .swap-button {
+                margin: 0 auto;
+                transform: rotate(90deg);
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .primary-button,
+            .secondary-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+        <div class="top-bar">
+            <div class="logo">Quick Web Tools</div>
+
+            <button id="themeButton" class="theme-button" type="button">
+                🌙 Dark Mode
+            </button>
+        </div>
+
+        <section class="card">
+            <h1>Unit Converter</h1>
+
+            <p class="description">
+                Convert common units of length, weight, temperature, and area instantly.
+            </p>
+
+            <label class="category-label" for="categorySelect">
+                Conversion Category
+            </label>
+
+            <select id="categorySelect" class="category-select">
+                <option value="length">Length</option>
+                <option value="weight">Weight</option>
+                <option value="temperature">Temperature</option>
+                <option value="area">Area</option>
+            </select>
+
+            <div class="converter">
+                <div>
+                    <label class="field-label" for="fromValue">From</label>
+
+                    <input
+                        id="fromValue"
+                        class="number-input"
+                        type="number"
+                        value="1"
+                        step="any"
+                        placeholder="Enter a value"
+                    >
+
+                    <select id="fromUnit" class="unit-select"></select>
+                </div>
+
+                <button
+                    id="swapButton"
+                    class="swap-button"
+                    type="button"
+                    title="Swap units"
+                >
+                    ⇄
+                </button>
+
+                <div>
+                    <label class="field-label" for="resultValue">To</label>
+
+                    <input
+                        id="resultValue"
+                        class="number-input result-input"
+                        type="text"
+                        readonly
+                    >
+
+                    <select id="toUnit" class="unit-select"></select>
+                </div>
+            </div>
+
+            <div id="formulaBox" class="formula-box">
+                Enter a value to see the conversion.
+            </div>
+
+            <div class="button-row">
+                <button id="copyButton" class="primary-button" type="button">
+                    Copy Result
+                </button>
+
+                <button id="clearButton" class="secondary-button" type="button">
+                    Clear
+                </button>
+            </div>
+
+            <div id="message" class="message" aria-live="polite"></div>
+
+            <p class="privacy-note">
+                This converter works directly in your browser. No information is uploaded or stored.
+            </p>
+        </section>
+    </main>
+
+    <script>
+        const categorySelect = document.getElementById("categorySelect");
+        const fromValue = document.getElementById("fromValue");
+        const fromUnit = document.getElementById("fromUnit");
+        const toUnit = document.getElementById("toUnit");
+        const resultValue = document.getElementById("resultValue");
+        const formulaBox = document.getElementById("formulaBox");
+        const swapButton = document.getElementById("swapButton");
+        const copyButton = document.getElementById("copyButton");
+        const clearButton = document.getElementById("clearButton");
+        const themeButton = document.getElementById("themeButton");
+        const message = document.getElementById("message");
+
+        const categories = {
+            length: {
+                units: {
+                    meter: {
+                        name: "Meter (m)",
+                        factor: 1
+                    },
+                    kilometer: {
+                        name: "Kilometer (km)",
+                        factor: 1000
+                    },
+                    centimeter: {
+                        name: "Centimeter (cm)",
+                        factor: 0.01
+                    },
+                    millimeter: {
+                        name: "Millimeter (mm)",
+                        factor: 0.001
+                    },
+                    mile: {
+                        name: "Mile (mi)",
+                        factor: 1609.344
+                    },
+                    yard: {
+                        name: "Yard (yd)",
+                        factor: 0.9144
+                    },
+                    foot: {
+                        name: "Foot (ft)",
+                        factor: 0.3048
+                    },
+                    inch: {
+                        name: "Inch (in)",
+                        factor: 0.0254
+                    }
+                },
+                defaults: ["meter", "foot"]
+            },
+
+            weight: {
+                units: {
+                    kilogram: {
+                        name: "Kilogram (kg)",
+                        factor: 1
+                    },
+                    gram: {
+                        name: "Gram (g)",
+                        factor: 0.001
+                    },
+                    milligram: {
+                        name: "Milligram (mg)",
+                        factor: 0.000001
+                    },
+                    metricTon: {
+                        name: "Metric Ton (t)",
+                        factor: 1000
+                    },
+                    pound: {
+                        name: "Pound (lb)",
+                        factor: 0.45359237
+                    },
+                    ounce: {
+                        name: "Ounce (oz)",
+                        factor: 0.028349523125
+                    }
+                },
+                defaults: ["kilogram", "pound"]
+            },
+
+            temperature: {
+                units: {
+                    celsius: {
+                        name: "Celsius (°C)"
+                    },
+                    fahrenheit: {
+                        name: "Fahrenheit (°F)"
+                    },
+                    kelvin: {
+                        name: "Kelvin (K)"
+                    }
+                },
+                defaults: ["celsius", "fahrenheit"]
+            },
+
+            area: {
+                units: {
+                    squareMeter: {
+                        name: "Square Meter (m²)",
+                        factor: 1
+                    },
+                    squareKilometer: {
+                        name: "Square Kilometer (km²)",
+                        factor: 1000000
+                    },
+                    squareFoot: {
+                        name: "Square Foot (ft²)",
+                        factor: 0.09290304
+                    },
+                    squareYard: {
+                        name: "Square Yard (yd²)",
+                        factor: 0.83612736
+                    },
+                    acre: {
+                        name: "Acre",
+                        factor: 4046.8564224
+                    },
+                    hectare: {
+                        name: "Hectare (ha)",
+                        factor: 10000
+                    }
+                },
+                defaults: ["squareMeter", "squareFoot"]
+            }
+        };
+
+        function showMessage(text, type = "error") {
+            message.textContent = text;
+            message.className = type === "success"
+                ? "message success"
+                : "message";
+        }
+
+        function clearMessage() {
+            message.textContent = "";
+            message.className = "message";
+        }
+
+        function fillUnitSelect(selectElement, units) {
+            selectElement.innerHTML = "";
+
+            for (const unitKey in units) {
+                const option = document.createElement("option");
+
+                option.value = unitKey;
+                option.textContent = units[unitKey].name;
+
+                selectElement.appendChild(option);
+            }
+        }
+
+        function loadCategory() {
+            const category = categories[categorySelect.value];
+
+            fillUnitSelect(fromUnit, category.units);
+            fillUnitSelect(toUnit, category.units);
+
+            fromUnit.value = category.defaults[0];
+            toUnit.value = category.defaults[1];
+
+            clearMessage();
+            convert();
+        }
+
+        function convertTemperature(value, from, to) {
+            let celsiusValue;
+
+            if (from === "celsius") {
+                celsiusValue = value;
+            } else if (from === "fahrenheit") {
+                celsiusValue = (value - 32) * 5 / 9;
+            } else {
+                celsiusValue = value - 273.15;
+            }
+
+            if (to === "celsius") {
+                return celsiusValue;
+            }
+
+            if (to === "fahrenheit") {
+                return celsiusValue * 9 / 5 + 32;
+            }
+
+            return celsiusValue + 273.15;
+        }
+
+        function formatNumber(number) {
+            if (!Number.isFinite(number)) {
+                return "";
+            }
+
+            if (Math.abs(number) >= 1000000000) {
+                return number.toExponential(6);
+            }
+
+            if (Math.abs(number) > 0 && Math.abs(number) < 0.000001) {
+                return number.toExponential(6);
+            }
+
+            return Number(number.toFixed(10)).toString();
+        }
+
+        function convert() {
+            clearMessage();
+
+            if (fromValue.value === "") {
+                resultValue.value = "";
+                formulaBox.textContent = "Enter a value to see the conversion.";
+                return;
+            }
+
+            const value = Number(fromValue.value);
+
+            if (!Number.isFinite(value)) {
+                resultValue.value = "";
+                showMessage("Please enter a valid number.");
+                return;
+            }
+
+            const categoryKey = categorySelect.value;
+            const category = categories[categoryKey];
+            const fromKey = fromUnit.value;
+            const toKey = toUnit.value;
+            let result;
+
+            if (categoryKey === "temperature") {
+                result = convertTemperature(value, fromKey, toKey);
+            } else {
+                const baseValue = value * category.units[fromKey].factor;
+                result = baseValue / category.units[toKey].factor;
+            }
+
+            const formattedResult = formatNumber(result);
+
+            resultValue.value = formattedResult;
+
+            formulaBox.innerHTML =
+                "<strong>" +
+                value +
+                " " +
+                category.units[fromKey].name +
+                "</strong> = <strong>" +
+                formattedResult +
+                " " +
+                category.units[toKey].name +
+                "</strong>";
+        }
+
+        function swapUnits() {
+            const oldFromUnit = fromUnit.value;
+
+            fromUnit.value = toUnit.value;
+            toUnit.value = oldFromUnit;
+
+            if (resultValue.value !== "") {
+                fromValue.value = resultValue.value;
+            }
+
+            clearMessage();
+            convert();
+        }
+
+        async function copyResult() {
+            if (!resultValue.value) {
+                showMessage("There is no result to copy.");
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(resultValue.value);
+                showMessage("Result copied successfully.", "success");
+            } catch (error) {
+                resultValue.focus();
+                resultValue.select();
+
+                const copied = document.execCommand("copy");
+
+                if (copied) {
+                    showMessage("Result copied successfully.", "success");
+                } else {
+                    showMessage("Copy failed. Please select the result and press Ctrl + C.");
+                }
+            }
+        }
+
+        function clearTool() {
+            fromValue.value = "";
+            resultValue.value = "";
+            formulaBox.textContent = "Enter a value to see the conversion.";
+
+            clearMessage();
+            fromValue.focus();
+        }
+
+        function updateThemeButton() {
+            if (document.body.classList.contains("dark")) {
+                themeButton.textContent = "☀️ Light Mode";
+            } else {
+                themeButton.textContent = "🌙 Dark Mode";
+            }
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem("quickWebToolsTheme");
+
+            if (savedTheme === "dark") {
+                document.body.classList.add("dark");
+            }
+
+            updateThemeButton();
+        }
+
+        categorySelect.addEventListener("change", loadCategory);
+        fromValue.addEventListener("input", convert);
+        fromUnit.addEventListener("change", convert);
+        toUnit.addEventListener("change", convert);
+        swapButton.addEventListener("click", swapUnits);
+        copyButton.addEventListener("click", copyResult);
+        clearButton.addEventListener("click", clearTool);
+
+        themeButton.addEventListener("click", function () {
+            document.body.classList.toggle("dark");
+
+            const theme = document.body.classList.contains("dark")
+                ? "dark"
+                : "light";
+
+            localStorage.setItem("quickWebToolsTheme", theme);
+            updateThemeButton();
+        });
+
+        loadTheme();
+        loadCategory();
+    </script>
+</body>
+</html>

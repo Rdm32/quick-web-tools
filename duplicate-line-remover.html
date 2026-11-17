@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Duplicate Line Remover - Remove Duplicate Text Lines</title>
+    <meta name="description" content="Remove duplicate lines from text online for free. Choose case-sensitive matching, trim spaces, remove empty lines, and copy the cleaned text.">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #f4f7f5;
+            --card: #ffffff;
+            --text: #18201b;
+            --secondary-text: #66706a;
+            --border: #dce4df;
+            --input-background: #ffffff;
+            --green: #22a45d;
+            --green-hover: #198a4c;
+            --light-green: #e9f8ef;
+            --danger: #dc3545;
+            --shadow: 0 12px 35px rgba(31, 71, 48, 0.10);
+        }
+
+        body.dark {
+            --background: #101713;
+            --card: #19231d;
+            --text: #f0f5f2;
+            --secondary-text: #aebbb3;
+            --border: #35443a;
+            --input-background: #111914;
+            --light-green: #203c2c;
+            --shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 24px;
+            color: var(--text);
+            background: var(--background);
+            font-family: Arial, Helvetica, sans-serif;
+            transition: background 0.25s, color 0.25s;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .logo {
+            color: var(--green);
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .theme-button {
+            padding: 10px 14px;
+            color: var(--text);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .theme-button:hover {
+            border-color: var(--green);
+        }
+
+        .card {
+            padding: 32px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            text-align: center;
+            font-size: 32px;
+        }
+
+        .description {
+            max-width: 700px;
+            margin: 0 auto 28px;
+            color: var(--secondary-text);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 11px;
+            color: var(--text);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .option input {
+            width: 17px;
+            height: 17px;
+            margin: 0;
+            accent-color: var(--green);
+            cursor: pointer;
+        }
+
+        .editor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .editor-panel {
+            min-width: 0;
+        }
+
+        .editor-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 9px;
+        }
+
+        .editor-heading label {
+            font-weight: 700;
+        }
+
+        .line-count {
+            color: var(--secondary-text);
+            font-size: 13px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 350px;
+            padding: 15px;
+            color: var(--text);
+            background: var(--input-background);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            resize: vertical;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 15px;
+            line-height: 1.55;
+        }
+
+        textarea:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(34, 164, 93, 0.14);
+        }
+
+        textarea[readonly] {
+            background: var(--background);
+        }
+
+        .main-button-row,
+        .output-button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .main-button-row {
+            justify-content: center;
+        }
+
+        .output-button-row {
+            justify-content: flex-end;
+        }
+
+        .primary-button,
+        .secondary-button {
+            min-height: 44px;
+            padding: 11px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .primary-button {
+            color: #ffffff;
+            background: var(--green);
+            border: 1px solid var(--green);
+        }
+
+        .primary-button:hover {
+            background: var(--green-hover);
+            border-color: var(--green-hover);
+        }
+
+        .secondary-button {
+            color: var(--text);
+            background: transparent;
+            border: 1px solid var(--border);
+        }
+
+        .secondary-button:hover {
+            border-color: var(--green);
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .result-box {
+            padding: 16px;
+            text-align: center;
+            background: var(--light-green);
+            border-radius: 11px;
+        }
+
+        .result-number {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--green);
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .result-label {
+            color: var(--secondary-text);
+            font-size: 13px;
+        }
+
+        .message {
+            min-height: 22px;
+            margin-top: 14px;
+            color: var(--danger);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .message.success {
+            color: var(--green);
+        }
+
+        .privacy-note {
+            margin: 18px 0 0;
+            padding: 14px;
+            color: var(--secondary-text);
+            background: var(--light-green);
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 760px) {
+            body {
+                padding: 14px;
+            }
+
+            .card {
+                padding: 22px 18px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .editor-grid {
+                grid-template-columns: 1fr;
+            }
+
+            textarea {
+                min-height: 260px;
+            }
+
+            .results {
+                grid-template-columns: 1fr;
+            }
+
+            .main-button-row,
+            .output-button-row {
+                flex-direction: column;
+            }
+
+            .primary-button,
+            .secondary-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+        <div class="top-bar">
+            <div class="logo">Quick Web Tools</div>
+
+            <button id="themeButton" class="theme-button" type="button">
+                🌙 Dark Mode
+            </button>
+        </div>
+
+        <section class="card">
+            <h1>Duplicate Line Remover</h1>
+
+            <p class="description">
+                Paste your text below to remove duplicate lines quickly. Your text is processed only in your browser.
+            </p>
+
+            <div class="options">
+                <label class="option">
+                    <input id="caseSensitive" type="checkbox" checked>
+                    Case sensitive
+                </label>
+
+                <label class="option">
+                    <input id="trimSpaces" type="checkbox" checked>
+                    Trim spaces
+                </label>
+
+                <label class="option">
+                    <input id="removeEmpty" type="checkbox" checked>
+                    Remove empty lines
+                </label>
+            </div>
+
+            <div class="editor-grid">
+                <div class="editor-panel">
+                    <div class="editor-heading">
+                        <label for="inputText">Input Text</label>
+                        <span id="inputLineCount" class="line-count">0 lines</span>
+                    </div>
+
+                    <textarea
+                        id="inputText"
+                        placeholder="Paste your text here, one item per line..."
+                    ></textarea>
+
+                    <div class="main-button-row">
+                        <button id="removeButton" class="primary-button" type="button">
+                            Remove Duplicate Lines
+                        </button>
+
+                        <button id="sampleButton" class="secondary-button" type="button">
+                            Load Example
+                        </button>
+
+                        <button id="clearButton" class="secondary-button" type="button">
+                            Clear
+                        </button>
+                    </div>
+                </div>
+
+                <div class="editor-panel">
+                    <div class="editor-heading">
+                        <label for="outputText">Cleaned Text</label>
+                        <span id="outputLineCount" class="line-count">0 lines</span>
+                    </div>
+
+                    <textarea
+                        id="outputText"
+                        placeholder="Cleaned text will appear here..."
+                        readonly
+                    ></textarea>
+
+                    <div class="output-button-row">
+                        <button id="copyButton" class="primary-button" type="button">
+                            Copy Text
+                        </button>
+
+                        <button id="downloadButton" class="secondary-button" type="button">
+                            Download TXT
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results">
+                <div class="result-box">
+                    <span id="originalLines" class="result-number">0</span>
+                    <span class="result-label">Original lines</span>
+                </div>
+
+                <div class="result-box">
+                    <span id="uniqueLines" class="result-number">0</span>
+                    <span class="result-label">Unique lines</span>
+                </div>
+
+                <div class="result-box">
+                    <span id="removedLines" class="result-number">0</span>
+                    <span class="result-label">Lines removed</span>
+                </div>
+            </div>
+
+            <div id="message" class="message" aria-live="polite"></div>
+
+            <p class="privacy-note">
+                Privacy: Your text is processed locally in your browser and is never uploaded to a server.
+            </p>
+        </section>
+    </main>
+
+    <script>
+        const inputText = document.getElementById("inputText");
+        const outputText = document.getElementById("outputText");
+        const inputLineCount = document.getElementById("inputLineCount");
+        const outputLineCount = document.getElementById("outputLineCount");
+        const caseSensitive = document.getElementById("caseSensitive");
+        const trimSpaces = document.getElementById("trimSpaces");
+        const removeEmpty = document.getElementById("removeEmpty");
+        const removeButton = document.getElementById("removeButton");
+        const sampleButton = document.getElementById("sampleButton");
+        const clearButton = document.getElementById("clearButton");
+        const copyButton = document.getElementById("copyButton");
+        const downloadButton = document.getElementById("downloadButton");
+        const originalLines = document.getElementById("originalLines");
+        const uniqueLines = document.getElementById("uniqueLines");
+        const removedLines = document.getElementById("removedLines");
+        const themeButton = document.getElementById("themeButton");
+        const message = document.getElementById("message");
+
+        function showMessage(text, type = "error") {
+            message.textContent = text;
+            message.className = type === "success"
+                ? "message success"
+                : "message";
+        }
+
+        function clearMessage() {
+            message.textContent = "";
+            message.className = "message";
+        }
+
+        function getLineCount(text) {
+            if (text.length === 0) {
+                return 0;
+            }
+
+            return text.split(/\r?\n/).length;
+        }
+
+        function updateLineCounts() {
+            const inputCount = getLineCount(inputText.value);
+            const outputCount = getLineCount(outputText.value);
+
+            inputLineCount.textContent =
+                inputCount + (inputCount === 1 ? " line" : " lines");
+
+            outputLineCount.textContent =
+                outputCount + (outputCount === 1 ? " line" : " lines");
+        }
+
+        function removeDuplicates() {
+            clearMessage();
+
+            if (!inputText.value.trim()) {
+                outputText.value = "";
+                originalLines.textContent = "0";
+                uniqueLines.textContent = "0";
+                removedLines.textContent = "0";
+                updateLineCounts();
+                showMessage("Please enter or paste some text.");
+                return;
+            }
+
+            const lines = inputText.value.split(/\r?\n/);
+            const originalCount = lines.length;
+            const seen = new Set();
+            const cleanedLines = [];
+
+            for (let line of lines) {
+                if (trimSpaces.checked) {
+                    line = line.trim();
+                }
+
+                if (removeEmpty.checked && line === "") {
+                    continue;
+                }
+
+                const comparisonValue = caseSensitive.checked
+                    ? line
+                    : line.toLowerCase();
+
+                if (!seen.has(comparisonValue)) {
+                    seen.add(comparisonValue);
+                    cleanedLines.push(line);
+                }
+            }
+
+            outputText.value = cleanedLines.join("\n");
+
+            originalLines.textContent = originalCount;
+            uniqueLines.textContent = cleanedLines.length;
+            removedLines.textContent = originalCount - cleanedLines.length;
+
+            updateLineCounts();
+            showMessage("Duplicate lines removed successfully.", "success");
+        }
+
+        function loadExample() {
+            inputText.value = [
+                "Apple",
+                "Banana",
+                "Apple",
+                "Orange",
+                "banana",
+                "Grape",
+                "Orange",
+                "",
+                "Grape"
+            ].join("\n");
+
+            outputText.value = "";
+            originalLines.textContent = "0";
+            uniqueLines.textContent = "0";
+            removedLines.textContent = "0";
+
+            clearMessage();
+            updateLineCounts();
+        }
+
+        function clearTool() {
+            inputText.value = "";
+            outputText.value = "";
+
+            originalLines.textContent = "0";
+            uniqueLines.textContent = "0";
+            removedLines.textContent = "0";
+
+            clearMessage();
+            updateLineCounts();
+            inputText.focus();
+        }
+
+        async function copyOutput() {
+            const text = outputText.value;
+
+            if (!text) {
+                showMessage("There is no cleaned text to copy.");
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(text);
+                showMessage("Cleaned text copied successfully.", "success");
+            } catch (error) {
+                outputText.removeAttribute("readonly");
+                outputText.focus();
+                outputText.select();
+
+                const copied = document.execCommand("copy");
+
+                outputText.setAttribute("readonly", "");
+
+                if (copied) {
+                    showMessage("Cleaned text copied successfully.", "success");
+                } else {
+                    showMessage("Copy failed. Please select the text and press Ctrl + C.");
+                }
+            }
+        }
+
+        function downloadText() {
+            if (!outputText.value) {
+                showMessage("There is no cleaned text to download.");
+                return;
+            }
+
+            const blob = new Blob(
+                [outputText.value],
+                { type: "text/plain;charset=utf-8" }
+            );
+
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.createElement("a");
+
+            downloadLink.href = url;
+            downloadLink.download = "cleaned-text.txt";
+
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            downloadLink.remove();
+
+            URL.revokeObjectURL(url);
+
+            showMessage("Text file downloaded successfully.", "success");
+        }
+
+        function updateThemeButton() {
+            if (document.body.classList.contains("dark")) {
+                themeButton.textContent = "☀️ Light Mode";
+            } else {
+                themeButton.textContent = "🌙 Dark Mode";
+            }
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem("quickWebToolsTheme");
+
+            if (savedTheme === "dark") {
+                document.body.classList.add("dark");
+            }
+
+            updateThemeButton();
+        }
+
+        inputText.addEventListener("input", function () {
+            updateLineCounts();
+            clearMessage();
+        });
+
+        removeButton.addEventListener("click", removeDuplicates);
+        sampleButton.addEventListener("click", loadExample);
+        clearButton.addEventListener("click", clearTool);
+        copyButton.addEventListener("click", copyOutput);
+        downloadButton.addEventListener("click", downloadText);
+
+        themeButton.addEventListener("click", function () {
+            document.body.classList.toggle("dark");
+
+            const theme = document.body.classList.contains("dark")
+                ? "dark"
+                : "light";
+
+            localStorage.setItem("quickWebToolsTheme", theme);
+            updateThemeButton();
+        });
+
+        loadTheme();
+        updateLineCounts();
+    </script>
+</body>
+</html>

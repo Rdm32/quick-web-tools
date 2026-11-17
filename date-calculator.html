@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free Date Calculator - Days Between Dates and Add Days</title>
+    <meta name="description" content="Calculate the number of days between two dates or add and subtract days from a date with this free online date calculator.">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #f4f7f5;
+            --card: #ffffff;
+            --text: #18201b;
+            --secondary-text: #66706a;
+            --border: #dce4df;
+            --input-background: #ffffff;
+            --green: #22a45d;
+            --green-hover: #198a4c;
+            --light-green: #e9f8ef;
+            --danger: #dc3545;
+            --shadow: 0 12px 35px rgba(31, 71, 48, 0.10);
+        }
+
+        body.dark {
+            --background: #101713;
+            --card: #19231d;
+            --text: #f0f5f2;
+            --secondary-text: #aebbb3;
+            --border: #35443a;
+            --input-background: #111914;
+            --light-green: #203c2c;
+            --shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 24px;
+            color: var(--text);
+            background: var(--background);
+            font-family: Arial, Helvetica, sans-serif;
+            transition: background 0.25s, color 0.25s;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .logo {
+            color: var(--green);
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        .theme-button {
+            padding: 10px 14px;
+            color: var(--text);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .theme-button:hover {
+            border-color: var(--green);
+        }
+
+        .card {
+            padding: 32px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            text-align: center;
+            font-size: 32px;
+        }
+
+        .description {
+            max-width: 680px;
+            margin: 0 auto 28px;
+            color: var(--secondary-text);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            padding: 6px;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .tab-button {
+            min-height: 46px;
+            padding: 10px 14px;
+            color: var(--secondary-text);
+            background: transparent;
+            border: 0;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .tab-button.active {
+            color: #ffffff;
+            background: var(--green);
+        }
+
+        .calculator-panel {
+            display: none;
+            margin-top: 22px;
+        }
+
+        .calculator-panel.active {
+            display: block;
+        }
+
+        .date-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+            font-weight: 700;
+        }
+
+        input,
+        select {
+            width: 100%;
+            min-height: 48px;
+            padding: 10px 13px;
+            color: var(--text);
+            background: var(--input-background);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(34, 164, 93, 0.14);
+        }
+
+        .operation-grid {
+            display: grid;
+            grid-template-columns: 1fr 160px;
+            gap: 18px;
+            margin-top: 18px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            min-height: 44px;
+            padding: 11px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .primary-button {
+            color: #ffffff;
+            background: var(--green);
+            border: 1px solid var(--green);
+        }
+
+        .primary-button:hover {
+            background: var(--green-hover);
+            border-color: var(--green-hover);
+        }
+
+        .secondary-button {
+            color: var(--text);
+            background: transparent;
+            border: 1px solid var(--border);
+        }
+
+        .secondary-button:hover {
+            border-color: var(--green);
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .result-area {
+            margin-top: 22px;
+            padding: 22px;
+            text-align: center;
+            background: var(--light-green);
+            border-radius: 13px;
+        }
+
+        .main-result {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--green);
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .result-description {
+            margin: 0;
+            color: var(--secondary-text);
+            line-height: 1.6;
+        }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .detail-box {
+            padding: 13px 8px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+        }
+
+        .detail-number {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--text);
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .detail-label {
+            color: var(--secondary-text);
+            font-size: 12px;
+        }
+
+        .message {
+            min-height: 22px;
+            margin-top: 14px;
+            color: var(--danger);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .message.success {
+            color: var(--green);
+        }
+
+        .privacy-note {
+            margin: 18px 0 0;
+            padding: 14px;
+            color: var(--secondary-text);
+            background: var(--light-green);
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 14px;
+            }
+
+            .card {
+                padding: 22px 18px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .tabs,
+            .date-grid,
+            .operation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-details {
+                grid-template-columns: 1fr;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .primary-button,
+            .secondary-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+        <div class="top-bar">
+            <div class="logo">Quick Web Tools</div>
+
+            <button id="themeButton" class="theme-button" type="button">
+                🌙 Dark Mode
+            </button>
+        </div>
+
+        <section class="card">
+            <h1>Date Calculator</h1>
+
+            <p class="description">
+                Find the number of days between two dates, or add and subtract days from any date.
+            </p>
+
+            <div class="tabs">
+                <button id="differenceTab" class="tab-button active" type="button">
+                    Days Between Dates
+                </button>
+
+                <button id="addTab" class="tab-button" type="button">
+                    Add or Subtract Days
+                </button>
+            </div>
+
+            <div id="differencePanel" class="calculator-panel active">
+                <div class="date-grid">
+                    <div>
+                        <label for="startDate">Start Date</label>
+                        <input id="startDate" type="date">
+                    </div>
+
+                    <div>
+                        <label for="endDate">End Date</label>
+                        <input id="endDate" type="date">
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button id="calculateDifferenceButton" class="primary-button" type="button">
+                        Calculate Difference
+                    </button>
+
+                    <button id="swapDatesButton" class="secondary-button" type="button">
+                        Swap Dates
+                    </button>
+
+                    <button id="todayButton" class="secondary-button" type="button">
+                        Use Today
+                    </button>
+                </div>
+
+                <div class="result-area">
+                    <span id="differenceMainResult" class="main-result">0 days</span>
+
+                    <p id="differenceDescription" class="result-description">
+                        Select two dates to calculate the difference.
+                    </p>
+
+                    <div class="result-details">
+                        <div class="detail-box">
+                            <span id="totalWeeks" class="detail-number">0</span>
+                            <span class="detail-label">Full weeks</span>
+                        </div>
+
+                        <div class="detail-box">
+                            <span id="remainingDays" class="detail-number">0</span>
+                            <span class="detail-label">Remaining days</span>
+                        </div>
+
+                        <div class="detail-box">
+                            <span id="totalHours" class="detail-number">0</span>
+                            <span class="detail-label">Total hours</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="addPanel" class="calculator-panel">
+                <div>
+                    <label for="baseDate">Start Date</label>
+                    <input id="baseDate" type="date">
+                </div>
+
+                <div class="operation-grid">
+                    <div>
+                        <label for="daysAmount">Number of Days</label>
+                        <input
+                            id="daysAmount"
+                            type="number"
+                            min="0"
+                            value="30"
+                            step="1"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="operation">Operation</label>
+
+                        <select id="operation">
+                            <option value="add">Add</option>
+                            <option value="subtract">Subtract</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button id="calculateNewDateButton" class="primary-button" type="button">
+                        Calculate New Date
+                    </button>
+
+                    <button id="setBaseTodayButton" class="secondary-button" type="button">
+                        Use Today
+                    </button>
+                </div>
+
+                <div class="result-area">
+                    <span id="newDateMainResult" class="main-result">—</span>
+
+                    <p id="newDateDescription" class="result-description">
+                        Enter a date and number of days.
+                    </p>
+                </div>
+            </div>
+
+            <div class="button-row">
+                <button id="copyButton" class="primary-button" type="button">
+                    Copy Result
+                </button>
+
+                <button id="clearButton" class="secondary-button" type="button">
+                    Clear
+                </button>
+            </div>
+
+            <div id="message" class="message" aria-live="polite"></div>
+
+            <p class="privacy-note">
+                This calculator works locally in your browser. Your dates are not uploaded or stored.
+            </p>
+        </section>
+    </main>
+
+    <script>
+        const differenceTab = document.getElementById("differenceTab");
+        const addTab = document.getElementById("addTab");
+        const differencePanel = document.getElementById("differencePanel");
+        const addPanel = document.getElementById("addPanel");
+
+        const startDate = document.getElementById("startDate");
+        const endDate = document.getElementById("endDate");
+        const calculateDifferenceButton = document.getElementById("calculateDifferenceButton");
+        const swapDatesButton = document.getElementById("swapDatesButton");
+        const todayButton = document.getElementById("todayButton");
+        const differenceMainResult = document.getElementById("differenceMainResult");
+        const differenceDescription = document.getElementById("differenceDescription");
+        const totalWeeks = document.getElementById("totalWeeks");
+        const remainingDays = document.getElementById("remainingDays");
+        const totalHours = document.getElementById("totalHours");
+
+        const baseDate = document.getElementById("baseDate");
+        const daysAmount = document.getElementById("daysAmount");
+        const operation = document.getElementById("operation");
+        const calculateNewDateButton = document.getElementById("calculateNewDateButton");
+        const setBaseTodayButton = document.getElementById("setBaseTodayButton");
+        const newDateMainResult = document.getElementById("newDateMainResult");
+        const newDateDescription = document.getElementById("newDateDescription");
+
+        const copyButton = document.getElementById("copyButton");
+        const clearButton = document.getElementById("clearButton");
+        const themeButton = document.getElementById("themeButton");
+        const message = document.getElementById("message");
+
+        let activeMode = "difference";
+        let copyText = "";
+
+        function showMessage(text, type = "error") {
+            message.textContent = text;
+            message.className = type === "success"
+                ? "message success"
+                : "message";
+        }
+
+        function clearMessage() {
+            message.textContent = "";
+            message.className = "message";
+        }
+
+        function padNumber(number) {
+            return String(number).padStart(2, "0");
+        }
+
+        function getTodayString() {
+            const today = new Date();
+
+            return (
+                today.getFullYear() +
+                "-" +
+                padNumber(today.getMonth() + 1) +
+                "-" +
+                padNumber(today.getDate())
+            );
+        }
+
+        function parseDateAsUTC(dateString) {
+            const parts = dateString.split("-").map(Number);
+
+            return Date.UTC(parts[0], parts[1] - 1, parts[2]);
+        }
+
+        function parseLocalDate(dateString) {
+            const parts = dateString.split("-").map(Number);
+
+            return new Date(parts[0], parts[1] - 1, parts[2]);
+        }
+
+        function formatInputDate(date) {
+            return (
+                date.getFullYear() +
+                "-" +
+                padNumber(date.getMonth() + 1) +
+                "-" +
+                padNumber(date.getDate())
+            );
+        }
+
+        function formatReadableDate(date) {
+            return date.toLocaleDateString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            });
+        }
+
+        function switchMode(mode) {
+            activeMode = mode;
+            clearMessage();
+
+            const isDifference = mode === "difference";
+
+            differenceTab.classList.toggle("active", isDifference);
+            addTab.classList.toggle("active", !isDifference);
+            differencePanel.classList.toggle("active", isDifference);
+            addPanel.classList.toggle("active", !isDifference);
+        }
+
+        function calculateDifference() {
+            clearMessage();
+
+            if (!startDate.value || !endDate.value) {
+                showMessage("Please select both a start date and an end date.");
+                return;
+            }
+
+            const startMilliseconds = parseDateAsUTC(startDate.value);
+            const endMilliseconds = parseDateAsUTC(endDate.value);
+            const signedDays = Math.round(
+                (endMilliseconds - startMilliseconds) / 86400000
+            );
+
+            const absoluteDays = Math.abs(signedDays);
+            const weeks = Math.floor(absoluteDays / 7);
+            const extraDays = absoluteDays % 7;
+            const hours = absoluteDays * 24;
+
+            differenceMainResult.textContent =
+                absoluteDays + (absoluteDays === 1 ? " day" : " days");
+
+            if (signedDays > 0) {
+                differenceDescription.textContent =
+                    "The end date is " +
+                    absoluteDays +
+                    (absoluteDays === 1 ? " day" : " days") +
+                    " after the start date.";
+            } else if (signedDays < 0) {
+                differenceDescription.textContent =
+                    "The end date is " +
+                    absoluteDays +
+                    (absoluteDays === 1 ? " day" : " days") +
+                    " before the start date.";
+            } else {
+                differenceDescription.textContent =
+                    "Both dates are the same.";
+            }
+
+            totalWeeks.textContent = weeks;
+            remainingDays.textContent = extraDays;
+            totalHours.textContent = hours.toLocaleString("en-US");
+
+            copyText =
+                differenceMainResult.textContent +
+                ". " +
+                differenceDescription.textContent;
+
+            showMessage("Date difference calculated successfully.", "success");
+        }
+
+        function calculateNewDate() {
+            clearMessage();
+
+            if (!baseDate.value) {
+                showMessage("Please select a start date.");
+                return;
+            }
+
+            if (daysAmount.value === "") {
+                showMessage("Please enter the number of days.");
+                return;
+            }
+
+            const amount = Number(daysAmount.value);
+
+            if (!Number.isInteger(amount) || amount < 0) {
+                showMessage("Please enter a whole number of zero or more.");
+                return;
+            }
+
+            const resultDate = parseLocalDate(baseDate.value);
+            const signedAmount = operation.value === "add"
+                ? amount
+                : -amount;
+
+            resultDate.setDate(resultDate.getDate() + signedAmount);
+
+            const readableDate = formatReadableDate(resultDate);
+            const operationWord = operation.value === "add"
+                ? "Adding"
+                : "Subtracting";
+
+            newDateMainResult.textContent = readableDate;
+            newDateDescription.textContent =
+                operationWord +
+                " " +
+                amount +
+                (amount === 1 ? " day" : " days") +
+                " gives " +
+                formatInputDate(resultDate) +
+                ".";
+
+            copyText =
+                readableDate +
+                ". " +
+                newDateDescription.textContent;
+
+            showMessage("New date calculated successfully.", "success");
+        }
+
+        function swapDates() {
+            const oldStartDate = startDate.value;
+
+            startDate.value = endDate.value;
+            endDate.value = oldStartDate;
+
+            calculateDifference();
+        }
+
+        function useTodayForDifference() {
+            startDate.value = getTodayString();
+
+            if (!endDate.value) {
+                endDate.value = getTodayString();
+            }
+
+            calculateDifference();
+        }
+
+        function useTodayForBaseDate() {
+            baseDate.value = getTodayString();
+            calculateNewDate();
+        }
+
+        async function copyResult() {
+            if (!copyText) {
+                showMessage("There is no result to copy.");
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(copyText);
+                showMessage("Result copied successfully.", "success");
+            } catch (error) {
+                const temporaryTextarea = document.createElement("textarea");
+
+                temporaryTextarea.value = copyText;
+                document.body.appendChild(temporaryTextarea);
+                temporaryTextarea.select();
+
+                const copied = document.execCommand("copy");
+                temporaryTextarea.remove();
+
+                if (copied) {
+                    showMessage("Result copied successfully.", "success");
+                } else {
+                    showMessage("Copy failed. Please copy the result manually.");
+                }
+            }
+        }
+
+        function clearTool() {
+            copyText = "";
+            clearMessage();
+
+            if (activeMode === "difference") {
+                startDate.value = "";
+                endDate.value = "";
+                differenceMainResult.textContent = "0 days";
+                differenceDescription.textContent =
+                    "Select two dates to calculate the difference.";
+                totalWeeks.textContent = "0";
+                remainingDays.textContent = "0";
+                totalHours.textContent = "0";
+            } else {
+                baseDate.value = "";
+                daysAmount.value = "";
+                newDateMainResult.textContent = "—";
+                newDateDescription.textContent =
+                    "Enter a date and number of days.";
+            }
+        }
+
+        function updateThemeButton() {
+            if (document.body.classList.contains("dark")) {
+                themeButton.textContent = "☀️ Light Mode";
+            } else {
+                themeButton.textContent = "🌙 Dark Mode";
+            }
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem("quickWebToolsTheme");
+
+            if (savedTheme === "dark") {
+                document.body.classList.add("dark");
+            }
+
+            updateThemeButton();
+        }
+
+        differenceTab.addEventListener("click", function () {
+            switchMode("difference");
+        });
+
+        addTab.addEventListener("click", function () {
+            switchMode("add");
+        });
+
+        calculateDifferenceButton.addEventListener("click", calculateDifference);
+        swapDatesButton.addEventListener("click", swapDates);
+        todayButton.addEventListener("click", useTodayForDifference);
+        calculateNewDateButton.addEventListener("click", calculateNewDate);
+        setBaseTodayButton.addEventListener("click", useTodayForBaseDate);
+        copyButton.addEventListener("click", copyResult);
+        clearButton.addEventListener("click", clearTool);
+
+        themeButton.addEventListener("click", function () {
+            document.body.classList.toggle("dark");
+
+            const theme = document.body.classList.contains("dark")
+                ? "dark"
+                : "light";
+
+            localStorage.setItem("quickWebToolsTheme", theme);
+            updateThemeButton();
+        });
+
+        loadTheme();
+
+        const todayString = getTodayString();
+        const sevenDaysLater = parseLocalDate(todayString);
+
+        sevenDaysLater.setDate(sevenDaysLater.getDate() + 7);
+
+        startDate.value = todayString;
+        endDate.value = formatInputDate(sevenDaysLater);
+        baseDate.value = todayString;
+
+        calculateDifference();
+    </script>
+</body>
+</html>

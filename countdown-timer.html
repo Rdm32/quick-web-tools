@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free Countdown Timer - Count Down to Any Date</title>
+    <meta name="description" content="Create a free online countdown timer for any date and time. Track remaining days, hours, minutes, and seconds directly in your browser.">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #f4f7f5;
+            --card: #ffffff;
+            --text: #18201b;
+            --secondary-text: #66706a;
+            --border: #dce4df;
+            --input-background: #ffffff;
+            --green: #22a45d;
+            --green-hover: #198a4c;
+            --light-green: #e9f8ef;
+            --danger: #dc3545;
+            --shadow: 0 12px 35px rgba(31, 71, 48, 0.10);
+        }
+
+        body.dark {
+            --background: #101713;
+            --card: #19231d;
+            --text: #f0f5f2;
+            --secondary-text: #aebbb3;
+            --border: #35443a;
+            --input-background: #111914;
+            --light-green: #203c2c;
+            --shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 24px;
+            color: var(--text);
+            background: var(--background);
+            font-family: Arial, Helvetica, sans-serif;
+            transition: background 0.25s, color 0.25s;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .logo {
+            color: var(--green);
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        .theme-button {
+            padding: 10px 14px;
+            color: var(--text);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .theme-button:hover {
+            border-color: var(--green);
+        }
+
+        .card {
+            padding: 32px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            text-align: center;
+            font-size: 32px;
+        }
+
+        .description {
+            max-width: 680px;
+            margin: 0 auto 28px;
+            color: var(--secondary-text);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .settings {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            padding: 20px;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+            font-weight: 700;
+        }
+
+        input {
+            width: 100%;
+            min-height: 48px;
+            padding: 10px 13px;
+            color: var(--text);
+            background: var(--input-background);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(34, 164, 93, 0.14);
+        }
+
+        .quick-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 9px;
+            margin-top: 16px;
+        }
+
+        .quick-button {
+            padding: 9px 13px;
+            color: var(--green);
+            background: var(--light-green);
+            border: 1px solid transparent;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .quick-button:hover {
+            border-color: var(--green);
+        }
+
+        .countdown-area {
+            margin-top: 24px;
+            padding: 28px 20px;
+            background: var(--light-green);
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .countdown-title {
+            margin: 0 0 8px;
+            font-size: 24px;
+        }
+
+        .target-text {
+            margin: 0 0 24px;
+            color: var(--secondary-text);
+            line-height: 1.5;
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .time-box {
+            padding: 20px 8px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .time-number {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--green);
+            font-size: 36px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .time-label {
+            color: var(--secondary-text);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status {
+            min-height: 24px;
+            margin: 20px 0 0;
+            color: var(--secondary-text);
+            font-weight: 700;
+        }
+
+        .status.finished {
+            color: var(--green);
+            font-size: 20px;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            min-height: 44px;
+            padding: 11px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .primary-button {
+            color: #ffffff;
+            background: var(--green);
+            border: 1px solid var(--green);
+        }
+
+        .primary-button:hover {
+            background: var(--green-hover);
+            border-color: var(--green-hover);
+        }
+
+        .secondary-button {
+            color: var(--text);
+            background: transparent;
+            border: 1px solid var(--border);
+        }
+
+        .secondary-button:hover {
+            border-color: var(--green);
+        }
+
+        .message {
+            min-height: 22px;
+            margin-top: 14px;
+            color: var(--danger);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .message.success {
+            color: var(--green);
+        }
+
+        .privacy-note {
+            margin: 18px 0 0;
+            padding: 14px;
+            color: var(--secondary-text);
+            background: var(--light-green);
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 14px;
+            }
+
+            .card {
+                padding: 22px 18px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .settings {
+                grid-template-columns: 1fr;
+            }
+
+            .countdown-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .time-number {
+                font-size: 31px;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .primary-button,
+            .secondary-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+        <div class="top-bar">
+            <div class="logo">Quick Web Tools</div>
+
+            <button id="themeButton" class="theme-button" type="button">
+                🌙 Dark Mode
+            </button>
+        </div>
+
+        <section class="card">
+            <h1>Countdown Timer</h1>
+
+            <p class="description">
+                Create a live countdown to any date and time. Your countdown continues after you refresh the page.
+            </p>
+
+            <div class="settings">
+                <div>
+                    <label for="eventName">Event Name</label>
+
+                    <input
+                        id="eventName"
+                        type="text"
+                        maxlength="60"
+                        value="My Event"
+                        placeholder="For example: New Year"
+                    >
+                </div>
+
+                <div>
+                    <label for="targetDateTime">Target Date and Time</label>
+
+                    <input
+                        id="targetDateTime"
+                        type="datetime-local"
+                    >
+                </div>
+            </div>
+
+            <div class="quick-buttons">
+                <button class="quick-button" type="button" data-time="1-hour">
+                    +1 Hour
+                </button>
+
+                <button class="quick-button" type="button" data-time="1-day">
+                    +1 Day
+                </button>
+
+                <button class="quick-button" type="button" data-time="1-week">
+                    +1 Week
+                </button>
+
+                <button class="quick-button" type="button" data-time="30-days">
+                    +30 Days
+                </button>
+            </div>
+
+            <div class="countdown-area">
+                <h2 id="displayEventName" class="countdown-title">
+                    My Event
+                </h2>
+
+                <p id="targetText" class="target-text">
+                    Set a future date and start the countdown.
+                </p>
+
+                <div class="countdown-grid">
+                    <div class="time-box">
+                        <span id="daysDisplay" class="time-number">00</span>
+                        <span class="time-label">Days</span>
+                    </div>
+
+                    <div class="time-box">
+                        <span id="hoursDisplay" class="time-number">00</span>
+                        <span class="time-label">Hours</span>
+                    </div>
+
+                    <div class="time-box">
+                        <span id="minutesDisplay" class="time-number">00</span>
+                        <span class="time-label">Minutes</span>
+                    </div>
+
+                    <div class="time-box">
+                        <span id="secondsDisplay" class="time-number">00</span>
+                        <span class="time-label">Seconds</span>
+                    </div>
+                </div>
+
+                <p id="statusText" class="status">
+                    Ready to start
+                </p>
+            </div>
+
+            <div class="button-row">
+                <button id="startButton" class="primary-button" type="button">
+                    Start Countdown
+                </button>
+
+                <button id="copyButton" class="secondary-button" type="button">
+                    Copy Countdown
+                </button>
+
+                <button id="resetButton" class="secondary-button" type="button">
+                    Reset
+                </button>
+            </div>
+
+            <div id="message" class="message" aria-live="polite"></div>
+
+            <p class="privacy-note">
+                This countdown runs locally in your browser. Your event information is not uploaded to a server.
+            </p>
+        </section>
+    </main>
+
+    <script>
+        const eventName = document.getElementById("eventName");
+        const targetDateTime = document.getElementById("targetDateTime");
+        const displayEventName = document.getElementById("displayEventName");
+        const targetText = document.getElementById("targetText");
+        const daysDisplay = document.getElementById("daysDisplay");
+        const hoursDisplay = document.getElementById("hoursDisplay");
+        const minutesDisplay = document.getElementById("minutesDisplay");
+        const secondsDisplay = document.getElementById("secondsDisplay");
+        const statusText = document.getElementById("statusText");
+        const startButton = document.getElementById("startButton");
+        const copyButton = document.getElementById("copyButton");
+        const resetButton = document.getElementById("resetButton");
+        const themeButton = document.getElementById("themeButton");
+        const message = document.getElementById("message");
+        const quickButtons = document.querySelectorAll(".quick-button");
+
+        let countdownInterval = null;
+        let activeTargetTime = null;
+
+        function showMessage(text, type = "error") {
+            message.textContent = text;
+            message.className = type === "success"
+                ? "message success"
+                : "message";
+        }
+
+        function clearMessage() {
+            message.textContent = "";
+            message.className = "message";
+        }
+
+        function padNumber(number) {
+            return String(number).padStart(2, "0");
+        }
+
+        function formatDateTimeForInput(date) {
+            return (
+                date.getFullYear() +
+                "-" +
+                padNumber(date.getMonth() + 1) +
+                "-" +
+                padNumber(date.getDate()) +
+                "T" +
+                padNumber(date.getHours()) +
+                ":" +
+                padNumber(date.getMinutes())
+            );
+        }
+
+        function formatReadableDate(date) {
+            return date.toLocaleString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "2-digit"
+            });
+        }
+
+        function setDisplayToZero() {
+            daysDisplay.textContent = "00";
+            hoursDisplay.textContent = "00";
+            minutesDisplay.textContent = "00";
+            secondsDisplay.textContent = "00";
+        }
+
+        function updateCountdown() {
+            if (!activeTargetTime) {
+                return;
+            }
+
+            const now = Date.now();
+            const remaining = activeTargetTime - now;
+
+            if (remaining <= 0) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+
+                setDisplayToZero();
+                statusText.textContent = "🎉 The countdown is complete!";
+                statusText.classList.add("finished");
+
+                localStorage.removeItem("savedCountdown");
+                return;
+            }
+
+            const totalSeconds = Math.floor(remaining / 1000);
+            const days = Math.floor(totalSeconds / 86400);
+            const hours = Math.floor((totalSeconds % 86400) / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            daysDisplay.textContent = padNumber(days);
+            hoursDisplay.textContent = padNumber(hours);
+            minutesDisplay.textContent = padNumber(minutes);
+            secondsDisplay.textContent = padNumber(seconds);
+
+            statusText.textContent = "Countdown is running";
+            statusText.classList.remove("finished");
+        }
+
+        function startCountdown() {
+            clearMessage();
+
+            const name = eventName.value.trim() || "My Event";
+
+            if (!targetDateTime.value) {
+                showMessage("Please select a target date and time.");
+                return;
+            }
+
+            const targetDate = new Date(targetDateTime.value);
+
+            if (Number.isNaN(targetDate.getTime())) {
+                showMessage("Please select a valid target date and time.");
+                return;
+            }
+
+            if (targetDate.getTime() <= Date.now()) {
+                showMessage("Please choose a date and time in the future.");
+                return;
+            }
+
+            activeTargetTime = targetDate.getTime();
+            displayEventName.textContent = name;
+            targetText.textContent = "Target: " + formatReadableDate(targetDate);
+
+            localStorage.setItem(
+                "savedCountdown",
+                JSON.stringify({
+                    name: name,
+                    target: targetDateTime.value
+                })
+            );
+
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 1000);
+
+            showMessage("Countdown started successfully.", "success");
+        }
+
+        function setQuickTime(type) {
+            const newTarget = new Date();
+
+            if (type === "1-hour") {
+                newTarget.setHours(newTarget.getHours() + 1);
+            } else if (type === "1-day") {
+                newTarget.setDate(newTarget.getDate() + 1);
+            } else if (type === "1-week") {
+                newTarget.setDate(newTarget.getDate() + 7);
+            } else {
+                newTarget.setDate(newTarget.getDate() + 30);
+            }
+
+            targetDateTime.value = formatDateTimeForInput(newTarget);
+            clearMessage();
+        }
+
+        async function copyCountdown() {
+            if (!activeTargetTime || activeTargetTime <= Date.now()) {
+                showMessage("Please start a countdown first.");
+                return;
+            }
+
+            const text =
+                displayEventName.textContent +
+                ": " +
+                daysDisplay.textContent +
+                " days, " +
+                hoursDisplay.textContent +
+                " hours, " +
+                minutesDisplay.textContent +
+                " minutes, and " +
+                secondsDisplay.textContent +
+                " seconds remaining. " +
+                targetText.textContent;
+
+            try {
+                await navigator.clipboard.writeText(text);
+                showMessage("Countdown copied successfully.", "success");
+            } catch (error) {
+                const temporaryTextarea = document.createElement("textarea");
+
+                temporaryTextarea.value = text;
+                document.body.appendChild(temporaryTextarea);
+                temporaryTextarea.select();
+
+                const copied = document.execCommand("copy");
+                temporaryTextarea.remove();
+
+                if (copied) {
+                    showMessage("Countdown copied successfully.", "success");
+                } else {
+                    showMessage("Copy failed. Please copy the countdown manually.");
+                }
+            }
+        }
+
+        function resetCountdown() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+
+            activeTargetTime = null;
+            eventName.value = "My Event";
+
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            targetDateTime.value = formatDateTimeForInput(tomorrow);
+
+            displayEventName.textContent = "My Event";
+            targetText.textContent = "Set a future date and start the countdown.";
+            statusText.textContent = "Ready to start";
+            statusText.classList.remove("finished");
+
+            setDisplayToZero();
+            clearMessage();
+            localStorage.removeItem("savedCountdown");
+        }
+
+        function loadSavedCountdown() {
+            const savedData = localStorage.getItem("savedCountdown");
+
+            if (!savedData) {
+                return false;
+            }
+
+            try {
+                const savedCountdown = JSON.parse(savedData);
+                const savedTarget = new Date(savedCountdown.target);
+
+                if (savedTarget.getTime() <= Date.now()) {
+                    localStorage.removeItem("savedCountdown");
+                    return false;
+                }
+
+                eventName.value = savedCountdown.name;
+                targetDateTime.value = savedCountdown.target;
+                activeTargetTime = savedTarget.getTime();
+
+                displayEventName.textContent = savedCountdown.name;
+                targetText.textContent =
+                    "Target: " + formatReadableDate(savedTarget);
+
+                updateCountdown();
+                countdownInterval = setInterval(updateCountdown, 1000);
+
+                return true;
+            } catch (error) {
+                localStorage.removeItem("savedCountdown");
+                return false;
+            }
+        }
+
+        function updateThemeButton() {
+            if (document.body.classList.contains("dark")) {
+                themeButton.textContent = "☀️ Light Mode";
+            } else {
+                themeButton.textContent = "🌙 Dark Mode";
+            }
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem("quickWebToolsTheme");
+
+            if (savedTheme === "dark") {
+                document.body.classList.add("dark");
+            }
+
+            updateThemeButton();
+        }
+
+        quickButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                setQuickTime(button.dataset.time);
+            });
+        });
+
+        startButton.addEventListener("click", startCountdown);
+        copyButton.addEventListener("click", copyCountdown);
+        resetButton.addEventListener("click", resetCountdown);
+
+        themeButton.addEventListener("click", function () {
+            document.body.classList.toggle("dark");
+
+            const theme = document.body.classList.contains("dark")
+                ? "dark"
+                : "light";
+
+            localStorage.setItem("quickWebToolsTheme", theme);
+            updateThemeButton();
+        });
+
+        loadTheme();
+
+        const restored = loadSavedCountdown();
+
+        if (!restored) {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            targetDateTime.value = formatDateTimeForInput(tomorrow);
+        }
+    </script>
+</body>
+</html>
