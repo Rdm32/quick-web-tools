@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free BMI Calculator - Body Mass Index for Adults</title>
+  <meta name="description" content="Free online BMI calculator. Enter your height and weight in metric or imperial units to get your body mass index, category and healthy weight range.">
+  <style>
+    :root {
+      --bg: #f5f7fa; --card: #ffffff; --text: #222222; --muted: #555555;
+      --border: #cccccc; --soft: #e8f7ee; --accent: #1faa55; --accent-hover: #178a44;
+      --input-bg: #ffffff; --error: #d33;
+    }
+    body.dark {
+      --bg: #12161c; --card: #1c222b; --text: #e8ecf1; --muted: #9aa5b1;
+      --border: #3a4350; --soft: #243044; --accent: #2ecc71; --accent-hover: #27ae60;
+      --input-bg: #141a22; --error: #ff6b6b;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 640px; margin: 40px auto; background: var(--card); padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 28px; }
+    .tabs { display: flex; gap: 8px; margin-top: 8px; }
+    .tabs button { flex: 1; background: var(--soft); color: var(--text); border: 1px solid var(--border); }
+    .tabs button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .fields { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 18px; }
+    .field { flex: 1; min-width: 130px; }
+    .field label { display: block; font-size: 13px; font-weight: bold; color: var(--muted); margin-bottom: 6px; }
+    .field input { width: 100%; padding: 12px; font-size: 18px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; background: var(--input-bg); color: var(--text); }
+    .result { margin-top: 24px; padding: 20px; border-radius: 10px; background: var(--soft); text-align: center; }
+    .result .num { font-size: 52px; font-weight: bold; color: var(--accent); line-height: 1.1; }
+    .result .cat { font-size: 20px; font-weight: bold; margin-top: 6px; }
+    .result .range { font-size: 15px; color: var(--muted); margin-top: 10px; }
+    .scale { display: flex; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 16px; }
+    .scale div:nth-child(1) { flex: 18.5; background: #4aa3df; }
+    .scale div:nth-child(2) { flex: 6.5; background: #2ecc71; }
+    .scale div:nth-child(3) { flex: 5; background: #f1c40f; }
+    .scale div:nth-child(4) { flex: 10; background: #e74c3c; }
+    .pointer { position: relative; height: 14px; margin-top: 2px; }
+    .pointer span { position: absolute; top: 0; width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 9px solid var(--text); transform: translateX(-50%); left: 0; transition: left 0.2s; }
+    .msg { color: var(--error); font-size: 14px; margin-top: 12px; min-height: 18px; }
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    button { padding: 10px 18px; font-size: 15px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+    button:hover { background: var(--accent-hover); }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; white-space: nowrap; }
+    button.theme:hover { background: var(--soft); }
+    button.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    button.ghost:hover { background: var(--soft); }
+    .note { margin-top: 20px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="top">
+      <h1>BMI Calculator</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p>Enter your height and weight to calculate your body mass index.</p>
+
+    <div class="tabs">
+      <button id="tabMetric" class="active" onclick="setUnit('metric')">Metric (kg, cm)</button>
+      <button id="tabImperial" onclick="setUnit('imperial')">Imperial (lb, ft, in)</button>
+    </div>
+
+    <div class="fields" id="metricFields">
+      <div class="field"><label for="kg">Weight (kg)</label><input type="number" id="kg" min="0" step="any" placeholder="e.g. 70"></div>
+      <div class="field"><label for="cm">Height (cm)</label><input type="number" id="cm" min="0" step="any" placeholder="e.g. 175"></div>
+    </div>
+
+    <div class="fields hidden" id="imperialFields">
+      <div class="field"><label for="lb">Weight (lb)</label><input type="number" id="lb" min="0" step="any" placeholder="e.g. 154"></div>
+      <div class="field"><label for="ft">Height (ft)</label><input type="number" id="ft" min="0" step="1" placeholder="e.g. 5"></div>
+      <div class="field"><label for="inch">Height (in)</label><input type="number" id="inch" min="0" step="any" placeholder="e.g. 9"></div>
+    </div>
+
+    <div class="msg" id="msg"></div>
+
+    <div class="result" id="result">
+      <div class="num" id="bmi">--</div>
+      <div class="cat" id="cat">Enter your details above</div>
+      <div class="range" id="range"></div>
+      <div class="scale"><div></div><div></div><div></div><div></div></div>
+      <div class="pointer"><span id="pointer"></span></div>
+    </div>
+
+    <div class="buttons">
+      <button id="copyBtn" onclick="copyResult()">Copy Result</button>
+      <button class="ghost" onclick="clearAll()">Clear</button>
+    </div>
+
+    <p class="note">BMI = weight (kg) divided by height (m) squared. Categories follow the common WHO adult ranges: under 18.5 underweight, 18.5 to 24.9 normal, 25 to 29.9 overweight, 30 and above obese. BMI is a general screening number for adults and does not account for muscle, age or body type. It is not medical advice, so talk to a doctor about your health.</p>
+  </div>
+
+  <script>
+    let unit = 'metric';
+    let lastText = '';
+    const copyBtn = document.getElementById('copyBtn');
+    const themeBtn = document.getElementById('themeBtn');
+
+    function setUnit(u) {
+      unit = u;
+      document.getElementById('tabMetric').classList.toggle('active', u === 'metric');
+      document.getElementById('tabImperial').classList.toggle('active', u === 'imperial');
+      document.getElementById('metricFields').classList.toggle('hidden', u !== 'metric');
+      document.getElementById('imperialFields').classList.toggle('hidden', u !== 'imperial');
+      calc();
+    }
+
+    function reset(message) {
+      document.getElementById('bmi').textContent = '--';
+      document.getElementById('cat').textContent = 'Enter your details above';
+      document.getElementById('range').textContent = '';
+      document.getElementById('pointer').style.left = '0%';
+      document.getElementById('msg').textContent = message || '';
+      lastText = '';
+    }
+
+    function calc() {
+      let kg, m;
+      if (unit === 'metric') {
+        kg = parseFloat(document.getElementById('kg').value);
+        m = parseFloat(document.getElementById('cm').value) / 100;
+      } else {
+        const lb = parseFloat(document.getElementById('lb').value);
+        const ft = parseFloat(document.getElementById('ft').value) || 0;
+        const inch = parseFloat(document.getElementById('inch').value) || 0;
+        kg = lb * 0.45359237;
+        m = (ft * 12 + inch) * 0.0254;
+      }
+
+      if (!(kg > 0) || !(m > 0)) { reset(''); return; }
+      if (m < 0.5 || m > 2.8 || kg < 10 || kg > 700) {
+        reset('Please check your numbers. They look out of the normal range.');
+        return;
+      }
+      document.getElementById('msg').textContent = '';
+
+      const bmi = kg / (m * m);
+      let cat;
+      if (bmi < 18.5) cat = 'Underweight';
+      else if (bmi < 25) cat = 'Normal weight';
+      else if (bmi < 30) cat = 'Overweight';
+      else cat = 'Obese';
+
+      const minKg = 18.5 * m * m;
+      const maxKg = 24.9 * m * m;
+      let rangeText;
+      if (unit === 'metric') {
+        rangeText = 'Healthy weight range for your height: ' + minKg.toFixed(1) + ' to ' + maxKg.toFixed(1) + ' kg';
+      } else {
+        rangeText = 'Healthy weight range for your height: ' + (minKg / 0.45359237).toFixed(1) + ' to ' + (maxKg / 0.45359237).toFixed(1) + ' lb';
+      }
+
+      document.getElementById('bmi').textContent = bmi.toFixed(1);
+      document.getElementById('cat').textContent = cat;
+      document.getElementById('range').textContent = rangeText;
+
+      // Pointer: map BMI 15 to 40 onto the colour scale
+      const pos = Math.max(0, Math.min(100, ((bmi - 15) / 25) * 100));
+      document.getElementById('pointer').style.left = pos + '%';
+
+      lastText = 'BMI: ' + bmi.toFixed(1) + ' (' + cat + '). ' + rangeText + '.';
+    }
+
+    function clearAll() {
+      ['kg', 'cm', 'lb', 'ft', 'inch'].forEach(function (id) { document.getElementById(id).value = ''; });
+      reset('');
+    }
+
+    function showCopied() {
+      copyBtn.textContent = 'Copied!';
+      setTimeout(function () { copyBtn.textContent = 'Copy Result'; }, 1500);
+    }
+
+    function copyResult() {
+      if (!lastText) return;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(lastText).then(showCopied);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = lastText;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showCopied();
+      }
+    }
+
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+
+    function toggleTheme() {
+      const dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+
+    (function () {
+      let saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) {
+        applyTheme(saved === 'dark');
+      } else {
+        applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+    })();
+
+    ['kg', 'cm', 'lb', 'ft', 'inch'].forEach(function (id) {
+      document.getElementById(id).addEventListener('input', calc);
+    });
+  </script>
+</body>
+</html>

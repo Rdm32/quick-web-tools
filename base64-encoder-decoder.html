@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free Base64 Encoder and Decoder - Encode and Decode Text Online</title>
+  <meta name="description" content="Free online Base64 encoder and decoder. Convert text to Base64 and back instantly, with full UTF-8 support and URL-safe option. Runs in your browser.">
+  <style>
+    :root {
+      --bg: #f5f7fa; --card: #ffffff; --text: #222222; --muted: #555555;
+      --border: #cccccc; --soft: #e8f7ee; --accent: #1faa55; --accent-hover: #178a44;
+      --input-bg: #ffffff; --error: #d33;
+    }
+    body.dark {
+      --bg: #12161c; --card: #1c222b; --text: #e8ecf1; --muted: #9aa5b1;
+      --border: #3a4350; --soft: #243044; --accent: #2ecc71; --accent-hover: #27ae60;
+      --input-bg: #141a22; --error: #ff6b6b;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 1000px; margin: 40px auto; background: var(--card); padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 28px; }
+    .panes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+    @media (max-width: 760px) { .panes { grid-template-columns: 1fr; } }
+    .pane label { display: block; font-size: 13px; font-weight: bold; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    textarea { width: 100%; height: 280px; padding: 12px; font-size: 15px; line-height: 1.5; font-family: Consolas, Menlo, monospace; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; resize: vertical; background: var(--input-bg); color: var(--text); }
+    .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 16px; }
+    .check { display: flex; align-items: center; gap: 6px; font-size: 15px; cursor: pointer; }
+    .check input { accent-color: var(--accent); width: 18px; height: 18px; }
+    .status { margin-top: 14px; padding: 10px 14px; border-radius: 8px; font-size: 15px; background: var(--soft); }
+    .status.ok { color: var(--accent); }
+    .status.err { color: var(--error); }
+    button { padding: 10px 18px; font-size: 15px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+    button:hover { background: var(--accent-hover); }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; white-space: nowrap; }
+    button.theme:hover { background: var(--soft); }
+    button.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    button.ghost:hover { background: var(--soft); }
+    .note { margin-top: 18px; font-size: 13px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="top">
+      <h1>Base64 Encoder / Decoder</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p>Type or paste text, then encode it to Base64 or decode Base64 back to text.</p>
+
+    <div class="panes">
+      <div class="pane">
+        <label for="input">Input</label>
+        <textarea id="input" spellcheck="false" placeholder="Type or paste text or Base64 here..."></textarea>
+      </div>
+      <div class="pane">
+        <label for="output">Output</label>
+        <textarea id="output" spellcheck="false" readonly placeholder="Result appears here..."></textarea>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button onclick="doEncode()">Encode</button>
+      <button onclick="doDecode()">Decode</button>
+      <label class="check"><input type="checkbox" id="urlsafe"> URL-safe Base64</label>
+    </div>
+
+    <div class="controls">
+      <button id="copyBtn" onclick="copyOutput()">Copy Output</button>
+      <button class="ghost" onclick="swap()">Swap</button>
+      <button class="ghost" onclick="clearAll()">Clear</button>
+    </div>
+
+    <div class="status" id="status">Enter some text and click Encode or Decode.</div>
+
+    <p class="note">Everything is processed in your browser. Nothing is uploaded or stored. Base64 is an encoding, not encryption, so do not use it to protect secrets.</p>
+  </div>
+
+  <script>
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const statusEl = document.getElementById('status');
+    const copyBtn = document.getElementById('copyBtn');
+    const themeBtn = document.getElementById('themeBtn');
+
+    function setStatus(text, type) {
+      statusEl.textContent = text;
+      statusEl.className = 'status' + (type ? ' ' + type : '');
+    }
+
+    function toB64(s) {
+      const bytes = new TextEncoder().encode(s);
+      let bin = '';
+      const chunk = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunk) {
+        bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+      }
+      return btoa(bin);
+    }
+
+    function fromB64(b) {
+      b = b.replace(/\s+/g, '').replace(/-/g, '+').replace(/_/g, '/');
+      while (b.length % 4) b += '=';
+      const bin = atob(b);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+    }
+
+    function doEncode() {
+      if (!input.value) { setStatus('Please enter some text first.', 'err'); output.value = ''; return; }
+      let r = toB64(input.value);
+      if (document.getElementById('urlsafe').checked) {
+        r = r.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      }
+      output.value = r;
+      setStatus('Encoded successfully.', 'ok');
+    }
+
+    function doDecode() {
+      if (!input.value.trim()) { setStatus('Please enter some Base64 first.', 'err'); output.value = ''; return; }
+      try {
+        output.value = fromB64(input.value);
+        setStatus('Decoded successfully.', 'ok');
+      } catch (e) {
+        output.value = '';
+        setStatus('Invalid Base64 input, or the decoded data is not valid UTF-8 text.', 'err');
+      }
+    }
+
+    function swap() {
+      const t = input.value;
+      input.value = output.value;
+      output.value = t;
+      setStatus('Swapped input and output.', '');
+    }
+
+    function clearAll() {
+      input.value = '';
+      output.value = '';
+      setStatus('Enter some text and click Encode or Decode.', '');
+      input.focus();
+    }
+
+    function showCopied() {
+      copyBtn.textContent = 'Copied!';
+      setTimeout(function () { copyBtn.textContent = 'Copy Output'; }, 1500);
+    }
+
+    function copyOutput() {
+      if (!output.value) return;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(output.value).then(showCopied);
+      } else {
+        output.select();
+        document.execCommand('copy');
+        output.setSelectionRange(0, 0);
+        showCopied();
+      }
+    }
+
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+
+    function toggleTheme() {
+      const dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+
+    (function () {
+      let saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) {
+        applyTheme(saved === 'dark');
+      } else {
+        applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+    })();
+  </script>
+</body>
+</html>

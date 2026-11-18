@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loan Calculator - Monthly Payment, Total Interest and Amortization Schedule</title>
+  <meta name="description" content="Free loan calculator. Enter the loan amount, interest rate and term to get your monthly payment, total interest and a full amortization schedule. Works for mortgages, car loans and personal loans.">
+  <style>
+    :root {
+      --bg: #f5f7fa; --card: #ffffff; --text: #222222; --muted: #555555;
+      --border: #cccccc; --soft: #e8f7ee; --accent: #1faa55; --accent-hover: #178a44;
+      --input-bg: #ffffff; --error: #d33; --interest: #f39c12;
+    }
+    body.dark {
+      --bg: #12161c; --card: #1c222b; --text: #e8ecf1; --muted: #9aa5b1;
+      --border: #3a4350; --soft: #243044; --accent: #2ecc71; --accent-hover: #27ae60;
+      --input-bg: #141a22; --error: #ff6b6b; --interest: #f5b041;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 820px; margin: 40px auto; background: var(--card); padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 28px; }
+    .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 8px; }
+    .field label { display: block; font-size: 13px; font-weight: bold; color: var(--muted); margin-bottom: 6px; }
+    .field input, .field select { width: 100%; padding: 12px; font-size: 17px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; background: var(--input-bg); color: var(--text); }
+    .term { display: flex; gap: 8px; }
+    .term input { flex: 1; min-width: 0; }
+    .term select { width: 110px; }
+    .msg { color: var(--error); font-size: 14px; margin-top: 12px; min-height: 18px; }
+    .main { padding: 22px; border-radius: 10px; background: var(--soft); text-align: center; }
+    .main .label { font-size: 14px; color: var(--muted); }
+    .main .big { font-size: 44px; font-weight: bold; color: var(--accent); line-height: 1.2; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 14px; }
+    .stat { background: var(--soft); padding: 14px; border-radius: 8px; text-align: center; }
+    .stat b { display: block; font-size: 22px; }
+    .stat span { font-size: 13px; color: var(--muted); }
+    .bar { display: flex; height: 14px; border-radius: 7px; overflow: hidden; margin-top: 16px; background: var(--soft); }
+    .bar div { height: 100%; transition: width 0.2s; }
+    #barP { background: var(--accent); }
+    #barI { background: var(--interest); }
+    .legend { display: flex; gap: 18px; font-size: 13px; color: var(--muted); margin-top: 8px; flex-wrap: wrap; }
+    .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    button { padding: 10px 18px; font-size: 15px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+    button:hover { background: var(--accent-hover); }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; white-space: nowrap; }
+    button.theme:hover { background: var(--soft); }
+    button.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    button.ghost:hover { background: var(--soft); }
+    .tablewrap { max-height: 380px; overflow: auto; margin-top: 14px; border: 1px solid var(--border); border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    th:first-child, td:first-child { text-align: center; }
+    th { position: sticky; top: 0; background: var(--soft); color: var(--text); }
+    .hidden { display: none; }
+    .disclaimer { margin-top: 18px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p { margin-top: 4px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="top">
+      <h1>Loan Calculator</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p>Estimate your monthly payment and total interest for a mortgage, car loan or personal loan.</p>
+
+    <div class="fields">
+      <div class="field">
+        <label for="amount">Loan amount</label>
+        <input type="number" id="amount" value="200000" min="0" step="any">
+      </div>
+      <div class="field">
+        <label for="rate">Annual interest rate (%)</label>
+        <input type="number" id="rate" value="6" min="0" step="any">
+      </div>
+      <div class="field">
+        <label for="term">Loan term</label>
+        <div class="term">
+          <input type="number" id="term" value="30" min="1" step="any">
+          <select id="unit">
+            <option value="years" selected>Years</option>
+            <option value="months">Months</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="cur">Currency symbol</label>
+        <select id="cur">
+          <option value="$" selected>$ (USD)</option>
+          <option value="&euro;">&euro; (EUR)</option>
+          <option value="&pound;">&pound; (GBP)</option>
+          <option value="&yen;">&yen; (JPY / CNY)</option>
+          <option value="">None</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="msg" id="msg"></div>
+
+    <div class="main">
+      <div class="label">Monthly payment</div>
+      <div class="big" id="monthly">--</div>
+    </div>
+
+    <div class="grid">
+      <div class="stat"><b id="totalPay">--</b><span>Total of all payments</span></div>
+      <div class="stat"><b id="totalInt">--</b><span>Total interest</span></div>
+      <div class="stat"><b id="numPay">--</b><span>Number of payments</span></div>
+    </div>
+
+    <div class="bar"><div id="barP" style="width:0"></div><div id="barI" style="width:0"></div></div>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--accent)"></i>Principal</span>
+      <span><i class="dot" style="background:var(--interest)"></i>Interest</span>
+    </div>
+
+    <div class="buttons">
+      <button id="copyBtn" onclick="copyResult()">Copy Result</button>
+      <button class="ghost" id="schedBtn" onclick="toggleSchedule()">Show Amortization Schedule</button>
+      <button class="ghost" onclick="resetDefaults()">Reset</button>
+    </div>
+
+    <div class="tablewrap hidden" id="schedWrap">
+      <table>
+        <thead><tr><th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th></tr></thead>
+        <tbody id="schedBody"></tbody>
+      </table>
+    </div>
+
+    <p class="disclaimer">This calculator gives an estimate for a fixed-rate loan with equal monthly payments. It does not include taxes, insurance, fees or changes in rate. It is for general information only and is not financial advice. Check the exact figures with your lender.</p>
+
+    <div class="content">
+      <h2>How the loan calculator works</h2>
+      <p>For a fixed-rate loan, the monthly payment is calculated with the standard amortization formula: payment = P x r / (1 - (1 + r)^-n), where P is the amount borrowed, r is the monthly interest rate (annual rate divided by 12), and n is the number of monthly payments.</p>
+      <p>Each payment has two parts. Early in the loan most of the payment is interest. Over time, the interest part shrinks and more of each payment goes toward the principal. The amortization schedule shows this month by month.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>How can I lower the total interest I pay?</h3>
+      <p>A shorter term or a lower interest rate reduces total interest. Try changing the term in the calculator to see the difference between, for example, 15 and 30 years.</p>
+      <h3>Does this work for car loans and personal loans?</h3>
+      <p>Yes. Any loan with a fixed rate and equal monthly payments follows the same formula. Enter the term in months if it is shorter than a year or two.</p>
+      <h3>What if the interest rate is 0%?</h3>
+      <p>The loan is simply divided into equal parts, so the monthly payment equals the amount divided by the number of months.</p>
+      <h3>Is my data saved or sent anywhere?</h3>
+      <p>No. All calculations run in your browser and nothing is uploaded.</p>
+    </div>
+  </div>
+
+  <script>
+    function $(id) { return document.getElementById(id); }
+    var lastText = '';
+    var scheduleOpen = false;
+    var copyBtn = $('copyBtn');
+
+    function sym() { return $('cur').value; }
+    function money(n) {
+      return sym() + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function reset(message) {
+      $('msg').textContent = message || '';
+      ['monthly', 'totalPay', 'totalInt', 'numPay'].forEach(function (id) { $(id).textContent = '--'; });
+      $('barP').style.width = '0';
+      $('barI').style.width = '0';
+      $('schedBody').innerHTML = '';
+      lastText = '';
+    }
+
+    function calc() {
+      var P = parseFloat($('amount').value);
+      var rate = parseFloat($('rate').value);
+      var term = parseFloat($('term').value);
+      var unit = $('unit').value;
+
+      if (!(P > 0) || isNaN(rate) || !(term > 0)) { reset(''); return; }
+      if (rate < 0 || rate > 100) { reset('Interest rate must be between 0 and 100.'); return; }
+      var n = Math.round(unit === 'years' ? term * 12 : term);
+      if (n < 1 || n > 600) { reset('Loan term must be between 1 month and 50 years.'); return; }
+      $('msg').textContent = '';
+
+      var r = rate / 1200;
+      var M = r === 0 ? P / n : P * r / (1 - Math.pow(1 + r, -n));
+      var total = M * n;
+      var interest = total - P;
+
+      $('monthly').textContent = money(M);
+      $('totalPay').textContent = money(total);
+      $('totalInt').textContent = money(interest);
+      $('numPay').textContent = n.toLocaleString('en-US');
+
+      var pPct = total > 0 ? (P / total) * 100 : 100;
+      $('barP').style.width = pPct + '%';
+      $('barI').style.width = (100 - pPct) + '%';
+
+      lastText = 'Loan ' + money(P) + ' at ' + rate + '% for ' + n + ' months: monthly payment ' + money(M) +
+        ', total payments ' + money(total) + ', total interest ' + money(interest) + '.';
+
+      if (scheduleOpen) buildSchedule(P, r, M, n);
+    }
+
+    function buildSchedule(P, r, M, n) {
+      var bal = P;
+      var html = [];
+      for (var i = 1; i <= n; i++) {
+        var interest = bal * r;
+        var principal = (i === n) ? bal : M - interest;
+        var pay = principal + interest;
+        bal = Math.max(0, bal - principal);
+        html.push('<tr><td>' + i + '</td><td>' + money(pay) + '</td><td>' + money(principal) +
+          '</td><td>' + money(interest) + '</td><td>' + money(bal) + '</td></tr>');
+      }
+      $('schedBody').innerHTML = html.join('');
+    }
+
+    function toggleSchedule() {
+      scheduleOpen = !scheduleOpen;
+      $('schedWrap').classList.toggle('hidden', !scheduleOpen);
+      $('schedBtn').textContent = scheduleOpen ? 'Hide Amortization Schedule' : 'Show Amortization Schedule';
+      if (scheduleOpen) calc();
+    }
+
+    function resetDefaults() {
+      $('amount').value = 200000;
+      $('rate').value = 6;
+      $('term').value = 30;
+      $('unit').value = 'years';
+      $('cur').value = '$';
+      calc();
+    }
+
+    function showCopied() {
+      copyBtn.textContent = 'Copied!';
+      setTimeout(function () { copyBtn.textContent = 'Copy Result'; }, 1500);
+    }
+    function copyResult() {
+      if (!lastText) return;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(lastText).then(showCopied);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = lastText;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showCopied();
+      }
+    }
+
+    var themeBtn = $('themeBtn');
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+    function toggleTheme() {
+      var dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) applyTheme(saved === 'dark');
+      else applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    })();
+
+    ['amount', 'rate', 'term'].forEach(function (id) { $(id).addEventListener('input', calc); });
+    ['unit', 'cur'].forEach(function (id) { $(id).addEventListener('change', calc); });
+
+    calc();
+  </script>
+</body>
+</html>

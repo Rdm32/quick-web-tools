@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Age Calculator - Calculate Exact Age in Years, Months and Days</title>
+  <meta name="description" content="Free age calculator. Enter a date of birth to get your exact age in years, months and days, total days lived, and the countdown to your next birthday.">
+  <style>
+    :root {
+      --bg: #f5f7fa; --card: #ffffff; --text: #222222; --muted: #555555;
+      --border: #cccccc; --soft: #e8f7ee; --accent: #1faa55; --accent-hover: #178a44;
+      --input-bg: #ffffff; --error: #d33;
+    }
+    body.dark {
+      --bg: #12161c; --card: #1c222b; --text: #e8ecf1; --muted: #9aa5b1;
+      --border: #3a4350; --soft: #243044; --accent: #2ecc71; --accent-hover: #27ae60;
+      --input-bg: #141a22; --error: #ff6b6b;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 760px; margin: 40px auto; background: var(--card); padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 28px; }
+    .fields { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; margin-top: 8px; }
+    .field { flex: 1; min-width: 180px; }
+    .field label { display: block; font-size: 13px; font-weight: bold; color: var(--muted); margin-bottom: 6px; }
+    .field input { width: 100%; padding: 12px; font-size: 17px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; background: var(--input-bg); color: var(--text); }
+    .msg { color: var(--error); font-size: 14px; margin-top: 12px; min-height: 18px; }
+    .main { margin-top: 10px; padding: 22px; border-radius: 10px; background: var(--soft); text-align: center; }
+    .main .big { font-size: 34px; font-weight: bold; color: var(--accent); line-height: 1.3; }
+    .main .sub { color: var(--muted); font-size: 14px; margin-top: 4px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 14px; }
+    .stat { background: var(--soft); padding: 14px; border-radius: 8px; text-align: center; }
+    .stat b { display: block; font-size: 22px; color: var(--accent); }
+    .stat span { font-size: 13px; color: var(--muted); }
+    .facts { margin-top: 14px; background: var(--soft); border-radius: 8px; padding: 14px 16px; font-size: 15px; line-height: 1.8; }
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    button { padding: 10px 18px; font-size: 15px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+    button:hover { background: var(--accent-hover); }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; white-space: nowrap; }
+    button.theme:hover { background: var(--soft); }
+    button.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    button.ghost:hover { background: var(--soft); }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p { margin-top: 4px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="top">
+      <h1>Age Calculator</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p>Enter a date of birth to see an exact age. You can also change the "Age at" date to find an age on any day.</p>
+
+    <div class="fields">
+      <div class="field">
+        <label for="birth">Date of birth</label>
+        <input type="date" id="birth" min="1900-01-01">
+      </div>
+      <div class="field">
+        <label for="target">Age at (default: today)</label>
+        <input type="date" id="target" min="1900-01-01">
+      </div>
+    </div>
+
+    <div class="msg" id="msg"></div>
+
+    <div class="main">
+      <div class="big" id="exact">--</div>
+      <div class="sub" id="exactSub">Pick a date of birth above</div>
+    </div>
+
+    <div class="grid">
+      <div class="stat"><b id="tMonths">--</b><span>Total months</span></div>
+      <div class="stat"><b id="tWeeks">--</b><span>Total weeks</span></div>
+      <div class="stat"><b id="tDays">--</b><span>Total days</span></div>
+      <div class="stat"><b id="tHours">--</b><span>Total hours</span></div>
+    </div>
+
+    <div class="facts">
+      <div>Born on: <b id="bornOn">--</b></div>
+      <div>Next birthday: <b id="nextBday">--</b></div>
+    </div>
+
+    <div class="buttons">
+      <button id="copyBtn" onclick="copyResult()">Copy Result</button>
+      <button class="ghost" onclick="setToday()">Use Today</button>
+      <button class="ghost" onclick="clearAll()">Clear</button>
+    </div>
+
+    <div class="content">
+      <h2>How the age calculator works</h2>
+      <p>The calculator counts full years first, then the remaining full months, then the leftover days. A birthday counts as reached on the same day of the month. People born on the 29th, 30th or 31st are handled by using the last day of shorter months.</p>
+      <p>Total days are the real number of calendar days between the two dates. Total hours are total days multiplied by 24, so they ignore the time of day you were born.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Can I find my age on a past or future date?</h3>
+      <p>Yes. Change the "Age at" date to any date after the date of birth. This is useful for school cut-off dates, legal ages and planning.</p>
+      <h3>How is a leap-day birthday (February 29) handled?</h3>
+      <p>In years that have no February 29, the birthday is counted on February 28.</p>
+      <h3>Is my date of birth stored anywhere?</h3>
+      <p>No. Everything is calculated in your browser, and nothing is uploaded or saved.</p>
+    </div>
+  </div>
+
+  <script>
+    var birthEl = document.getElementById('birth');
+    var targetEl = document.getElementById('target');
+    var copyBtn = document.getElementById('copyBtn');
+    var lastText = '';
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function todayStr() {
+      var d = new Date();
+      return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+    }
+    function parseDate(s) {
+      if (!s) return null;
+      var p = s.split('-');
+      if (p.length !== 3) return null;
+      return new Date(+p[0], +p[1] - 1, +p[2]);
+    }
+    function utc(d) { return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()); }
+    function dayDiff(a, b) { return Math.round((utc(b) - utc(a)) / 86400000); }
+    function addMonths(d, n) {
+      var first = new Date(d.getFullYear(), d.getMonth() + n, 1);
+      var last = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate();
+      return new Date(first.getFullYear(), first.getMonth(), Math.min(d.getDate(), last));
+    }
+    function long(d) {
+      return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    function plural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
+
+    function resetOut(message) {
+      document.getElementById('msg').textContent = message || '';
+      document.getElementById('exact').textContent = '--';
+      document.getElementById('exactSub').textContent = 'Pick a date of birth above';
+      ['tMonths', 'tWeeks', 'tDays', 'tHours', 'bornOn', 'nextBday'].forEach(function (id) {
+        document.getElementById(id).textContent = '--';
+      });
+      lastText = '';
+    }
+
+    function calc() {
+      var b = parseDate(birthEl.value);
+      var t = parseDate(targetEl.value);
+      if (!b || !t) { resetOut(''); return; }
+      if (b > t) { resetOut('The date of birth must be before the "Age at" date.'); return; }
+      document.getElementById('msg').textContent = '';
+
+      var m = (t.getFullYear() - b.getFullYear()) * 12 + (t.getMonth() - b.getMonth());
+      if (t.getDate() < b.getDate()) m--;
+      var anchor = addMonths(b, m);
+      var days = dayDiff(anchor, t);
+      var years = Math.floor(m / 12);
+      var months = m % 12;
+
+      var totalDays = dayDiff(b, t);
+      var exact = plural(years, 'year') + ', ' + plural(months, 'month') + ', ' + plural(days, 'day');
+
+      document.getElementById('exact').textContent = exact;
+      document.getElementById('exactSub').textContent = 'on ' + long(t);
+      document.getElementById('tMonths').textContent = m.toLocaleString('en-US');
+      document.getElementById('tWeeks').textContent = Math.floor(totalDays / 7).toLocaleString('en-US');
+      document.getElementById('tDays').textContent = totalDays.toLocaleString('en-US');
+      document.getElementById('tHours').textContent = (totalDays * 24).toLocaleString('en-US');
+      document.getElementById('bornOn').textContent = long(b);
+
+      function bdayInYear(y) {
+        var last = new Date(y, b.getMonth() + 1, 0).getDate();
+        return new Date(y, b.getMonth(), Math.min(b.getDate(), last));
+      }
+      var nb = bdayInYear(t.getFullYear());
+      if (nb < t) nb = bdayInYear(t.getFullYear() + 1);
+      var until = dayDiff(t, nb);
+      var turning = nb.getFullYear() - b.getFullYear();
+      var nextText;
+      if (until === 0) nextText = 'Today' + (turning > 0 ? ' (turning ' + turning + ')' : '');
+      else nextText = long(nb) + ' (' + plural(until, 'day') + ' away, turning ' + turning + ')';
+      document.getElementById('nextBday').textContent = nextText;
+
+      lastText = 'Age: ' + exact + ' (' + totalDays.toLocaleString('en-US') + ' total days), as of ' + long(t) + '.';
+    }
+
+    function setToday() { targetEl.value = todayStr(); calc(); }
+    function clearAll() { birthEl.value = ''; targetEl.value = todayStr(); resetOut(''); }
+
+    function showCopied() {
+      copyBtn.textContent = 'Copied!';
+      setTimeout(function () { copyBtn.textContent = 'Copy Result'; }, 1500);
+    }
+    function copyResult() {
+      if (!lastText) return;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(lastText).then(showCopied);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = lastText;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showCopied();
+      }
+    }
+
+    var themeBtn = document.getElementById('themeBtn');
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+    function toggleTheme() {
+      var dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) applyTheme(saved === 'dark');
+      else applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    })();
+
+    targetEl.value = todayStr();
+    birthEl.addEventListener('input', calc);
+    birthEl.addEventListener('change', calc);
+    targetEl.addEventListener('input', calc);
+    targetEl.addEventListener('change', calc);
+  </script>
+</body>
+</html>

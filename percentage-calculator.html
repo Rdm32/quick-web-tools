@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Percentage Calculator - Percent Of, Percent Change, Increase and Decrease</title>
+  <meta name="description" content="Free percentage calculator. Find X percent of a number, what percent one number is of another, percentage change, and increase or decrease a value by a percentage.">
+  <style>
+    :root {
+      --bg: #f5f7fa; --card: #ffffff; --text: #222222; --muted: #555555;
+      --border: #cccccc; --soft: #e8f7ee; --accent: #1faa55; --accent-hover: #178a44;
+      --input-bg: #ffffff; --error: #d33;
+    }
+    body.dark {
+      --bg: #12161c; --card: #1c222b; --text: #e8ecf1; --muted: #9aa5b1;
+      --border: #3a4350; --soft: #243044; --accent: #2ecc71; --accent-hover: #27ae60;
+      --input-bg: #141a22; --error: #ff6b6b;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 760px; margin: 40px auto; background: var(--card); padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 28px; }
+    .card { background: var(--soft); padding: 18px; border-radius: 10px; margin-top: 16px; }
+    .card h2 { font-size: 15px; margin: 0 0 12px; color: var(--muted); }
+    .line { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 17px; }
+    .line input { width: 120px; padding: 10px; font-size: 17px; border: 1px solid var(--border); border-radius: 8px; background: var(--input-bg); color: var(--text); box-sizing: border-box; }
+    .res { margin-top: 12px; font-size: 19px; font-weight: bold; color: var(--accent); min-height: 26px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .res.err { color: var(--error); font-size: 15px; }
+    button { padding: 10px 18px; font-size: 15px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+    button:hover { background: var(--accent-hover); }
+    button.mini { padding: 5px 12px; font-size: 13px; background: transparent; color: var(--text); border: 1px solid var(--border); }
+    button.mini:hover { background: var(--card); }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; white-space: nowrap; }
+    button.theme:hover { background: var(--soft); }
+    button.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); margin-top: 18px; }
+    button.ghost:hover { background: var(--soft); }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p { margin-top: 4px; color: var(--muted); }
+    .content code { background: var(--soft); padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="top">
+      <h1>Percentage Calculator</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p>Four common percentage calculations in one place. Results update as you type.</p>
+
+    <div class="card">
+      <h2>1. What is X% of Y?</h2>
+      <div class="line">What is <input type="number" id="a1" step="any" placeholder="20"> % of <input type="number" id="b1" step="any" placeholder="150"> ?</div>
+      <div class="res" id="res1"><span id="r1"></span><button class="mini" id="c1" onclick="copyRes('r1','c1')" style="display:none">Copy</button></div>
+    </div>
+
+    <div class="card">
+      <h2>2. X is what percent of Y?</h2>
+      <div class="line"><input type="number" id="a2" step="any" placeholder="30"> is what % of <input type="number" id="b2" step="any" placeholder="150"> ?</div>
+      <div class="res" id="res2"><span id="r2"></span><button class="mini" id="c2" onclick="copyRes('r2','c2')" style="display:none">Copy</button></div>
+    </div>
+
+    <div class="card">
+      <h2>3. Percentage change from X to Y</h2>
+      <div class="line">From <input type="number" id="a3" step="any" placeholder="50"> to <input type="number" id="b3" step="any" placeholder="75"></div>
+      <div class="res" id="res3"><span id="r3"></span><button class="mini" id="c3" onclick="copyRes('r3','c3')" style="display:none">Copy</button></div>
+    </div>
+
+    <div class="card">
+      <h2>4. Increase or decrease a number by a percentage</h2>
+      <div class="line">Take <input type="number" id="a4" step="any" placeholder="200"> and change it by <input type="number" id="b4" step="any" placeholder="15"> %</div>
+      <div class="res" id="res4"><span id="r4"></span><button class="mini" id="c4" onclick="copyRes('r4','c4')" style="display:none">Copy</button></div>
+    </div>
+
+    <button class="ghost" onclick="clearAll()">Clear All</button>
+
+    <div class="content">
+      <h2>How the percentage calculator works</h2>
+      <p>A percentage is a number expressed as a fraction of 100. This calculator covers the four questions people ask most often and shows the result as you type.</p>
+      <h3>Percent of a number</h3>
+      <p>To find X% of Y, multiply Y by X and divide by 100. For example, 20% of 150 is 150 x 20 / 100 = 30.</p>
+      <h3>What percent one number is of another</h3>
+      <p>Divide the first number by the second and multiply by 100. For example, 30 out of 150 is 30 / 150 x 100 = 20%.</p>
+      <h3>Percentage change</h3>
+      <p>Subtract the old value from the new value, divide by the old value, then multiply by 100. Going from 50 to 75 gives (75 - 50) / 50 x 100 = 50% increase.</p>
+      <h3>Increase or decrease by a percentage</h3>
+      <p>To add a percentage, multiply by (1 + percent / 100). To subtract, multiply by (1 - percent / 100). For example, 200 plus 15% is 230, and 200 minus 15% is 170.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>How do I calculate a discount?</h3>
+      <p>Use box 4. Enter the original price and the discount percentage, then read the "minus" result as the sale price.</p>
+      <h3>Why is percentage change undefined when the starting value is 0?</h3>
+      <p>The formula divides by the starting value, and dividing by zero has no answer. Use a different starting value or describe the change in absolute terms.</p>
+      <h3>Is a 50% increase followed by a 50% decrease back to the start?</h3>
+      <p>No. 100 up 50% is 150, and 150 down 50% is 75. The second percentage is applied to a larger number, so the result is lower than the start.</p>
+    </div>
+  </div>
+
+  <script>
+    function fmt(n) { return n.toLocaleString('en-US', { maximumFractionDigits: 6 }); }
+    function num(id) {
+      var v = document.getElementById(id).value;
+      return v === '' ? NaN : parseFloat(v);
+    }
+
+    function show(n, text, isErr) {
+      var r = document.getElementById('r' + n);
+      var c = document.getElementById('c' + n);
+      var box = document.getElementById('res' + n);
+      r.textContent = text;
+      box.className = 'res' + (isErr ? ' err' : '');
+      c.style.display = (text && !isErr) ? '' : 'none';
+    }
+
+    function calc() {
+      var a, b;
+
+      a = num('a1'); b = num('b1');
+      if (isNaN(a) || isNaN(b)) show(1, '');
+      else show(1, fmt(a) + '% of ' + fmt(b) + ' = ' + fmt(a * b / 100));
+
+      a = num('a2'); b = num('b2');
+      if (isNaN(a) || isNaN(b)) show(2, '');
+      else if (b === 0) show(2, 'The second number cannot be 0.', true);
+      else show(2, fmt(a) + ' is ' + fmt(a / b * 100) + '% of ' + fmt(b));
+
+      a = num('a3'); b = num('b3');
+      if (isNaN(a) || isNaN(b)) show(3, '');
+      else if (a === 0) show(3, 'Percentage change is undefined when the starting value is 0.', true);
+      else {
+        var ch = (b - a) / Math.abs(a) * 100;
+        var word = ch > 0 ? 'increase' : (ch < 0 ? 'decrease' : 'no change');
+        show(3, fmt(a) + ' to ' + fmt(b) + ': ' + (ch === 0 ? 'no change' : fmt(Math.abs(ch)) + '% ' + word));
+      }
+
+      a = num('a4'); b = num('b4');
+      if (isNaN(a) || isNaN(b)) show(4, '');
+      else show(4, fmt(a) + ' + ' + fmt(b) + '% = ' + fmt(a * (1 + b / 100)) + '   |   ' + fmt(a) + ' - ' + fmt(b) + '% = ' + fmt(a * (1 - b / 100)));
+    }
+
+    function showCopied(btn) {
+      btn.textContent = 'Copied!';
+      setTimeout(function () { btn.textContent = 'Copy'; }, 1500);
+    }
+
+    function copyRes(rid, bid) {
+      var text = document.getElementById(rid).textContent;
+      var btn = document.getElementById(bid);
+      if (!text) return;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(function () { showCopied(btn); });
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showCopied(btn);
+      }
+    }
+
+    function clearAll() {
+      ['a1','b1','a2','b2','a3','b3','a4','b4'].forEach(function (id) { document.getElementById(id).value = ''; });
+      calc();
+    }
+
+    var themeBtn = document.getElementById('themeBtn');
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+    function toggleTheme() {
+      var dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) applyTheme(saved === 'dark');
+      else applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    })();
+
+    ['a1','b1','a2','b2','a3','b3','a4','b4'].forEach(function (id) {
+      document.getElementById(id).addEventListener('input', calc);
+    });
+  </script>
+</body>
+</html>
