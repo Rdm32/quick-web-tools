@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Free Image Format Converter - JPG, PNG and WebP</title>
+    <title>Free Image Format Converter - JPG, PNG and WebP | Web Tool Grove</title>
     <meta name="description" content="Convert images between JPG, PNG, and WebP formats online for free. Images are processed privately in your browser.">
+    <link rel="canonical" href="https://webtoolgrove.com/image-converter">
 
     <style>
         * {
@@ -374,12 +375,21 @@
             }
         }
     </style>
+  <style id="wtg-site">
+    .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+    .wtg-nav a { color: var(--accent, var(--green, #1faa55)); text-decoration: none; font-weight: 700; }
+    .wtg-nav a:hover { text-decoration: underline; }
+    .wtg-nav .wtg-logo { font-size: 18px; }
+    .wtg-footer { max-width: 1000px; margin: 10px auto 30px; padding: 18px 12px 0; border-top: 1px solid var(--border, #dcdcdc); text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 2; color: var(--muted, var(--secondary-text, #666)); }
+    .wtg-footer a { color: inherit; margin: 0 6px; text-decoration: none; }
+    .wtg-footer a:hover { color: var(--accent, var(--green, #1faa55)); text-decoration: underline; }
+  </style>
 </head>
 
 <body>
     <main class="page">
         <div class="top-bar">
-            <div class="logo">Quick Web Tools</div>
+            <div class="logo"><a href="index.html" style="color:inherit;text-decoration:none">Web Tool Grove</a></div>
 
             <button id="themeButton" class="theme-button" type="button">
                 🌙 Dark Mode
@@ -774,5 +784,17 @@
 
         loadTheme();
     </script>
+  <footer class="wtg-footer">
+    <div>&copy; <span class="wtg-year"></span> Web Tool Grove. All rights reserved.</div>
+    <div>
+      <a href="index.html">Home</a> &middot;
+      <a href="about.html">About</a> &middot;
+      <a href="contact.html">Contact</a> &middot;
+      <a href="privacy-policy.html">Privacy Policy</a> &middot;
+      <a href="terms-of-use.html">Terms of Use</a> &middot;
+      <a href="disclaimer.html">Disclaimer</a>
+    </div>
+  </footer>
+  <script>document.querySelectorAll('.wtg-year').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
 </body>
 </html>

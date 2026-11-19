@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Free JSON Formatter and Validator - Beautify, Minify, Check JSON Online</title>
   <meta name="description" content="Free online JSON formatter and validator. Beautify, minify and validate JSON instantly, with clear error messages. Runs in your browser, nothing is uploaded.">
+  <link rel="canonical" href="https://webtoolgrove.com/json-formatter">
   <style>
     :root {
       --bg: #f5f7fa;
@@ -54,8 +55,21 @@
     button.ghost:hover { background: var(--soft); }
     .note { margin-top: 18px; font-size: 13px; color: var(--muted); }
   </style>
+  <style id="wtg-site">
+    .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+    .wtg-nav a { color: var(--accent, var(--green, #1faa55)); text-decoration: none; font-weight: 700; }
+    .wtg-nav a:hover { text-decoration: underline; }
+    .wtg-nav .wtg-logo { font-size: 18px; }
+    .wtg-footer { max-width: 1000px; margin: 10px auto 30px; padding: 18px 12px 0; border-top: 1px solid var(--border, #dcdcdc); text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 2; color: var(--muted, var(--secondary-text, #666)); }
+    .wtg-footer a { color: inherit; margin: 0 6px; text-decoration: none; }
+    .wtg-footer a:hover { color: var(--accent, var(--green, #1faa55)); text-decoration: underline; }
+  </style>
 </head>
 <body>
+  <div class="wtg-nav">
+    <a class="wtg-logo" href="index.html">Web Tool Grove</a>
+    <a href="index.html#tools">All tools</a>
+  </div>
   <div class="box">
     <div class="top">
       <h1>JSON Formatter</h1>
@@ -108,7 +122,7 @@
     const themeBtn = document.getElementById('themeBtn');
 
     const EXAMPLE = {
-      name: "Quick Web Tools",
+      name: "Web Tool Grove",
       version: 1.2,
       free: true,
       tags: ["json", "formatter", "online"],
@@ -269,5 +283,17 @@
       }
     })();
   </script>
+  <footer class="wtg-footer">
+    <div>&copy; <span class="wtg-year"></span> Web Tool Grove. All rights reserved.</div>
+    <div>
+      <a href="index.html">Home</a> &middot;
+      <a href="about.html">About</a> &middot;
+      <a href="contact.html">Contact</a> &middot;
+      <a href="privacy-policy.html">Privacy Policy</a> &middot;
+      <a href="terms-of-use.html">Terms of Use</a> &middot;
+      <a href="disclaimer.html">Disclaimer</a>
+    </div>
+  </footer>
+  <script>document.querySelectorAll('.wtg-year').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
 </body>
 </html>
