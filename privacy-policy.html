@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy - Web Tool Grove</title>
+  <meta name="description" content="Privacy Policy for Web Tool Grove. Learn what information is processed, how cookies and advertising work, and how to contact us.">
+  <link rel="canonical" href="https://webtoolgrove.com/privacy-policy">
+  <style>
+    :root { --bg:#f5f7fa; --card:#ffffff; --text:#222222; --muted:#555555; --border:#cccccc; --soft:#e8f7ee; --accent:#1faa55; }
+    body.dark { --bg:#12161c; --card:#1c222b; --text:#e8ecf1; --muted:#9aa5b1; --border:#3a4350; --soft:#243044; --accent:#2ecc71; }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 780px; margin: 40px auto; background: var(--card); padding: 30px 34px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); line-height: 1.7; font-size: 16px; }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 30px; }
+    h2 { font-size: 21px; margin-top: 28px; }
+    p, li { color: var(--muted); }
+    a { color: var(--accent); }
+    .updated { font-size: 14px; }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 15px; white-space: nowrap; }
+    button.theme:hover { background: var(--soft); }
+    .nav { margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 14px; line-height: 2; }
+    .nav a { margin-right: 14px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="top">
+      <h1>Privacy Policy</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p class="updated">Last updated: November 19, 2026</p>
+
+    <p>This Privacy Policy explains how Web Tool Grove ("we", "our", "the website") handles information when you use our free online tools at webtoolgrove.com. We want you to know clearly what happens to your data.</p>
+
+    <h2>1. Your text and files stay on your device</h2>
+    <p>Our tools, including the word counter, case converter, JSON formatter, Base64 tool, password generator, QR code generator, calculators and image tools, are designed to run in your web browser. The text you type and the images you select are processed on your own device. We do not upload them to our servers and we do not store them.</p>
+
+    <h2>2. Information stored in your browser</h2>
+    <p>Some tools save small pieces of information in your browser's local storage so they work better, for example your light or dark mode choice, or the event name and date for the countdown timer. This data stays on your device. You can remove it at any time by clearing your browser's site data.</p>
+
+    <h2>3. Information collected automatically</h2>
+    <p>Like most websites, the servers that deliver this website may automatically record technical information such as your IP address, browser type, device type, pages visited and the time of the visit. This is used to keep the website secure and running properly. Our website is hosted on Cloudflare, which processes this kind of data under its own privacy policy.</p>
+
+    <h2>4. Cookies and advertising</h2>
+    <p>We may show advertising on this website, including ads provided by Google AdSense. Third-party vendors, including Google, use cookies to serve ads based on your prior visits to this website or other websites. Google's use of advertising cookies enables it and its partners to serve ads to you based on your visit to our site and other sites on the internet.</p>
+    <p>You can learn how Google uses information from sites that use its services at <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">policies.google.com/technologies/partner-sites</a>. You can opt out of personalized advertising by visiting <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google Ads Settings</a>, or by visiting <a href="https://www.aboutads.info" target="_blank" rel="noopener">aboutads.info</a>. You can also control or delete cookies in your browser settings.</p>
+
+    <h2>5. Analytics</h2>
+    <p>We may use privacy-conscious analytics services to understand which tools are used and to improve the website. If we do, they collect general usage information such as pages viewed and approximate location, not the text or files you process in our tools.</p>
+
+    <h2>6. Links to other websites</h2>
+    <p>Our pages may link to other websites. We are not responsible for the privacy practices or the content of those websites, so please read their policies.</p>
+
+    <h2>7. Children's privacy</h2>
+    <p>Our website is a general-audience website and is not directed to children under 13. We do not knowingly collect personal information from children.</p>
+
+    <h2>8. Your rights</h2>
+    <p>Depending on where you live, you may have rights over your personal data, such as the right to access, correct or delete it, or to object to certain processing. Because our tools do not require an account and process your content on your device, we hold very little personal information about you. If you have a privacy request, please contact us using the details below.</p>
+
+    <h2>9. Changes to this policy</h2>
+    <p>We may update this Privacy Policy from time to time. The date at the top of the page shows when it was last changed. Continuing to use the website after a change means you accept the updated policy.</p>
+
+    <h2>10. Contact us</h2>
+    <p>If you have any questions about this Privacy Policy, please visit our <a href="contact.html">Contact</a> page.</p>
+
+    <div class="nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="terms-of-use.html">Terms of Use</a>
+      <a href="disclaimer.html">Disclaimer</a>
+    </div>
+  </div>
+
+  <script>
+    var themeBtn = document.getElementById('themeBtn');
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+    function toggleTheme() {
+      var dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) applyTheme(saved === 'dark');
+      else applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    })();
+  </script>
+</body>
+</html>

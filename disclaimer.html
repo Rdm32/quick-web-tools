@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Disclaimer - Web Tool Grove</title>
+  <meta name="description" content="Disclaimer for Web Tool Grove. Our calculators and tools provide general information and estimates, not professional advice.">
+  <link rel="canonical" href="https://webtoolgrove.com/disclaimer">
+  <style>
+    :root { --bg:#f5f7fa; --card:#ffffff; --text:#222222; --muted:#555555; --border:#cccccc; --soft:#e8f7ee; --accent:#1faa55; }
+    body.dark { --bg:#12161c; --card:#1c222b; --text:#e8ecf1; --muted:#9aa5b1; --border:#3a4350; --soft:#243044; --accent:#2ecc71; }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 780px; margin: 40px auto; background: var(--card); padding: 30px 34px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); line-height: 1.7; font-size: 16px; }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 30px; }
+    h2 { font-size: 21px; margin-top: 28px; }
+    p, li { color: var(--muted); }
+    a { color: var(--accent); }
+    .updated { font-size: 14px; }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 15px; white-space: nowrap; }
+    button.theme:hover { background: var(--soft); }
+    .nav { margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 14px; line-height: 2; }
+    .nav a { margin-right: 14px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="top">
+      <h1>Disclaimer</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p class="updated">Last updated: November 19, 2026</p>
+
+    <p>The tools and information on Web Tool Grove are provided for general informational purposes only. Please read this disclaimer before relying on any result.</p>
+
+    <h2>1. Not professional advice</h2>
+    <ul>
+      <li><b>Financial:</b> the Loan Calculator and Percentage Calculator give estimates based on the numbers you enter. They do not include taxes, fees, insurance or changes in interest rates, and they are not financial advice. Please confirm exact figures with your lender or a qualified financial adviser.</li>
+      <li><b>Health:</b> the BMI Calculator gives a general screening number for adults. It does not account for muscle mass, age, body type or medical conditions, and it is not medical advice. Please talk to a doctor about your health.</li>
+      <li><b>Legal and other:</b> nothing on this website is legal or professional advice.</li>
+    </ul>
+
+    <h2>2. Accuracy of results</h2>
+    <p>We work to make our tools accurate, but we cannot guarantee that every result is correct or suitable for your situation. Date, age and unit conversions may be affected by rounding and by differences in calendars and definitions. Please double-check important results before you rely on them.</p>
+
+    <h2>3. Security tools</h2>
+    <p>The Password Generator creates random passwords in your browser. We recommend storing passwords in a trusted password manager. Base64 is an encoding, not encryption, and it does not protect sensitive information. The QR Code Generator creates codes from the text you enter, so please check that a code works before you print or share it.</p>
+
+    <h2>4. Image tools</h2>
+    <p>Compression and format conversion can change an image, for example by reducing quality or replacing transparency with a solid color. Please keep a copy of your original files.</p>
+
+    <h2>5. Third-party content and advertising</h2>
+    <p>The website may display ads and links from third parties. We do not endorse or guarantee any third-party product or service shown on the website.</p>
+
+    <h2>6. Use at your own risk</h2>
+    <p>You use the website and its tools at your own risk. See our <a href="terms-of-use.html">Terms of Use</a> for more information. If you have questions, please visit our <a href="contact.html">Contact</a> page.</p>
+
+    <div class="nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms-of-use.html">Terms of Use</a>
+    </div>
+  </div>
+
+  <script>
+    var themeBtn = document.getElementById('themeBtn');
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+    function toggleTheme() {
+      var dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) applyTheme(saved === 'dark');
+      else applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    })();
+  </script>
+</body>
+</html>
