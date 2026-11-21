@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied'
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C1EL3CTMDR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-C1EL3CTMDR');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free Invoice Generator - Create Professional Invoices</title>
+  <meta name="description" content="Free invoice generator. Create professional invoices in your browser — add your business and client details, line items, tax and discounts, then print or save as PDF. No sign-up, no upload.">
+  <link rel="canonical" href="https://webtoolgrove.com/invoice-generator">
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --text: #222222;
+      --muted: #555555;
+      --border: #cccccc;
+      --stat-bg: #e8f7ee;
+      --accent: #1faa55;
+      --accent-hover: #178a44;
+      --input-bg: #ffffff;
+    }
+    body.dark {
+      --bg: #12161c;
+      --card: #1c222b;
+      --text: #e8ecf1;
+      --muted: #9aa5b1;
+      --border: #3a4350;
+      --stat-bg: #243044;
+      --accent: #2ecc71;
+      --accent-hover: #27ae60;
+      --input-bg: #141a22;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 760px; margin: 40px auto; background: var(--card); padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 28px; }
+    label { display: block; font-size: 14px; font-weight: bold; margin-top: 14px; }
+    input, select, textarea { width: 100%; padding: 10px 12px; font-size: 15px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; background: var(--input-bg); color: var(--text); margin-top: 5px; font-family: Arial, sans-serif; }
+    textarea { resize: vertical; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0 16px; }
+    fieldset { border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px 14px; margin-top: 20px; }
+    legend { font-weight: bold; padding: 0 6px; }
+    table.items { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    table.items th, table.items td { padding: 6px 4px; text-align: left; font-size: 14px; vertical-align: middle; }
+    table.items th { border-bottom: 2px solid var(--border); }
+    table.items td input { margin-top: 0; padding: 8px; }
+    table.items td input.amount { background: var(--stat-bg); }
+    .rm { background: transparent !important; color: var(--muted) !important; border: 1px solid var(--border) !important; padding: 6px 10px !important; font-size: 14px !important; }
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    button { padding: 10px 20px; font-size: 15px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+    button:hover { background: var(--accent-hover); }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; white-space: nowrap; }
+    button.theme:hover { background: var(--stat-bg); }
+    button.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    button.secondary:hover { background: var(--stat-bg); }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p, .content li { margin-top: 4px; color: var(--muted); }
+    .content code { background: var(--stat-bg); padding: 2px 6px; border-radius: 4px; }
+    /* Invoice preview */
+    #invoicePreview { margin-top: 28px; border: 1px solid var(--border); border-radius: 8px; padding: 28px; background: var(--card); }
+    #invoicePreview .inv-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+    #invoicePreview .inv-biz { font-size: 20px; font-weight: bold; }
+    #invoicePreview .inv-biz-sub { font-size: 13px; color: var(--muted); white-space: pre-line; line-height: 1.5; margin-top: 4px; }
+    #invoicePreview .inv-title { font-size: 28px; font-weight: bold; letter-spacing: 2px; text-align: right; color: var(--accent); }
+    #invoicePreview .inv-meta { font-size: 13px; text-align: right; color: var(--muted); line-height: 1.7; margin-top: 4px; }
+    #invoicePreview .inv-bill { margin-top: 20px; font-size: 14px; line-height: 1.6; }
+    #invoicePreview .inv-bill b { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 2px; }
+    #invoicePreview table.inv-items { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+    #invoicePreview table.inv-items th { text-align: left; border-bottom: 2px solid var(--text); padding: 8px 4px; }
+    #invoicePreview table.inv-items td { padding: 8px 4px; border-bottom: 1px solid var(--border); }
+    #invoicePreview table.inv-items td.num, #invoicePreview table.inv-items th.num { text-align: right; }
+    #invoicePreview .inv-totals { margin-top: 14px; margin-left: auto; width: 260px; font-size: 14px; }
+    #invoicePreview .inv-totals .row { display: flex; justify-content: space-between; padding: 5px 0; }
+    #invoicePreview .inv-totals .row.total { border-top: 2px solid var(--text); font-weight: bold; font-size: 17px; margin-top: 6px; padding-top: 10px; }
+    #invoicePreview .inv-notes { margin-top: 22px; font-size: 13px; color: var(--muted); white-space: pre-line; line-height: 1.6; }
+    @media print {
+      body * { visibility: hidden; }
+      #invoicePreview, #invoicePreview * { visibility: visible; }
+      #invoicePreview { position: absolute; left: 0; top: 0; width: 100%; border: none; box-shadow: none; margin: 0; padding: 0; }
+    }
+  </style>
+  <style id="wtg-site">
+    .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+    .wtg-nav a { color: var(--accent, var(--green, #1faa55)); text-decoration: none; font-weight: 700; }
+    .wtg-nav a:hover { text-decoration: underline; }
+    .wtg-nav .wtg-logo { font-size: 18px; }
+    .wtg-footer { max-width: 1000px; margin: 10px auto 30px; padding: 18px 12px 0; border-top: 1px solid var(--border, #dcdcdc); text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 2; color: var(--muted, var(--secondary-text, #666)); }
+    .wtg-footer a { color: inherit; margin: 0 6px; text-decoration: none; }
+    .wtg-footer a:hover { color: var(--accent, var(--green, #1faa55)); text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wtg-nav">
+    <a class="wtg-logo" href="index.html">Web Tool Grove</a>
+    <a href="index.html#tools">All tools</a>
+  </div>
+  <div class="box">
+    <div class="top">
+      <h1>Invoice Generator</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p>Create a professional invoice in seconds. Fill in the details below and the live preview updates instantly. Everything stays in your browser — nothing is uploaded.</p>
+
+    <fieldset>
+      <legend>Your business</legend>
+      <label for="bizName">Business name</label>
+      <input id="bizName" type="text" placeholder="Acme Studio">
+      <div class="grid2">
+        <div>
+          <label for="bizEmail">Email</label>
+          <input id="bizEmail" type="email" placeholder="hello@acme.com">
+        </div>
+        <div>
+          <label for="bizPhone">Phone</label>
+          <input id="bizPhone" type="text" placeholder="+1 555 010 2030">
+        </div>
+      </div>
+      <label for="bizAddr">Address</label>
+      <textarea id="bizAddr" rows="2" placeholder="123 Main Street, Springfield, IL 62701"></textarea>
+    </fieldset>
+
+    <fieldset>
+      <legend>Bill to (client)</legend>
+      <label for="clientName">Client name</label>
+      <input id="clientName" type="text" placeholder="Jane Cooper">
+      <div class="grid2">
+        <div>
+          <label for="clientEmail">Client email</label>
+          <input id="clientEmail" type="email" placeholder="jane@client.com">
+        </div>
+        <div>
+          <label for="clientAddr">Client address</label>
+          <input id="clientAddr" type="text" placeholder="45 Oak Avenue, Chicago, IL 60601">
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Invoice details</legend>
+      <div class="grid3">
+        <div>
+          <label for="invNumber">Invoice number</label>
+          <input id="invNumber" type="text">
+        </div>
+        <div>
+          <label for="invDate">Invoice date</label>
+          <input id="invDate" type="date">
+        </div>
+        <div>
+          <label for="dueDate">Due date</label>
+          <input id="dueDate" type="date">
+        </div>
+      </div>
+      <div class="grid3">
+        <div>
+          <label for="currency">Currency</label>
+          <select id="currency">
+            <option value="USD" selected>USD ($) — US Dollar</option>
+            <option value="EUR">EUR (€) — Euro</option>
+            <option value="GBP">GBP (£) — British Pound</option>
+            <option value="JPY">JPY (¥) — Japanese Yen</option>
+            <option value="CNY">CNY (¥) — Chinese Yuan</option>
+            <option value="AUD">AUD (A$) — Australian Dollar</option>
+            <option value="CAD">CAD (C$) — Canadian Dollar</option>
+            <option value="INR">INR (₹) — Indian Rupee</option>
+            <option value="CHF">CHF — Swiss Franc</option>
+            <option value="SGD">SGD (S$) — Singapore Dollar</option>
+          </select>
+        </div>
+        <div>
+          <label for="taxRate">Tax rate (%)</label>
+          <input id="taxRate" type="number" min="0" max="100" step="0.1" value="0">
+        </div>
+        <div>
+          <label for="discountRate">Discount (%)</label>
+          <input id="discountRate" type="number" min="0" max="100" step="0.1" value="0">
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Line items</legend>
+      <table class="items">
+        <thead>
+          <tr><th style="width:46%">Description</th><th style="width:12%">Qty</th><th style="width:16%">Rate</th><th style="width:16%">Amount</th><th style="width:10%"></th></tr>
+        </thead>
+        <tbody id="itemsBody"></tbody>
+      </table>
+      <div class="buttons">
+        <button class="secondary" onclick="addItem()">+ Add item</button>
+      </div>
+    </fieldset>
+
+    <label for="notes">Notes / payment terms</label>
+    <textarea id="notes" rows="2" placeholder="Payment due within 14 days. Thank you for your business!"></textarea>
+
+    <div class="buttons">
+      <button onclick="window.print()">Print / Save as PDF</button>
+      <button class="secondary" onclick="clearAll()">Clear all</button>
+    </div>
+
+    <div id="invoicePreview">
+      <div class="inv-head">
+        <div>
+          <div class="inv-biz" id="pvBiz">Your Business</div>
+          <div class="inv-biz-sub" id="pvBizSub"></div>
+        </div>
+        <div>
+          <div class="inv-title">INVOICE</div>
+          <div class="inv-meta" id="pvMeta"></div>
+        </div>
+      </div>
+      <div class="inv-bill">
+        <b>Bill to</b>
+        <span id="pvClient"></span>
+      </div>
+      <table class="inv-items">
+        <thead>
+          <tr><th>Description</th><th class="num">Qty</th><th class="num">Rate</th><th class="num">Amount</th></tr>
+        </thead>
+        <tbody id="pvItems"></tbody>
+      </table>
+      <div class="inv-totals" id="pvTotals"></div>
+      <div class="inv-notes" id="pvNotes"></div>
+    </div>
+
+    <div class="content">
+      <h2>How the invoice generator works</h2>
+      <p>This free invoice generator builds a professional invoice right in your browser. Fill in your business details, your client's details, and your line items, and the live preview at the bottom of the page updates instantly. When it looks right, use the Print / Save as PDF button and choose "Save as PDF" in the print dialog to download it. Your invoice is never uploaded to a server — everything is typed and stored only on your own device.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Enter your business name, email, phone, and address, then your client's name and address.</li>
+        <li>Check the invoice number and dates. The invoice number is filled in for you, but you can change it to match your own numbering.</li>
+        <li>Add line items: a description, a quantity, and a rate for each. The amount for every row is calculated automatically, and you can add or remove rows at any time.</li>
+        <li>Set a tax rate or a discount if you need one. The totals update live in the preview.</li>
+        <li>Click "Print / Save as PDF" and choose "Save as PDF" in the print dialog to download the invoice, or print it on paper.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Freelance work.</strong> Designers, developers, writers, and consultants can send a clean invoice for each project without signing up for accounting software.</p>
+      <p><strong>Small businesses.</strong> If you sell products or services, you can make an invoice for every order in under a minute and keep your records consistent.</p>
+      <p><strong>One-off jobs.</strong> For a single repair, a photoshoot, or a tutoring session, a simple invoice looks far more professional than a plain email asking for payment.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>Is my invoice saved or uploaded anywhere?</h3>
+      <p>No. Everything you type is processed in your browser and saved only in your browser's local storage on your own device, so the invoice is still there if you reload the page. Nothing is sent to a server or shared with anyone.</p>
+      <h3>How do I download the invoice as a PDF?</h3>
+      <p>Click the "Print / Save as PDF" button. In the print dialog, choose "Save as PDF" as the destination instead of a printer. The printed layout shows only the invoice itself — the form, buttons, and page header are hidden automatically.</p>
+      <h3>How is the total calculated?</h3>
+      <p>Each line amount is quantity multiplied by rate, and the subtotal is the sum of all lines. If you set a discount, it is taken off the subtotal first. Tax is then calculated on the amount after the discount. The total is the discounted subtotal plus the tax. For example, a subtotal of $850 with a 10% discount and 8% tax gives a discount of $85, tax of $61.20, and a total of $826.20.</p>
+      <h3>Can I use a different currency?</h3>
+      <p>Yes. Choose a currency from the list — US Dollar, Euro, British Pound, Japanese Yen, Chinese Yuan, and more. All amounts in the form and in the preview are formatted in that currency using your browser's standard number formatting.</p>
+      <h3>Does the invoice number have to be unique?</h3>
+      <p>Yes, give each invoice its own number so you and your client can refer to it later. The tool fills in a number based on today's date when you start, but you can edit it to match your own system, for example INV-2026-001.</p>
+    </div>
+  </div>
+
+  <script>
+    var KEY = 'wtg_invoice';
+    var fieldIds = ['bizName','bizEmail','bizPhone','bizAddr','clientName','clientEmail','clientAddr','invNumber','invDate','dueDate','currency','taxRate','discountRate','notes'];
+    var themeBtn = document.getElementById('themeBtn');
+    var itemsBody = document.getElementById('itemsBody');
+
+    function el(id) { return document.getElementById(id); }
+
+    function todayStr(offsetDays) {
+      var d = new Date();
+      d.setDate(d.getDate() + (offsetDays || 0));
+      var m = ('0' + (d.getMonth() + 1)).slice(-2);
+      var day = ('0' + d.getDate()).slice(-2);
+      return d.getFullYear() + '-' + m + '-' + day;
+    }
+
+    function defaultInvNumber() {
+      var d = new Date();
+      var m = ('0' + (d.getMonth() + 1)).slice(-2);
+      var day = ('0' + d.getDate()).slice(-2);
+      return 'INV-' + d.getFullYear() + m + day + '-' + String(Math.floor(1000 + Math.random() * 9000));
+    }
+
+    function defaultItems() {
+      return [
+        { desc: 'Website design', qty: 1, rate: 500 },
+        { desc: 'Logo design', qty: 1, rate: 200 },
+        { desc: 'Consulting (hours)', qty: 2, rate: 75 }
+      ];
+    }
+
+    function fmt(n) {
+      var cur = el('currency').value || 'USD';
+      try {
+        return new Intl.NumberFormat(undefined, { style: 'currency', currency: cur }).format(n);
+      } catch (e) {
+        return cur + ' ' + n.toFixed(2);
+      }
+    }
+
+    function num(v) {
+      var n = parseFloat(v);
+      return isNaN(n) ? 0 : n;
+    }
+
+    function addItem(item) {
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td><input type="text" class="it-desc" placeholder="Description" value=""></td>' +
+        '<td><input type="number" class="it-qty" min="0" step="any" value="1"></td>' +
+        '<td><input type="number" class="it-rate" min="0" step="any" value="0"></td>' +
+        '<td><input type="text" class="amount" readonly value=""></td>' +
+        '<td><button type="button" class="rm" onclick="removeItem(this)">Remove</button></td>';
+      itemsBody.appendChild(tr);
+      if (item) {
+        tr.querySelector('.it-desc').value = item.desc || '';
+        tr.querySelector('.it-qty').value = item.qty == null ? 1 : item.qty;
+        tr.querySelector('.it-rate').value = item.rate == null ? 0 : item.rate;
+      }
+      tr.querySelectorAll('input').forEach(function (inp) {
+        inp.addEventListener('input', update);
+      });
+    }
+
+    function removeItem(btn) {
+      var rows = itemsBody.querySelectorAll('tr');
+      if (rows.length <= 1) { alert('An invoice needs at least one line item.'); return; }
+      btn.closest('tr').remove();
+      update();
+    }
+
+    function readItems() {
+      var out = [];
+      itemsBody.querySelectorAll('tr').forEach(function (tr) {
+        out.push({
+          desc: tr.querySelector('.it-desc').value,
+          qty: num(tr.querySelector('.it-qty').value),
+          rate: num(tr.querySelector('.it-rate').value)
+        });
+      });
+      return out;
+    }
+
+    function update() {
+      var items = readItems();
+      var subtotal = 0;
+      items.forEach(function (it) { subtotal += it.qty * it.rate; });
+      var discountRate = num(el('discountRate').value);
+      var taxRate = num(el('taxRate').value);
+      var discountAmt = subtotal * discountRate / 100;
+      var taxable = subtotal - discountAmt;
+      var taxAmt = taxable * taxRate / 100;
+      var total = taxable + taxAmt;
+
+      // Row amounts
+      itemsBody.querySelectorAll('tr').forEach(function (tr, i) {
+        tr.querySelector('.amount').value = fmt(items[i].qty * items[i].rate);
+      });
+
+      // Preview: business
+      el('pvBiz').textContent = el('bizName').value.trim() || 'Your Business';
+      var bizLines = [];
+      if (el('bizAddr').value.trim()) bizLines.push(el('bizAddr').value.trim());
+      if (el('bizEmail').value.trim()) bizLines.push(el('bizEmail').value.trim());
+      if (el('bizPhone').value.trim()) bizLines.push(el('bizPhone').value.trim());
+      el('pvBizSub').textContent = bizLines.join('\n');
+
+      // Preview: meta
+      var meta = [];
+      meta.push('Invoice #: ' + (el('invNumber').value.trim() || '—'));
+      if (el('invDate').value) meta.push('Date: ' + el('invDate').value);
+      if (el('dueDate').value) meta.push('Due: ' + el('dueDate').value);
+      el('pvMeta').innerHTML = meta.join('<br>');
+
+      // Preview: client
+      var cLines = [];
+      var cn = el('clientName').value.trim();
+      cLines.push(cn || 'Client');
+      if (el('clientAddr').value.trim()) cLines.push(el('clientAddr').value.trim());
+      if (el('clientEmail').value.trim()) cLines.push(el('clientEmail').value.trim());
+      el('pvClient').innerHTML = cLines.map(function (l) { return escapeHtml(l); }).join('<br>');
+
+      // Preview: items
+      var rowsHtml = '';
+      items.forEach(function (it) {
+        rowsHtml += '<tr><td>' + escapeHtml(it.desc || 'Item') + '</td><td class="num">' + it.qty + '</td><td class="num">' + fmt(it.rate) + '</td><td class="num">' + fmt(it.qty * it.rate) + '</td></tr>';
+      });
+      el('pvItems').innerHTML = rowsHtml;
+
+      // Preview: totals
+      var tHtml = '<div class="row"><span>Subtotal</span><span>' + fmt(subtotal) + '</span></div>';
+      if (discountRate > 0) {
+        tHtml += '<div class="row"><span>Discount (' + discountRate + '%)</span><span>- ' + fmt(discountAmt) + '</span></div>';
+      }
+      if (taxRate > 0) {
+        tHtml += '<div class="row"><span>Tax (' + taxRate + '%)</span><span>' + fmt(taxAmt) + '</span></div>';
+      }
+      tHtml += '<div class="row total"><span>Total</span><span>' + fmt(total) + '</span></div>';
+      el('pvTotals').innerHTML = tHtml;
+
+      // Preview: notes
+      el('pvNotes').textContent = el('notes').value.trim();
+
+      save();
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function save() {
+      try {
+        var data = { items: readItems() };
+        fieldIds.forEach(function (id) { data[id] = el(id).value; });
+        localStorage.setItem(KEY, JSON.stringify(data));
+      } catch (e) {}
+    }
+
+    function load() {
+      var raw = null;
+      try { raw = localStorage.getItem(KEY); } catch (e) {}
+      if (raw) {
+        try {
+          var data = JSON.parse(raw);
+          fieldIds.forEach(function (id) { if (data[id] != null) el(id).value = data[id]; });
+          if (data.items && data.items.length) {
+            data.items.forEach(function (it) { addItem(it); });
+          } else {
+            defaultItems().forEach(function (it) { addItem(it); });
+          }
+          return;
+        } catch (e) {}
+      }
+      el('invNumber').value = defaultInvNumber();
+      el('invDate').value = todayStr(0);
+      el('dueDate').value = todayStr(14);
+      el('notes').value = 'Payment due within 14 days. Thank you for your business!';
+      defaultItems().forEach(function (it) { addItem(it); });
+    }
+
+    function clearAll() {
+      if (!confirm('Clear everything and start a blank invoice?')) return;
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      fieldIds.forEach(function (id) { el(id).value = ''; });
+      itemsBody.innerHTML = '';
+      el('invNumber').value = defaultInvNumber();
+      el('invDate').value = todayStr(0);
+      el('dueDate').value = todayStr(14);
+      defaultItems().forEach(function (it) { addItem(it); });
+      update();
+    }
+
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+
+    function toggleTheme() {
+      var dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+
+    // Remember the user's choice; otherwise follow the system setting
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) {
+        applyTheme(saved === 'dark');
+      } else {
+        applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+    })();
+
+    fieldIds.forEach(function (id) {
+      el(id).addEventListener('input', update);
+      el(id).addEventListener('change', update);
+    });
+    load();
+    update();
+  </script>
+  <footer class="wtg-footer">
+    <div>&copy; <span class="wtg-year"></span> Web Tool Grove. All rights reserved.</div>
+    <div>
+      <a href="index.html">Home</a> &middot;
+      <a href="about.html">About</a> &middot;
+      <a href="contact.html">Contact</a> &middot;
+      <a href="privacy-policy.html">Privacy Policy</a> &middot;
+      <a href="terms-of-use.html">Terms of Use</a> &middot;
+      <a href="disclaimer.html">Disclaimer</a> &middot;
+      <a href="#" id="wtg-cookie-settings">Cookie settings</a>
+    </div>
+  </footer>
+  <script>document.querySelectorAll('.wtg-year').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+<style>
+#wtg-cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--card);color:var(--text);border-top:1px solid var(--border);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 -2px 12px rgba(0,0,0,.12)}
+#wtg-cookie-banner p{margin:0;flex:1 1 300px;font-size:14px;line-height:1.5}
+#wtg-cookie-banner a{color:var(--accent,var(--green,#1faa55))}
+#wtg-cookie-banner .wtg-cookie-btns{display:flex;gap:10px;flex-shrink:0}
+#wtg-cookie-banner button{background:var(--accent,var(--green,#1faa55));color:#fff;border:1px solid var(--accent,var(--green,#1faa55));border-radius:8px;padding:8px 18px;font-size:14px;cursor:pointer}
+</style>
+<div id="wtg-cookie-banner" style="display:none">
+  <p>We use cookies and Google Analytics to understand how this website is used. You can accept or decline. See our <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
+  <div class="wtg-cookie-btns">
+    <button type="button" id="wtg-cookie-accept">Accept</button>
+    <button type="button" id="wtg-cookie-decline">Decline</button>
+  </div>
+</div>
+<script>
+(function () {
+  var KEY = 'wtg_cookie_consent';
+  var banner = document.getElementById('wtg-cookie-banner');
+  function setConsent(granted) {
+    try {
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          'analytics_storage': granted ? 'granted' : 'denied',
+          'ad_storage': granted ? 'granted' : 'denied',
+          'ad_user_data': granted ? 'granted' : 'denied',
+          'ad_personalization': granted ? 'granted' : 'denied'
+        });
+      }
+    } catch (e) {}
+  }
+  function hide() { if (banner) banner.style.display = 'none'; }
+  function show() { if (banner) banner.style.display = 'flex'; }
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+  if (stored === 'granted') { setConsent(true); hide(); }
+  else if (stored === 'denied') { hide(); }
+  else { show(); }
+  var acceptBtn = document.getElementById('wtg-cookie-accept');
+  var declineBtn = document.getElementById('wtg-cookie-decline');
+  if (acceptBtn) acceptBtn.addEventListener('click', function () {
+    setConsent(true);
+    try { localStorage.setItem(KEY, 'granted'); } catch (e) {}
+    hide();
+  });
+  if (declineBtn) declineBtn.addEventListener('click', function () {
+    try { localStorage.setItem(KEY, 'denied'); } catch (e) {}
+    hide();
+  });
+  var settingsLink = document.getElementById('wtg-cookie-settings');
+  if (settingsLink) settingsLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    try { localStorage.removeItem(KEY); } catch (e2) {}
+    show();
+  });
+})();
+</script>
+</body>
+</html>
