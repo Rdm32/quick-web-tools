@@ -568,7 +568,7 @@
         }
 
         function loadTheme() {
-            const savedTheme = localStorage.getItem("quickWebToolsTheme");
+            const savedTheme = localStorage.getItem("theme");
 
             if (savedTheme === "dark") {
                 document.body.classList.add("dark");
@@ -602,7 +602,7 @@
                 ? "dark"
                 : "light";
 
-            localStorage.setItem("quickWebToolsTheme", theme);
+            localStorage.setItem("theme", theme);
             updateThemeButton();
         });
 
