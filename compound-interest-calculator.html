@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied'
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C1EL3CTMDR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-C1EL3CTMDR');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compound Interest Calculator - Investment Growth</title>
+  <meta name="description" content="Calculate compound interest growth on savings or investments, with monthly contributions and a year-by-year breakdown. Free, in your browser.">
+  <link rel="canonical" href="https://webtoolgrove.com/compound-interest-calculator">
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --text: #222222;
+      --muted: #555555;
+      --border: #cccccc;
+      --stat-bg: #e8f7ee;
+      --accent: #1faa55;
+      --accent-hover: #178a44;
+      --input-bg: #ffffff;
+    }
+    body.dark {
+      --bg: #12161c;
+      --card: #1c222b;
+      --text: #e8ecf1;
+      --muted: #9aa5b1;
+      --border: #3a4350;
+      --stat-bg: #243044;
+      --accent: #2ecc71;
+      --accent-hover: #27ae60;
+      --input-bg: #141a22;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 720px; margin: 40px auto; background: var(--card); padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 28px; }
+    .field { margin-top: 16px; }
+    .field label { display: block; font-size: 15px; font-weight: bold; margin-bottom: 6px; }
+    .field input, .field select { width: 100%; padding: 12px; font-size: 16px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; background: var(--input-bg); color: var(--text); }
+    .field small { color: var(--muted); font-size: 13px; }
+    .error { color: #c0392b; font-size: 14px; margin-top: 12px; min-height: 20px; }
+    body.dark .error { color: #e57373; }
+    .stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+    .stat { flex: 1; min-width: 120px; background: var(--stat-bg); padding: 14px; border-radius: 8px; text-align: center; }
+    .stat b { display: block; font-size: 26px; color: var(--accent); }
+    .stat span { font-size: 13px; color: var(--muted); }
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    button { padding: 10px 20px; font-size: 15px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+    button:hover { background: var(--accent-hover); }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; white-space: nowrap; }
+    button.theme:hover { background: var(--stat-bg); }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+    th, td { padding: 8px 6px; border-bottom: 1px solid var(--border); text-align: right; }
+    th:first-child, td:first-child { text-align: left; }
+    th { color: var(--muted); font-weight: bold; }
+    .table-wrap { overflow-x: auto; }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p, .content li { margin-top: 4px; color: var(--muted); }
+    .content code { background: var(--stat-bg); padding: 2px 6px; border-radius: 4px; }
+  </style>
+  <style id="wtg-site">
+    .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+    .wtg-nav a { color: var(--accent, var(--green, #1faa55)); text-decoration: none; font-weight: 700; }
+    .wtg-nav a:hover { text-decoration: underline; }
+    .wtg-nav .wtg-logo { font-size: 18px; }
+    .wtg-footer { max-width: 1000px; margin: 10px auto 30px; padding: 18px 12px 0; border-top: 1px solid var(--border, #dcdcdc); text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 2; color: var(--muted, var(--secondary-text, #666)); }
+    .wtg-footer a { color: inherit; margin: 0 6px; text-decoration: none; }
+    .wtg-footer a:hover { color: var(--accent, var(--green, #1faa55)); text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wtg-nav">
+    <a class="wtg-logo" href="index.html">Web Tool Grove</a>
+    <a href="index.html#tools">All tools</a>
+  </div>
+  <div class="box">
+    <div class="top">
+      <h1>Compound Interest Calculator</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p>See how your savings or investments grow with compound interest.</p>
+
+    <div class="field">
+      <label for="principal">Initial deposit ($)</label>
+      <input type="number" id="principal" min="0" step="0.01" value="10000">
+    </div>
+    <div class="field">
+      <label for="contribution">Monthly contribution ($)</label>
+      <input type="number" id="contribution" min="0" step="0.01" value="100">
+      <small>Enter 0 if you are not adding money each month.</small>
+    </div>
+    <div class="field">
+      <label for="rate">Annual interest rate (%)</label>
+      <input type="number" id="rate" min="0" max="100" step="0.01" value="7">
+    </div>
+    <div class="field">
+      <label for="years">Number of years (1-50)</label>
+      <input type="number" id="years" min="1" max="50" step="1" value="10">
+    </div>
+    <div class="field">
+      <label for="frequency">Compounding frequency</label>
+      <select id="frequency">
+        <option value="1">Annually</option>
+        <option value="2">Semi-annually</option>
+        <option value="4">Quarterly</option>
+        <option value="12" selected>Monthly</option>
+        <option value="365">Daily</option>
+      </select>
+    </div>
+
+    <div class="error" id="error"></div>
+
+    <div class="stats">
+      <div class="stat"><b id="futureValue">$0.00</b><span>Future value</span></div>
+      <div class="stat"><b id="totalContrib">$0.00</b><span>Total contributions</span></div>
+      <div class="stat"><b id="totalInterest">$0.00</b><span>Total interest earned</span></div>
+    </div>
+
+    <div class="buttons">
+      <button onclick="resetForm()">Reset</button>
+    </div>
+
+    <div class="table-wrap">
+      <table id="growthTable">
+        <thead>
+          <tr><th>Year</th><th>Starting balance</th><th>Contributions</th><th>Interest</th><th>Ending balance</th></tr>
+        </thead>
+        <tbody id="growthBody"></tbody>
+      </table>
+    </div>
+
+    <div class="content">
+      <h2>How the compound interest calculator works</h2>
+      <p>This free compound interest calculator shows how an initial deposit grows when the interest it earns is added back to the balance and earns interest itself, and how regular monthly contributions add to that growth. Enter your starting amount, monthly contribution, annual interest rate, number of years, and how often interest compounds, and the future value, total contributions, and total interest update live, together with a year-by-year growth table. Everything runs in your browser, so your numbers are never uploaded to a server or saved anywhere.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Enter your initial deposit. This is the money you start with.</li>
+        <li>Enter your monthly contribution, or leave it at 0 if you are not adding money each month.</li>
+        <li>Enter the annual interest rate as a percentage, for example 7 for 7% per year.</li>
+        <li>Choose the number of years, from 1 to 50, and the compounding frequency.</li>
+        <li>Read the future value, total contributions, and total interest above the table, then scroll through the year-by-year breakdown to see how the balance grows each year.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Retirement savings.</strong> Compare starting early with a small monthly contribution against starting later with a larger one, and see how many extra years of compounding change the final balance.</p>
+      <p><strong>Savings goals.</strong> Work out how long it takes to reach a target amount, such as a house deposit or an emergency fund, at a given interest rate and monthly contribution.</p>
+      <p><strong>Seeing the effect of the interest rate.</strong> Try the same deposit and contribution at 3%, 5%, and 7% to see how much difference a higher rate makes over 10, 20, or 30 years.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>How is compound interest calculated here?</h3>
+      <p>The calculator simulates the balance month by month. Each month, your monthly contribution is added to the balance at the end of the month, and then one month of growth is applied at the effective monthly rate, which is (1 + r/n)^(n/12) - 1, where r is the annual rate as a decimal and n is the number of compounding periods per year. For example, $10,000 with $100 added each month at 7% per year compounded monthly for 10 years grows to $37,506.06: total contributions of $22,000 and interest of $15,506.06.</p>
+      <h3>What is the difference between compounding annually and monthly?</h3>
+      <p>Compounding more often means interest is added to the balance sooner, so it starts earning interest itself sooner. The difference is small over one year but grows over decades. With monthly compounding the effective monthly rate is derived from the annual rate and the compounding frequency you choose, so changing the frequency changes the result.</p>
+      <h3>What happens if the interest rate is 0%?</h3>
+      <p>With a 0% rate the balance simply adds up: the future value equals the initial deposit plus the monthly contribution times the number of months. For example, $5,000 with $50 a month for 5 years at 0% gives $5,000 + $50 x 60 = $8,000, with $0 of interest.</p>
+      <h3>Does the calculator include taxes, fees, or inflation?</h3>
+      <p>No. The results are before tax, before any account fees, and in nominal dollars, so they do not adjust for inflation. Real savings accounts and investments may pay less after tax and fees, and the same amount of money will buy less in the future if prices rise.</p>
+      <h3>Is this financial advice?</h3>
+      <p>No. The results are estimates for planning and education only, based on a fixed interest rate that never changes, and are not financial advice. Actual returns vary, and past or assumed rates do not guarantee future results. Consider speaking to a qualified financial adviser before making investment decisions.</p>
+    </div>
+  </div>
+
+  <script>
+    var principalEl = document.getElementById('principal');
+    var contributionEl = document.getElementById('contribution');
+    var rateEl = document.getElementById('rate');
+    var yearsEl = document.getElementById('years');
+    var frequencyEl = document.getElementById('frequency');
+    var errorEl = document.getElementById('error');
+    var themeBtn = document.getElementById('themeBtn');
+
+    function fmt(n) {
+      return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function update() {
+      var P = parseFloat(principalEl.value);
+      var PMT = parseFloat(contributionEl.value);
+      var ratePct = parseFloat(rateEl.value);
+      var t = parseFloat(yearsEl.value);
+      var n = parseInt(frequencyEl.value, 10);
+
+      if (isNaN(P) || P < 0) { errorEl.textContent = 'Please enter an initial deposit of $0 or more.'; return; }
+      if (isNaN(PMT) || PMT < 0) { errorEl.textContent = 'Please enter a monthly contribution of $0 or more.'; return; }
+      if (isNaN(ratePct) || ratePct < 0 || ratePct > 100) { errorEl.textContent = 'Please enter an annual interest rate between 0% and 100%.'; return; }
+      if (isNaN(t) || t < 1 || t > 50 || Math.floor(t) !== t) { errorEl.textContent = 'Please enter a whole number of years between 1 and 50.'; return; }
+      errorEl.textContent = '';
+
+      var r = ratePct / 100;
+      var monthlyRate = Math.pow(1 + r / n, n / 12) - 1;
+      var balance = P;
+      var rows = '';
+      for (var y = 1; y <= t; y++) {
+        var start = balance;
+        for (var m = 0; m < 12; m++) {
+          balance = (balance + PMT) * (1 + monthlyRate);
+        }
+        var contribYear = 12 * PMT;
+        var interestYear = balance - start - contribYear;
+        rows += '<tr><td>' + y + '</td><td>' + fmt(start) + '</td><td>' + fmt(contribYear) + '</td><td>' + fmt(interestYear) + '</td><td>' + fmt(balance) + '</td></tr>';
+      }
+      var totalContrib = P + PMT * t * 12;
+      var totalInterest = balance - totalContrib;
+      document.getElementById('futureValue').textContent = fmt(balance);
+      document.getElementById('totalContrib').textContent = fmt(totalContrib);
+      document.getElementById('totalInterest').textContent = fmt(totalInterest);
+      document.getElementById('growthBody').innerHTML = rows;
+    }
+
+    function resetForm() {
+      principalEl.value = '10000';
+      contributionEl.value = '100';
+      rateEl.value = '7';
+      yearsEl.value = '10';
+      frequencyEl.value = '12';
+      update();
+    }
+
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+
+    function toggleTheme() {
+      var dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+
+    // Remember the user's choice; otherwise follow the system setting
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) {
+        applyTheme(saved === 'dark');
+      } else {
+        applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+    })();
+
+    [principalEl, contributionEl, rateEl, yearsEl, frequencyEl].forEach(function (el) {
+      el.addEventListener('input', update);
+      el.addEventListener('change', update);
+    });
+    update();
+  </script>
+  <footer class="wtg-footer">
+    <div>&copy; <span class="wtg-year"></span> Web Tool Grove. All rights reserved.</div>
+    <div>
+      <a href="index.html">Home</a> &middot;
+      <a href="about.html">About</a> &middot;
+      <a href="contact.html">Contact</a> &middot;
+      <a href="privacy-policy.html">Privacy Policy</a> &middot;
+      <a href="terms-of-use.html">Terms of Use</a> &middot;
+      <a href="disclaimer.html">Disclaimer</a> &middot;
+      <a href="#" id="wtg-cookie-settings">Cookie settings</a>
+    </div>
+  </footer>
+  <script>document.querySelectorAll('.wtg-year').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+<style>
+#wtg-cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--card);color:var(--text);border-top:1px solid var(--border);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 -2px 12px rgba(0,0,0,.12)}
+#wtg-cookie-banner p{margin:0;flex:1 1 300px;font-size:14px;line-height:1.5}
+#wtg-cookie-banner a{color:var(--accent,var(--green,#1faa55))}
+#wtg-cookie-banner .wtg-cookie-btns{display:flex;gap:10px;flex-shrink:0}
+#wtg-cookie-banner button{background:var(--accent,var(--green,#1faa55));color:#fff;border:1px solid var(--accent,var(--green,#1faa55));border-radius:8px;padding:8px 18px;font-size:14px;cursor:pointer}
+</style>
+<div id="wtg-cookie-banner" style="display:none">
+  <p>We use cookies and Google Analytics to understand how this website is used. You can accept or decline. See our <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
+  <div class="wtg-cookie-btns">
+    <button type="button" id="wtg-cookie-accept">Accept</button>
+    <button type="button" id="wtg-cookie-decline">Decline</button>
+  </div>
+</div>
+<script>
+(function () {
+  var KEY = 'wtg_cookie_consent';
+  var banner = document.getElementById('wtg-cookie-banner');
+  function setConsent(granted) {
+    try {
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          'analytics_storage': granted ? 'granted' : 'denied',
+          'ad_storage': granted ? 'granted' : 'denied',
+          'ad_user_data': granted ? 'granted' : 'denied',
+          'ad_personalization': granted ? 'granted' : 'denied'
+        });
+      }
+    } catch (e) {}
+  }
+  function hide() { if (banner) banner.style.display = 'none'; }
+  function show() { if (banner) banner.style.display = 'flex'; }
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+  if (stored === 'granted') { setConsent(true); hide(); }
+  else if (stored === 'denied') { hide(); }
+  else { show(); }
+  var acceptBtn = document.getElementById('wtg-cookie-accept');
+  var declineBtn = document.getElementById('wtg-cookie-decline');
+  if (acceptBtn) acceptBtn.addEventListener('click', function () {
+    setConsent(true);
+    try { localStorage.setItem(KEY, 'granted'); } catch (e) {}
+    hide();
+  });
+  if (declineBtn) declineBtn.addEventListener('click', function () {
+    try { localStorage.setItem(KEY, 'denied'); } catch (e) {}
+    hide();
+  });
+  var settingsLink = document.getElementById('wtg-cookie-settings');
+  if (settingsLink) settingsLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    try { localStorage.removeItem(KEY); } catch (e2) {}
+    show();
+  });
+})();
+</script>
+</body>
+</html>

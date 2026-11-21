@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied'
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C1EL3CTMDR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-C1EL3CTMDR');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free Image Resizer - Resize Images Online</title>
+  <meta name="description" content="Resize images to exact pixel dimensions online, free, in your browser. No upload, no sign-up.">
+  <link rel="canonical" href="https://webtoolgrove.com/image-resizer">
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --text: #222222;
+      --muted: #555555;
+      --border: #cccccc;
+      --stat-bg: #e8f7ee;
+      --accent: #1faa55;
+      --accent-hover: #178a44;
+      --input-bg: #ffffff;
+      --error: #c0392b;
+    }
+    body.dark {
+      --bg: #12161c;
+      --card: #1c222b;
+      --text: #e8ecf1;
+      --muted: #9aa5b1;
+      --border: #3a4350;
+      --stat-bg: #243044;
+      --accent: #2ecc71;
+      --accent-hover: #27ae60;
+      --input-bg: #141a22;
+      --error: #ff6b6b;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 720px; margin: 40px auto; background: var(--card); padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 28px; }
+    .drop { margin-top: 8px; border: 2px dashed var(--border); border-radius: 12px; padding: 32px 20px; text-align: center; cursor: pointer; background: var(--stat-bg); font-size: 17px; }
+    .drop.over { border-color: var(--accent); }
+    .drop small { display: block; margin-top: 8px; color: var(--muted); font-size: 13px; }
+    .hidden { display: none; }
+    .msg { color: var(--error); font-size: 14px; margin-top: 12px; min-height: 18px; }
+    .preview { margin-top: 12px; text-align: center; }
+    .preview img { max-width: 100%; max-height: 320px; object-fit: contain; border: 1px solid var(--border); border-radius: 8px; background: var(--stat-bg); }
+    .meta { font-size: 14px; color: var(--muted); margin-top: 8px; }
+    .grid { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+    .grid label { flex: 1; min-width: 140px; font-size: 14px; color: var(--muted); }
+    .grid input { display: block; width: 100%; margin-top: 6px; padding: 10px; font-size: 16px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; background: var(--input-bg); color: var(--text); }
+    .check { display: block; margin-top: 14px; font-size: 15px; }
+    .check input { accent-color: var(--accent); }
+    .row { display: flex; align-items: center; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+    .row label, .row .lbl { font-size: 15px; }
+    .row input[type=number] { width: 110px; padding: 10px; font-size: 16px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; background: var(--input-bg); color: var(--text); }
+    .row input[type=range] { flex: 1; min-width: 120px; accent-color: var(--accent); }
+    .row b { min-width: 40px; text-align: center; color: var(--accent); font-size: 18px; }
+    .row select { padding: 10px; font-size: 15px; border: 1px solid var(--border); border-radius: 8px; background: var(--input-bg); color: var(--text); }
+    .row input:disabled { opacity: 0.5; }
+    .row.dim { opacity: 0.5; }
+    .quick { display: flex; gap: 8px; flex-wrap: wrap; }
+    button { padding: 10px 20px; font-size: 15px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+    button:hover { background: var(--accent-hover); }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; white-space: nowrap; }
+    button.theme:hover { background: var(--stat-bg); }
+    button.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; }
+    button.ghost:hover { background: var(--stat-bg); }
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .result { margin-top: 16px; font-size: 16px; }
+    .result b { color: var(--accent); }
+    .note { margin-top: 16px; font-size: 13px; color: var(--muted); }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p, .content li { margin-top: 4px; color: var(--muted); }
+    .content code { background: var(--stat-bg); padding: 2px 6px; border-radius: 4px; }
+  </style>
+  <style id="wtg-site">
+    .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+    .wtg-nav a { color: var(--accent, var(--green, #1faa55)); text-decoration: none; font-weight: 700; }
+    .wtg-nav a:hover { text-decoration: underline; }
+    .wtg-nav .wtg-logo { font-size: 18px; }
+    .wtg-footer { max-width: 1000px; margin: 10px auto 30px; padding: 18px 12px 0; border-top: 1px solid var(--border, #dcdcdc); text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 2; color: var(--muted, var(--secondary-text, #666)); }
+    .wtg-footer a { color: inherit; margin: 0 6px; text-decoration: none; }
+    .wtg-footer a:hover { color: var(--accent, var(--green, #1faa55)); text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wtg-nav">
+    <a class="wtg-logo" href="index.html">Web Tool Grove</a>
+    <a href="index.html#tools">All tools</a>
+  </div>
+  <div class="box">
+    <div class="top">
+      <h1>Image Resizer</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p>Resize any image to exact pixel dimensions, in your browser.</p>
+
+    <div class="drop" id="drop">
+      <span>Drag and drop an image here, or click to choose a file</span>
+      <small>Your image never leaves your device.</small>
+      <input type="file" id="file" accept="image/*" class="hidden">
+    </div>
+
+    <div class="msg" id="msg"></div>
+
+    <div class="preview hidden" id="previewWrap">
+      <img id="preview" alt="Original image preview">
+      <p class="meta" id="origInfo"></p>
+    </div>
+
+    <div class="grid">
+      <label>Width (px)
+        <input type="number" id="width" min="1" max="10000" step="1" placeholder="e.g. 800">
+      </label>
+      <label>Height (px)
+        <input type="number" id="height" min="1" max="10000" step="1" placeholder="e.g. 600">
+      </label>
+    </div>
+
+    <label class="check"><input type="checkbox" id="keepAspect" checked> Keep aspect ratio</label>
+
+    <div class="row">
+      <label for="scale">Scale (%)</label>
+      <input type="number" id="scale" min="1" max="1000" step="1" value="100">
+      <span class="quick">
+        <button type="button" class="ghost" data-scale="25">25%</button>
+        <button type="button" class="ghost" data-scale="50">50%</button>
+        <button type="button" class="ghost" data-scale="75">75%</button>
+        <button type="button" class="ghost" data-scale="100">100%</button>
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="lbl">Presets</span>
+      <span class="quick">
+        <button type="button" class="ghost" data-size="1920x1080">1920x1080</button>
+        <button type="button" class="ghost" data-size="1280x720">1280x720</button>
+        <button type="button" class="ghost" data-size="800x600">800x600</button>
+        <button type="button" class="ghost" data-size="512x512">512x512</button>
+        <button type="button" class="ghost" data-size="300x300">300x300</button>
+      </span>
+    </div>
+
+    <div class="row">
+      <label for="format">Output format</label>
+      <select id="format">
+        <option value="png">PNG</option>
+        <option value="jpeg">JPG</option>
+      </select>
+    </div>
+
+    <div class="row dim" id="qualityRow">
+      <label for="quality">JPG quality</label>
+      <input type="range" id="quality" min="10" max="100" value="90" disabled>
+      <b id="qualityVal">90</b>
+    </div>
+
+    <p class="result">Result: <b id="resultSize">Choose an image to start</b></p>
+
+    <div class="buttons">
+      <button id="downloadBtn" onclick="downloadResized()">Download resized image</button>
+    </div>
+
+    <p class="note">Resizing happens in your browser with the canvas element. Nothing is uploaded or stored.</p>
+
+    <div class="content">
+      <h2>How the image resizer works</h2>
+      <p>This free image resizer changes an image to the exact pixel size you type, using the canvas element in your browser. Your image is never uploaded to a server, and your original file is never changed: the tool saves a new resized copy when you press Download.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Drag an image into the box above, or click it to choose a file from your device.</li>
+        <li>Type the width and height you want, or pick a scale percentage or a preset size. With "Keep aspect ratio" checked, changing one side updates the other automatically.</li>
+        <li>Choose PNG or JPG. For JPG, move the quality slider to balance file size and sharpness.</li>
+        <li>Press "Download resized image" to save the resized copy.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Social media.</strong> Resize photos to the sizes profiles and posts need, such as 512x512 for a profile picture or 1920x1080 for a banner or cover image.</p>
+      <p><strong>Websites and blogs.</strong> Shrink large camera photos to 800x600 so your pages load faster and use less bandwidth, without changing how the photo looks at normal size.</p>
+      <p><strong>Documents and forms.</strong> Some uploads ask for exact dimensions, such as 300x300. Type the required size and download a copy that fits the requirement.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>Does the resizer upload my image?</h3>
+      <p>No. The image is resized in your browser with the canvas element. It is never sent to a server, stored, or shared with anyone.</p>
+      <h3>Will enlarging an image make it blurry?</h3>
+      <p>Yes. Enlarging beyond the original size will soften the image, because the canvas has to stretch the existing pixels and cannot add detail that was never there. For the sharpest result, resize down rather than up.</p>
+      <h3>What sizes can I enter?</h3>
+      <p>Width and height must each be a whole number between 1 and 10000 pixels. If you enter a value outside that range, the tool shows an error instead of downloading.</p>
+      <h3>Should I choose PNG or JPG?</h3>
+      <p>Choose PNG for graphics, screenshots, and images with text or transparency, because PNG is lossless. Choose JPG for photos, because JPG files are usually much smaller. JPG does not support transparency, so transparent areas become white in a JPG download, and the quality slider only applies to JPG.</p>
+      <h3>Does resizing change the file size?</h3>
+      <p>Usually, yes. Resizing to fewer pixels makes the file smaller, and a lower JPG quality setting makes it smaller still. The exact size depends on the image, the format, and the quality you choose, so check the downloaded file if size matters.</p>
+    </div>
+  </div>
+
+  <script>
+    function $(id) { return document.getElementById(id); }
+    var state = { img: null, origW: 0, origH: 0, fileName: '', url: null };
+
+    function clampDim(v) {
+      v = Math.round(v);
+      if (isNaN(v)) return NaN;
+      return Math.max(1, Math.min(10000, v));
+    }
+    function aspectHeight(width, origW, origH) {
+      return clampDim(width * origH / origW);
+    }
+    function aspectWidth(height, origW, origH) {
+      return clampDim(height * origW / origH);
+    }
+    function scaleDims(origW, origH, pct) {
+      return { w: clampDim(origW * pct / 100), h: clampDim(origH * pct / 100) };
+    }
+    function validDims(w, h) {
+      return Number.isInteger(w) && Number.isInteger(h) && w >= 1 && w <= 10000 && h >= 1 && h <= 10000;
+    }
+    function fmtSize(b) {
+      if (b < 1024) return b + ' B';
+      if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+      return (b / 1048576).toFixed(2) + ' MB';
+    }
+    function outName(name, ext) {
+      var base = name.replace(/\.[^.]+$/, '');
+      return base + '-resized.' + ext;
+    }
+
+    function showError(msg) { $('msg').textContent = msg; }
+
+    function updateResult() {
+      var w = parseInt($('width').value, 10);
+      var h = parseInt($('height').value, 10);
+      if (validDims(w, h)) {
+        $('resultSize').textContent = w + ' x ' + h + ' px';
+      } else {
+        $('resultSize').textContent = 'Enter a width and height between 1 and 10000 px';
+      }
+    }
+
+    function syncScale() {
+      if (!state.img) return;
+      var w = parseInt($('width').value, 10);
+      if (!isNaN(w) && state.origW > 0) $('scale').value = Math.round(w / state.origW * 100);
+    }
+
+    function onWidth() {
+      if (!state.img) return;
+      var w = parseInt($('width').value, 10);
+      if ($('keepAspect').checked && !isNaN(w) && w >= 1) {
+        $('height').value = aspectHeight(w, state.origW, state.origH);
+      }
+      updateResult();
+      syncScale();
+    }
+
+    function onHeight() {
+      if (!state.img) return;
+      var h = parseInt($('height').value, 10);
+      if ($('keepAspect').checked && !isNaN(h) && h >= 1) {
+        $('width').value = aspectWidth(h, state.origW, state.origH);
+      }
+      updateResult();
+      syncScale();
+    }
+
+    function onScale() {
+      if (!state.img) { showError('Choose an image first.'); return; }
+      var pct = parseFloat($('scale').value);
+      if (isNaN(pct) || pct <= 0) return;
+      var d = scaleDims(state.origW, state.origH, pct);
+      $('width').value = d.w;
+      $('height').value = d.h;
+      showError('');
+      updateResult();
+    }
+
+    function applyPreset(size) {
+      if (!state.img) { showError('Choose an image first.'); return; }
+      var parts = size.split('x');
+      $('width').value = parseInt(parts[0], 10);
+      $('height').value = parseInt(parts[1], 10);
+      showError('');
+      updateResult();
+      syncScale();
+    }
+
+    function onFormat() {
+      var isJpg = $('format').value === 'jpeg';
+      $('quality').disabled = !isJpg;
+      $('qualityRow').classList.toggle('dim', !isJpg);
+    }
+
+    function loadFile(file) {
+      if (!file) return;
+      if (!/^image\//.test(file.type)) {
+        showError('That file is not an image. Please choose an image file such as JPG, PNG, WebP or GIF.');
+        return;
+      }
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function () {
+        if (state.url) URL.revokeObjectURL(state.url);
+        state.img = img;
+        state.origW = img.naturalWidth;
+        state.origH = img.naturalHeight;
+        state.fileName = file.name;
+        state.url = url;
+        $('preview').src = url;
+        $('previewWrap').classList.remove('hidden');
+        $('origInfo').textContent = 'Original: ' + state.origW + ' x ' + state.origH + ' px  |  ' + fmtSize(file.size);
+        $('width').value = state.origW;
+        $('height').value = state.origH;
+        $('scale').value = 100;
+        showError('');
+        updateResult();
+      };
+      img.onerror = function () {
+        URL.revokeObjectURL(url);
+        showError('Could not read that image file. Try a different file.');
+      };
+      img.src = url;
+    }
+
+    function downloadResized() {
+      if (!state.img) { showError('Choose an image first.'); return; }
+      var w = parseInt($('width').value, 10);
+      var h = parseInt($('height').value, 10);
+      if (!validDims(w, h)) {
+        showError('Width and height must be whole numbers between 1 and 10000 px.');
+        return;
+      }
+      showError('');
+      var format = $('format').value;
+      var mime = format === 'jpeg' ? 'image/jpeg' : 'image/png';
+      var ext = format === 'jpeg' ? 'jpg' : 'png';
+      var c = document.createElement('canvas');
+      c.width = w;
+      c.height = h;
+      var ctx = c.getContext('2d');
+      if (format === 'jpeg') {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+      }
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(state.img, 0, 0, w, h);
+      var q = format === 'jpeg' ? parseInt($('quality').value, 10) / 100 : undefined;
+      c.toBlob(function (blob) {
+        if (!blob) { showError('Could not create the resized image. Try a different file.'); return; }
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = outName(state.fileName, ext);
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+      }, mime, q);
+    }
+
+    var drop = $('drop');
+    drop.addEventListener('click', function () { $('file').click(); });
+    $('file').addEventListener('change', function (e) { loadFile(e.target.files[0]); e.target.value = ''; });
+    drop.addEventListener('dragover', function (e) { e.preventDefault(); drop.classList.add('over'); });
+    drop.addEventListener('dragleave', function () { drop.classList.remove('over'); });
+    drop.addEventListener('drop', function (e) {
+      e.preventDefault();
+      drop.classList.remove('over');
+      loadFile(e.dataTransfer.files[0]);
+    });
+    $('width').addEventListener('input', onWidth);
+    $('height').addEventListener('input', onHeight);
+    $('scale').addEventListener('input', onScale);
+    document.querySelectorAll('[data-scale]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (!state.img) { showError('Choose an image first.'); return; }
+        $('scale').value = btn.getAttribute('data-scale');
+        onScale();
+      });
+    });
+    document.querySelectorAll('[data-size]').forEach(function (btn) {
+      btn.addEventListener('click', function () { applyPreset(btn.getAttribute('data-size')); });
+    });
+    $('format').addEventListener('change', onFormat);
+    $('quality').addEventListener('input', function () { $('qualityVal').textContent = $('quality').value; });
+
+    var themeBtn = $('themeBtn');
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+    function toggleTheme() {
+      var dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) {
+        applyTheme(saved === 'dark');
+      } else {
+        applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+    })();
+  </script>
+  <footer class="wtg-footer">
+    <div>&copy; <span class="wtg-year"></span> Web Tool Grove. All rights reserved.</div>
+    <div>
+      <a href="index.html">Home</a> &middot;
+      <a href="about.html">About</a> &middot;
+      <a href="contact.html">Contact</a> &middot;
+      <a href="privacy-policy.html">Privacy Policy</a> &middot;
+      <a href="terms-of-use.html">Terms of Use</a> &middot;
+      <a href="disclaimer.html">Disclaimer</a> &middot;
+      <a href="#" id="wtg-cookie-settings">Cookie settings</a>
+    </div>
+  </footer>
+  <script>document.querySelectorAll('.wtg-year').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+<style>
+#wtg-cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--card);color:var(--text);border-top:1px solid var(--border);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 -2px 12px rgba(0,0,0,.12)}
+#wtg-cookie-banner p{margin:0;flex:1 1 300px;font-size:14px;line-height:1.5}
+#wtg-cookie-banner a{color:var(--accent,var(--green,#1faa55))}
+#wtg-cookie-banner .wtg-cookie-btns{display:flex;gap:10px;flex-shrink:0}
+#wtg-cookie-banner button{background:var(--accent,var(--green,#1faa55));color:#fff;border:1px solid var(--accent,var(--green,#1faa55));border-radius:8px;padding:8px 18px;font-size:14px;cursor:pointer}
+</style>
+<div id="wtg-cookie-banner" style="display:none">
+  <p>We use cookies and Google Analytics to understand how this website is used. You can accept or decline. See our <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
+  <div class="wtg-cookie-btns">
+    <button type="button" id="wtg-cookie-accept">Accept</button>
+    <button type="button" id="wtg-cookie-decline">Decline</button>
+  </div>
+</div>
+<script>
+(function () {
+  var KEY = 'wtg_cookie_consent';
+  var banner = document.getElementById('wtg-cookie-banner');
+  function setConsent(granted) {
+    try {
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          'analytics_storage': granted ? 'granted' : 'denied',
+          'ad_storage': granted ? 'granted' : 'denied',
+          'ad_user_data': granted ? 'granted' : 'denied',
+          'ad_personalization': granted ? 'granted' : 'denied'
+        });
+      }
+    } catch (e) {}
+  }
+  function hide() { if (banner) banner.style.display = 'none'; }
+  function show() { if (banner) banner.style.display = 'flex'; }
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+  if (stored === 'granted') { setConsent(true); hide(); }
+  else if (stored === 'denied') { hide(); }
+  else { show(); }
+  var acceptBtn = document.getElementById('wtg-cookie-accept');
+  var declineBtn = document.getElementById('wtg-cookie-decline');
+  if (acceptBtn) acceptBtn.addEventListener('click', function () {
+    setConsent(true);
+    try { localStorage.setItem(KEY, 'granted'); } catch (e) {}
+    hide();
+  });
+  if (declineBtn) declineBtn.addEventListener('click', function () {
+    try { localStorage.setItem(KEY, 'denied'); } catch (e) {}
+    hide();
+  });
+  var settingsLink = document.getElementById('wtg-cookie-settings');
+  if (settingsLink) settingsLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    try { localStorage.removeItem(KEY); } catch (e2) {}
+    show();
+  });
+})();
+</script>
+</body>
+</html>

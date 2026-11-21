@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied'
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C1EL3CTMDR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-C1EL3CTMDR');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Online Stopwatch - Free Timer with Lap Times</title>
+  <meta name="description" content="Free online stopwatch with lap times. Start, pause, and record laps in your browser. No app, no sign-up.">
+  <link rel="canonical" href="https://webtoolgrove.com/stopwatch">
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --text: #222222;
+      --muted: #555555;
+      --border: #cccccc;
+      --stat-bg: #e8f7ee;
+      --accent: #1faa55;
+      --accent-hover: #178a44;
+      --input-bg: #ffffff;
+    }
+    body.dark {
+      --bg: #12161c;
+      --card: #1c222b;
+      --text: #e8ecf1;
+      --muted: #9aa5b1;
+      --border: #3a4350;
+      --stat-bg: #243044;
+      --accent: #2ecc71;
+      --accent-hover: #27ae60;
+      --input-bg: #141a22;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 720px; margin: 40px auto; background: var(--card); padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 28px; }
+    textarea { width: 100%; height: 220px; padding: 12px; font-size: 16px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; resize: vertical; background: var(--input-bg); color: var(--text); margin-top: 8px; }
+    .stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+    .stat { flex: 1; min-width: 120px; background: var(--stat-bg); padding: 14px; border-radius: 8px; text-align: center; }
+    .stat b { display: block; font-size: 26px; color: var(--accent); }
+    .stat span { font-size: 13px; color: var(--muted); }
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    button { padding: 10px 20px; font-size: 15px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+    button:hover { background: var(--accent-hover); }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; white-space: nowrap; }
+    button.theme:hover { background: var(--stat-bg); }
+    button.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    button.secondary:hover { background: var(--stat-bg); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p, .content li { margin-top: 4px; color: var(--muted); }
+    .content code { background: var(--stat-bg); padding: 2px 6px; border-radius: 4px; }
+    .display { margin-top: 20px; padding: 24px 12px; background: var(--stat-bg); border-radius: 8px; text-align: center; font-family: monospace; font-size: 48px; font-weight: bold; color: var(--text); letter-spacing: 2px; }
+    @media (max-width: 600px) { .display { font-size: 34px; } }
+    .lap-list { margin-top: 20px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .lap-row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; font-size: 15px; border-bottom: 1px solid var(--border); }
+    .lap-row:last-child { border-bottom: none; }
+    .lap-row span:first-child { font-weight: bold; }
+    .lap-empty { margin-top: 16px; color: var(--muted); font-size: 15px; }
+  </style>
+  <style id="wtg-site">
+    .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+    .wtg-nav a { color: var(--accent, var(--green, #1faa55)); text-decoration: none; font-weight: 700; }
+    .wtg-nav a:hover { text-decoration: underline; }
+    .wtg-nav .wtg-logo { font-size: 18px; }
+    .wtg-footer { max-width: 1000px; margin: 10px auto 30px; padding: 18px 12px 0; border-top: 1px solid var(--border, #dcdcdc); text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 2; color: var(--muted, var(--secondary-text, #666)); }
+    .wtg-footer a { color: inherit; margin: 0 6px; text-decoration: none; }
+    .wtg-footer a:hover { color: var(--accent, var(--green, #1faa55)); text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wtg-nav">
+    <a class="wtg-logo" href="index.html">Web Tool Grove</a>
+    <a href="index.html#tools">All tools</a>
+  </div>
+  <div class="box">
+    <div class="top">
+      <h1>Online Stopwatch</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p>A simple online stopwatch with lap times — no app needed.</p>
+    <div class="display" id="display">00:00:00.00</div>
+
+    <div class="buttons">
+      <button id="startBtn" onclick="startStopwatch()">Start</button>
+      <button id="pauseBtn" onclick="pauseStopwatch()" disabled>Pause</button>
+      <button class="secondary" onclick="resetStopwatch()">Reset</button>
+      <button class="secondary" id="lapBtn" onclick="recordLap()" disabled>Lap</button>
+    </div>
+    <p class="lap-empty" id="lapEmpty">No laps yet. Press Lap while the stopwatch is running to record a lap time.</p>
+    <div class="lap-list" id="lapList" style="display:none"></div>
+    <div class="content">
+      <h2>How the online stopwatch works</h2>
+      <p>This free online stopwatch measures time in hours, minutes, seconds, and centiseconds (hundredths of a second), shown as HH:MM:SS.cs. Press Start to begin, Pause to stop the clock without losing your time, and Start again to resume from where you left off. The Lap button records the current total time and the split since the previous lap, so you can time each round or segment separately. Reset clears the display and the whole lap list. Timing is calculated from timestamps, not by counting display ticks, so pausing and resuming stays accurate. Everything runs in your browser, with no app to install and nothing uploaded.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Press Start to start timing. The display updates every 10 milliseconds.</li>
+        <li>Press Pause to stop the clock, then Start again to resume from the same time.</li>
+        <li>Press Lap while running to record a lap. Each lap shows its lap time and the total time.</li>
+        <li>Press Reset to clear the display back to 00:00:00.00 and remove all laps.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Running and workouts.</strong> Time a run, a swim, or a set of intervals, and use laps to record each kilometre, lap of the track, or round.</p>
+      <p><strong>Cooking and study sessions.</strong> Time how long a task takes, or use laps to mark each stage of a recipe or study block.</p>
+      <p><strong>Games and challenges.</strong> Time a puzzle, a race, or a speed challenge, and compare lap times across attempts.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>Does the stopwatch keep running if I close the tab?</h3>
+      <p>No. The stopwatch runs only while the page is open. Closing the tab or navigating away stops it, and the time and lap list are lost. Keep the tab open while you are timing something.</p>
+      <h3>Are lap times saved anywhere?</h3>
+      <p>No. Lap times are kept only on the page while it is open. They are not saved to your device, stored in an account, or uploaded anywhere, and Reset clears them.</p>
+      <h3>How accurate is the stopwatch?</h3>
+      <p>The elapsed time is computed from <code>performance.now()</code> timestamps: the start time is recorded when you press Start, and the display shows the difference between now and that start time, plus any time accumulated before a pause. It does not count display ticks, so small delays in refreshing the screen do not add up into timing error. The display shows centiseconds, so times are shown to the nearest hundredth of a second.</p>
+      <h3>What is the difference between lap time and total time?</h3>
+      <p>Total time is the time since you first pressed Start, including all previous laps. Lap time, also called the split, is the time since the previous lap (or since the start, for Lap 1). Each lap row shows both, so you can see how long each segment took and where you were overall.</p>
+      <h3>Can I pause and then resume?</h3>
+      <p>Yes. Press Pause to stop the clock, then press Start again to resume from the same time. The time you spent paused is not counted, because the elapsed time is always calculated from the recorded timestamps.</p>
+    </div>
+  </div>
+
+  <script>
+    const displayEl = document.getElementById('display');
+    const startBtn = document.getElementById('startBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const lapBtn = document.getElementById('lapBtn');
+    const lapListEl = document.getElementById('lapList');
+    const lapEmptyEl = document.getElementById('lapEmpty');
+    const themeBtn = document.getElementById('themeBtn');
+    let startTimestamp = 0;
+    let accumulatedMs = 0;
+    let running = false;
+    let timerId = null;
+    let laps = [];
+    let lastLapTotalMs = 0;
+
+    function elapsedMs() {
+      return accumulatedMs + (running ? performance.now() - startTimestamp : 0);
+    }
+
+    function formatTime(ms) {
+      const totalCentiseconds = Math.floor(ms / 10);
+      const cs = totalCentiseconds % 100;
+      const totalSeconds = Math.floor(totalCentiseconds / 100);
+      const s = totalSeconds % 60;
+      const totalMinutes = Math.floor(totalSeconds / 60);
+      const m = totalMinutes % 60;
+      const h = Math.floor(totalMinutes / 60);
+      function pad(n) { return String(n).padStart(2, '0'); }
+      return pad(h) + ':' + pad(m) + ':' + pad(s) + '.' + pad(cs);
+    }
+
+    function updateDisplay() {
+      displayEl.textContent = formatTime(elapsedMs());
+    }
+
+    function startStopwatch() {
+      if (running) return;
+      startTimestamp = performance.now();
+      running = true;
+      timerId = setInterval(updateDisplay, 10);
+      startBtn.disabled = true;
+      pauseBtn.disabled = false;
+      lapBtn.disabled = false;
+    }
+
+    function pauseStopwatch() {
+      if (!running) return;
+      accumulatedMs = elapsedMs();
+      running = false;
+      clearInterval(timerId);
+      timerId = null;
+      updateDisplay();
+      startBtn.disabled = false;
+      pauseBtn.disabled = true;
+      lapBtn.disabled = true;
+    }
+
+    function resetStopwatch() {
+      running = false;
+      if (timerId !== null) clearInterval(timerId);
+      timerId = null;
+      accumulatedMs = 0;
+      startTimestamp = 0;
+      laps = [];
+      lastLapTotalMs = 0;
+      lapListEl.innerHTML = '';
+      lapListEl.style.display = 'none';
+      lapEmptyEl.style.display = 'block';
+      updateDisplay();
+      startBtn.disabled = false;
+      pauseBtn.disabled = true;
+      lapBtn.disabled = true;
+    }
+
+    function recordLap() {
+      if (!running) return;
+      const total = elapsedMs();
+      const lapTime = total - lastLapTotalMs;
+      lastLapTotalMs = total;
+      laps.push({ lap: lapTime, total: total });
+      const row = document.createElement('div');
+      row.className = 'lap-row';
+      const name = document.createElement('span');
+      name.textContent = 'Lap ' + laps.length;
+      const times = document.createElement('span');
+      times.textContent = 'Lap: ' + formatTime(lapTime) + '  |  Total: ' + formatTime(total);
+      row.appendChild(name);
+      row.appendChild(times);
+      lapListEl.appendChild(row);
+      lapListEl.style.display = 'block';
+      lapEmptyEl.style.display = 'none';
+    }
+
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+
+    function toggleTheme() {
+      const dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+
+    // Remember the user's choice; otherwise follow the system setting
+    (function () {
+      let saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) {
+        applyTheme(saved === 'dark');
+      } else {
+        applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+    })();
+  </script>
+  <footer class="wtg-footer">
+    <div>&copy; <span class="wtg-year"></span> Web Tool Grove. All rights reserved.</div>
+    <div>
+      <a href="index.html">Home</a> &middot;
+      <a href="about.html">About</a> &middot;
+      <a href="contact.html">Contact</a> &middot;
+      <a href="privacy-policy.html">Privacy Policy</a> &middot;
+      <a href="terms-of-use.html">Terms of Use</a> &middot;
+      <a href="disclaimer.html">Disclaimer</a> &middot;
+      <a href="#" id="wtg-cookie-settings">Cookie settings</a>
+    </div>
+  </footer>
+  <script>document.querySelectorAll('.wtg-year').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+<style>
+#wtg-cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--card);color:var(--text);border-top:1px solid var(--border);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 -2px 12px rgba(0,0,0,.12)}
+#wtg-cookie-banner p{margin:0;flex:1 1 300px;font-size:14px;line-height:1.5}
+#wtg-cookie-banner a{color:var(--accent,var(--green,#1faa55))}
+#wtg-cookie-banner .wtg-cookie-btns{display:flex;gap:10px;flex-shrink:0}
+#wtg-cookie-banner button{background:var(--accent,var(--green,#1faa55));color:#fff;border:1px solid var(--accent,var(--green,#1faa55));border-radius:8px;padding:8px 18px;font-size:14px;cursor:pointer}
+</style>
+<div id="wtg-cookie-banner" style="display:none">
+  <p>We use cookies and Google Analytics to understand how this website is used. You can accept or decline. See our <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
+  <div class="wtg-cookie-btns">
+    <button type="button" id="wtg-cookie-accept">Accept</button>
+    <button type="button" id="wtg-cookie-decline">Decline</button>
+  </div>
+</div>
+<script>
+(function () {
+  var KEY = 'wtg_cookie_consent';
+  var banner = document.getElementById('wtg-cookie-banner');
+  function setConsent(granted) {
+    try {
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          'analytics_storage': granted ? 'granted' : 'denied',
+          'ad_storage': granted ? 'granted' : 'denied',
+          'ad_user_data': granted ? 'granted' : 'denied',
+          'ad_personalization': granted ? 'granted' : 'denied'
+        });
+      }
+    } catch (e) {}
+  }
+  function hide() { if (banner) banner.style.display = 'none'; }
+  function show() { if (banner) banner.style.display = 'flex'; }
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+  if (stored === 'granted') { setConsent(true); hide(); }
+  else if (stored === 'denied') { hide(); }
+  else { show(); }
+  var acceptBtn = document.getElementById('wtg-cookie-accept');
+  var declineBtn = document.getElementById('wtg-cookie-decline');
+  if (acceptBtn) acceptBtn.addEventListener('click', function () {
+    setConsent(true);
+    try { localStorage.setItem(KEY, 'granted'); } catch (e) {}
+    hide();
+  });
+  if (declineBtn) declineBtn.addEventListener('click', function () {
+    try { localStorage.setItem(KEY, 'denied'); } catch (e) {}
+    hide();
+  });
+  var settingsLink = document.getElementById('wtg-cookie-settings');
+  if (settingsLink) settingsLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    try { localStorage.removeItem(KEY); } catch (e2) {}
+    show();
+  });
+})();
+</script>
+</body>
+</html>

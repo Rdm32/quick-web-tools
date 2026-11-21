@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied'
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C1EL3CTMDR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-C1EL3CTMDR');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Text Diff Checker - Compare Two Texts Online</title>
+  <meta name="description" content="Compare two texts line by line and highlight added and removed lines. Free, in your browser. No upload, no sign-up.">
+  <link rel="canonical" href="https://webtoolgrove.com/text-diff-checker">
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --text: #222222;
+      --muted: #555555;
+      --border: #cccccc;
+      --stat-bg: #e8f7ee;
+      --accent: #1faa55;
+      --accent-hover: #178a44;
+      --input-bg: #ffffff;
+      --added-bg: #e6f7ec;
+      --added-text: #146c2e;
+      --removed-bg: #fdecea;
+      --removed-text: #9b1c1c;
+      --unchanged-bg: #f2f4f7;
+      --unchanged-text: #555555;
+    }
+    body.dark {
+      --bg: #12161c;
+      --card: #1c222b;
+      --text: #e8ecf1;
+      --muted: #9aa5b1;
+      --border: #3a4350;
+      --stat-bg: #243044;
+      --accent: #2ecc71;
+      --accent-hover: #27ae60;
+      --input-bg: #141a22;
+      --added-bg: #1d3a28;
+      --added-text: #7ee2a0;
+      --removed-bg: #3d2320;
+      --removed-text: #f2a19a;
+      --unchanged-bg: #262e39;
+      --unchanged-text: #9aa5b1;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 720px; margin: 40px auto; background: var(--card); padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 28px; }
+    textarea { width: 100%; height: 220px; padding: 12px; font-size: 16px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; resize: vertical; background: var(--input-bg); color: var(--text); margin-top: 8px; }
+    .stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+    .stat { flex: 1; min-width: 120px; background: var(--stat-bg); padding: 14px; border-radius: 8px; text-align: center; }
+    .stat b { display: block; font-size: 26px; color: var(--accent); }
+    .stat span { font-size: 13px; color: var(--muted); }
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    button { padding: 10px 20px; font-size: 15px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+    button:hover { background: var(--accent-hover); }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; white-space: nowrap; }
+    button.theme:hover { background: var(--stat-bg); }
+    button.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    button.secondary:hover { background: var(--stat-bg); }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p, .content li { margin-top: 4px; color: var(--muted); }
+    .content code { background: var(--stat-bg); padding: 2px 6px; border-radius: 4px; }
+    .diff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+    @media (max-width: 600px) { .diff-grid { grid-template-columns: 1fr; } }
+    .diff-grid label { font-weight: bold; font-size: 15px; }
+    .diff-result { margin-top: 20px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .diff-line { padding: 6px 12px; font-family: monospace; font-size: 14px; white-space: pre-wrap; word-break: break-word; border-bottom: 1px solid var(--border); }
+    .diff-line:last-child { border-bottom: none; }
+    .diff-line.added { background: var(--added-bg); color: var(--added-text); }
+    .diff-line.removed { background: var(--removed-bg); color: var(--removed-text); }
+    .diff-line.unchanged { background: var(--unchanged-bg); color: var(--unchanged-text); }
+    .message { margin-top: 16px; color: var(--removed-text); font-size: 15px; }
+  </style>
+  <style id="wtg-site">
+    .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+    .wtg-nav a { color: var(--accent, var(--green, #1faa55)); text-decoration: none; font-weight: 700; }
+    .wtg-nav a:hover { text-decoration: underline; }
+    .wtg-nav .wtg-logo { font-size: 18px; }
+    .wtg-footer { max-width: 1000px; margin: 10px auto 30px; padding: 18px 12px 0; border-top: 1px solid var(--border, #dcdcdc); text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 2; color: var(--muted, var(--secondary-text, #666)); }
+    .wtg-footer a { color: inherit; margin: 0 6px; text-decoration: none; }
+    .wtg-footer a:hover { color: var(--accent, var(--green, #1faa55)); text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wtg-nav">
+    <a class="wtg-logo" href="index.html">Web Tool Grove</a>
+    <a href="index.html#tools">All tools</a>
+  </div>
+  <div class="box">
+    <div class="top">
+      <h1>Text Diff Checker</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p>Compare two texts line by line and see exactly what changed.</p>
+    <div class="diff-grid">
+      <div>
+        <label for="original">Original text</label>
+        <textarea id="original" placeholder="Paste the original text here..."></textarea>
+      </div>
+      <div>
+        <label for="changed">Changed text</label>
+        <textarea id="changed" placeholder="Paste the changed text here..."></textarea>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button onclick="compareTexts()">Compare</button>
+      <button class="secondary" onclick="swapTexts()">Swap</button>
+      <button class="secondary" onclick="clearTexts()">Clear</button>
+    </div>
+    <p class="message" id="message" style="display:none"></p>
+
+    <div class="stats" id="summary" style="display:none">
+      <div class="stat"><b id="addedCount">0</b><span>Lines added</span></div>
+      <div class="stat"><b id="removedCount">0</b><span>Lines removed</span></div>
+      <div class="stat"><b id="unchangedCount">0</b><span>Lines unchanged</span></div>
+    </div>
+    <div class="diff-result" id="result" style="display:none"></div>
+    <div class="content">
+      <h2>How the text diff checker works</h2>
+      <p>This free text diff checker compares two texts line by line and highlights exactly what changed. Paste the original text on the left and the changed text on the right, then press Compare. Added lines appear in green, removed lines appear in red, and unchanged lines appear in neutral grey, with a summary counting how many lines were added, removed, and left unchanged. Everything runs in your browser, so your text is never uploaded to a server or saved anywhere.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Paste the original text into the "Original text" box and the new version into the "Changed text" box.</li>
+        <li>Press Compare to see added lines in green, removed lines in red, and unchanged lines in grey.</li>
+        <li>Read the summary above the result to see how many lines were added, removed, and unchanged.</li>
+        <li>Use Swap to exchange the two texts, or Clear to empty both boxes and start again.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Checking document revisions.</strong> Compare two versions of an essay, article, or report to see which lines were added or deleted between drafts.</p>
+      <p><strong>Reviewing code or config changes.</strong> Paste two versions of a file to spot which lines changed before you save or share the new version.</p>
+      <p><strong>Spotting edits in copied text.</strong> If someone returns an edited copy of your text, a line-by-line diff shows at a glance what they changed.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>Does it compare word by word or line by line?</h3>
+      <p>Line by line. The comparison splits each text into lines and matches whole lines. If you change a single word inside a line, that whole line is shown as removed from the original and added in the new version, because the line as a whole is no longer identical.</p>
+      <h3>Is my text uploaded or saved anywhere?</h3>
+      <p>No. The comparison runs entirely in your browser on your own device. Nothing is uploaded to a server, stored, or shared with anyone.</p>
+      <h3>What happens if one box is empty?</h3>
+      <p>The tool shows a message asking you to fill in both boxes. It needs text on both sides to compare, so an empty box cannot produce a diff.</p>
+      <h3>What does the Swap button do?</h3>
+      <p>Swap exchanges the contents of the two boxes, so the original becomes the changed text and vice versa. This is useful if you pasted the two versions in the wrong order and want to reverse the direction of the comparison.</p>
+      <h3>How does the comparison work?</h3>
+      <p>It uses a longest common subsequence algorithm, which finds the longest set of lines that appear in the same order in both texts. Lines in that shared set are unchanged; the remaining lines in the original are removed, and the remaining lines in the changed text are added.</p>
+    </div>
+  </div>
+
+  <script>
+    const originalEl = document.getElementById('original');
+    const changedEl = document.getElementById('changed');
+    const resultEl = document.getElementById('result');
+    const messageEl = document.getElementById('message');
+    const summaryEl = document.getElementById('summary');
+    const themeBtn = document.getElementById('themeBtn');
+
+    function splitLines(text) {
+      if (text === '') return [];
+      return text.split(/\r?\n/);
+    }
+
+    function computeDiff(aLines, bLines) {
+      const n = aLines.length;
+      const m = bLines.length;
+      const dp = [];
+      for (let i = 0; i <= n; i++) {
+        dp[i] = [];
+        for (let j = 0; j <= m; j++) dp[i][j] = 0;
+      }
+      for (let i = n - 1; i >= 0; i--) {
+        for (let j = m - 1; j >= 0; j--) {
+          if (aLines[i] === bLines[j]) dp[i][j] = dp[i + 1][j + 1] + 1;
+          else dp[i][j] = Math.max(dp[i + 1][j], dp[i][j + 1]);
+        }
+      }
+      const ops = [];
+      let i = 0, j = 0;
+      while (i < n && j < m) {
+        if (aLines[i] === bLines[j]) { ops.push({ type: 'unchanged', text: aLines[i] }); i++; j++; }
+        else if (dp[i + 1][j] >= dp[i][j + 1]) { ops.push({ type: 'removed', text: aLines[i] }); i++; }
+        else { ops.push({ type: 'added', text: bLines[j] }); j++; }
+      }
+      while (i < n) { ops.push({ type: 'removed', text: aLines[i] }); i++; }
+      while (j < m) { ops.push({ type: 'added', text: bLines[j] }); j++; }
+      return ops;
+    }
+
+    function showMessage(text) {
+      messageEl.textContent = text;
+      messageEl.style.display = 'block';
+      summaryEl.style.display = 'none';
+      resultEl.style.display = 'none';
+    }
+
+    function compareTexts() {
+      if (!originalEl.value.trim() || !changedEl.value.trim()) {
+        showMessage('Please paste text into both boxes before comparing.');
+        return;
+      }
+      messageEl.style.display = 'none';
+      const ops = computeDiff(splitLines(originalEl.value), splitLines(changedEl.value));
+      let added = 0, removed = 0, unchanged = 0;
+      resultEl.innerHTML = '';
+      ops.forEach(function (op) {
+        if (op.type === 'added') added++;
+        else if (op.type === 'removed') removed++;
+        else unchanged++;
+        const div = document.createElement('div');
+        div.className = 'diff-line ' + op.type;
+        div.textContent = (op.type === 'added' ? '+ ' : op.type === 'removed' ? '- ' : '  ') + op.text;
+        resultEl.appendChild(div);
+      });
+      document.getElementById('addedCount').textContent = added;
+      document.getElementById('removedCount').textContent = removed;
+      document.getElementById('unchangedCount').textContent = unchanged;
+      summaryEl.style.display = 'flex';
+      resultEl.style.display = 'block';
+    }
+
+    function swapTexts() {
+      const tmp = originalEl.value;
+      originalEl.value = changedEl.value;
+      changedEl.value = tmp;
+      originalEl.focus();
+    }
+
+    function clearTexts() {
+      originalEl.value = '';
+      changedEl.value = '';
+      messageEl.style.display = 'none';
+      summaryEl.style.display = 'none';
+      resultEl.style.display = 'none';
+      resultEl.innerHTML = '';
+      originalEl.focus();
+    }
+
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+
+    function toggleTheme() {
+      const dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+
+    // Remember the user's choice; otherwise follow the system setting
+    (function () {
+      let saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) {
+        applyTheme(saved === 'dark');
+      } else {
+        applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+    })();
+  </script>
+  <footer class="wtg-footer">
+    <div>&copy; <span class="wtg-year"></span> Web Tool Grove. All rights reserved.</div>
+    <div>
+      <a href="index.html">Home</a> &middot;
+      <a href="about.html">About</a> &middot;
+      <a href="contact.html">Contact</a> &middot;
+      <a href="privacy-policy.html">Privacy Policy</a> &middot;
+      <a href="terms-of-use.html">Terms of Use</a> &middot;
+      <a href="disclaimer.html">Disclaimer</a> &middot;
+      <a href="#" id="wtg-cookie-settings">Cookie settings</a>
+    </div>
+  </footer>
+  <script>document.querySelectorAll('.wtg-year').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+<style>
+#wtg-cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--card);color:var(--text);border-top:1px solid var(--border);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 -2px 12px rgba(0,0,0,.12)}
+#wtg-cookie-banner p{margin:0;flex:1 1 300px;font-size:14px;line-height:1.5}
+#wtg-cookie-banner a{color:var(--accent,var(--green,#1faa55))}
+#wtg-cookie-banner .wtg-cookie-btns{display:flex;gap:10px;flex-shrink:0}
+#wtg-cookie-banner button{background:var(--accent,var(--green,#1faa55));color:#fff;border:1px solid var(--accent,var(--green,#1faa55));border-radius:8px;padding:8px 18px;font-size:14px;cursor:pointer}
+</style>
+<div id="wtg-cookie-banner" style="display:none">
+  <p>We use cookies and Google Analytics to understand how this website is used. You can accept or decline. See our <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
+  <div class="wtg-cookie-btns">
+    <button type="button" id="wtg-cookie-accept">Accept</button>
+    <button type="button" id="wtg-cookie-decline">Decline</button>
+  </div>
+</div>
+<script>
+(function () {
+  var KEY = 'wtg_cookie_consent';
+  var banner = document.getElementById('wtg-cookie-banner');
+  function setConsent(granted) {
+    try {
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          'analytics_storage': granted ? 'granted' : 'denied',
+          'ad_storage': granted ? 'granted' : 'denied',
+          'ad_user_data': granted ? 'granted' : 'denied',
+          'ad_personalization': granted ? 'granted' : 'denied'
+        });
+      }
+    } catch (e) {}
+  }
+  function hide() { if (banner) banner.style.display = 'none'; }
+  function show() { if (banner) banner.style.display = 'flex'; }
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+  if (stored === 'granted') { setConsent(true); hide(); }
+  else if (stored === 'denied') { hide(); }
+  else { show(); }
+  var acceptBtn = document.getElementById('wtg-cookie-accept');
+  var declineBtn = document.getElementById('wtg-cookie-decline');
+  if (acceptBtn) acceptBtn.addEventListener('click', function () {
+    setConsent(true);
+    try { localStorage.setItem(KEY, 'granted'); } catch (e) {}
+    hide();
+  });
+  if (declineBtn) declineBtn.addEventListener('click', function () {
+    try { localStorage.setItem(KEY, 'denied'); } catch (e) {}
+    hide();
+  });
+  var settingsLink = document.getElementById('wtg-cookie-settings');
+  if (settingsLink) settingsLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    try { localStorage.removeItem(KEY); } catch (e2) {}
+    show();
+  });
+})();
+</script>
+</body>
+</html>

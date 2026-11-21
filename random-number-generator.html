@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied'
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C1EL3CTMDR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-C1EL3CTMDR');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Random Number Generator - Pick Numbers Online</title>
+  <meta name="description" content="Generate random numbers in any range, with or without repeats. Free, in your browser. No sign-up.">
+  <link rel="canonical" href="https://webtoolgrove.com/random-number-generator">
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --text: #222222;
+      --muted: #555555;
+      --border: #cccccc;
+      --stat-bg: #e8f7ee;
+      --accent: #1faa55;
+      --accent-hover: #178a44;
+      --input-bg: #ffffff;
+    }
+    body.dark {
+      --bg: #12161c;
+      --card: #1c222b;
+      --text: #e8ecf1;
+      --muted: #9aa5b1;
+      --border: #3a4350;
+      --stat-bg: #243044;
+      --accent: #2ecc71;
+      --accent-hover: #27ae60;
+      --input-bg: #141a22;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 720px; margin: 40px auto; background: var(--card); padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 28px; }
+    textarea { width: 100%; height: 220px; padding: 12px; font-size: 16px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; resize: vertical; background: var(--input-bg); color: var(--text); margin-top: 8px; }
+    .stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+    .stat { flex: 1; min-width: 120px; background: var(--stat-bg); padding: 14px; border-radius: 8px; text-align: center; }
+    .stat b { display: block; font-size: 26px; color: var(--accent); }
+    .stat span { font-size: 13px; color: var(--muted); }
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    button { padding: 10px 20px; font-size: 15px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+    button:hover { background: var(--accent-hover); }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; white-space: nowrap; }
+    button.theme:hover { background: var(--stat-bg); }
+    button.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    button.secondary:hover { background: var(--stat-bg); }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p, .content li { margin-top: 4px; color: var(--muted); }
+    .content code { background: var(--stat-bg); padding: 2px 6px; border-radius: 4px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+    .field label { display: block; font-weight: bold; font-size: 15px; margin-bottom: 6px; }
+    .field input { width: 100%; padding: 12px; font-size: 16px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; background: var(--input-bg); color: var(--text); }
+    .check-row { margin-top: 16px; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+    .check-row input { width: 18px; height: 18px; accent-color: var(--accent); }
+    .message { margin-top: 16px; color: #9b1c1c; font-size: 15px; }
+    body.dark .message { color: #f2a19a; }
+    .results { margin-top: 20px; padding: 16px; background: var(--stat-bg); border-radius: 8px; font-size: 18px; line-height: 1.8; word-break: break-word; }
+    .results span { display: inline-block; background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 4px 12px; margin: 4px; font-weight: bold; }
+  </style>
+  <style id="wtg-site">
+    .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+    .wtg-nav a { color: var(--accent, var(--green, #1faa55)); text-decoration: none; font-weight: 700; }
+    .wtg-nav a:hover { text-decoration: underline; }
+    .wtg-nav .wtg-logo { font-size: 18px; }
+    .wtg-footer { max-width: 1000px; margin: 10px auto 30px; padding: 18px 12px 0; border-top: 1px solid var(--border, #dcdcdc); text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 2; color: var(--muted, var(--secondary-text, #666)); }
+    .wtg-footer a { color: inherit; margin: 0 6px; text-decoration: none; }
+    .wtg-footer a:hover { color: var(--accent, var(--green, #1faa55)); text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wtg-nav">
+    <a class="wtg-logo" href="index.html">Web Tool Grove</a>
+    <a href="index.html#tools">All tools</a>
+  </div>
+  <div class="box">
+    <div class="top">
+      <h1>Random Number Generator</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p>Generate random numbers in any range, for draws, games, and sampling.</p>
+    <div class="form-grid">
+      <div class="field">
+        <label for="min">Minimum</label>
+        <input type="number" id="min" value="1" step="1">
+      </div>
+      <div class="field">
+        <label for="max">Maximum</label>
+        <input type="number" id="max" value="100" step="1">
+      </div>
+      <div class="field">
+        <label for="count">How many numbers (1-1000)</label>
+        <input type="number" id="count" value="1" min="1" max="1000" step="1">
+      </div>
+    </div>
+    <label class="check-row"><input type="checkbox" id="noRepeats"> No repeats (each number appears at most once)</label>
+
+    <div class="buttons">
+      <button onclick="generateNumbers()">Generate</button>
+      <button class="secondary" id="copyBtn" onclick="copyResults()">Copy results</button>
+    </div>
+    <p class="message" id="message" style="display:none"></p>
+    <div class="results" id="results" style="display:none"></div>
+    <div class="content">
+      <h2>How the random number generator works</h2>
+      <p>This free random number generator picks numbers in any range you choose. Enter a minimum and a maximum, choose how many numbers you want, and press Generate. The numbers come from your browser's cryptographic random source, <code>crypto.getRandomValues</code>, rather than the weaker <code>Math.random</code>. If you tick "No repeats", each number appears at most once. Everything runs in your browser, so nothing is uploaded or saved.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Enter a minimum and a maximum. Both must be whole numbers, and the minimum must be smaller than the maximum.</li>
+        <li>Enter how many numbers you want, from 1 to 1000.</li>
+        <li>Tick "No repeats" if each number should appear at most once. The count must then fit inside the range.</li>
+        <li>Press Generate, then use Copy results to copy the numbers to your clipboard.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Draws and raffles.</strong> Pick a winning number fairly from a set of entries, for example a number from 1 to 100 for a prize draw.</p>
+      <p><strong>Games and dice.</strong> Roll a virtual die, pick a random card number, or choose a starting player without a physical die or deck.</p>
+      <p><strong>Sampling and testing.</strong> Pick random sample numbers from a list or generate test values in a chosen range for a spreadsheet or experiment.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>Where do the numbers come from?</h3>
+      <p>They come from the browser's cryptographic random source, <code>crypto.getRandomValues</code>, which draws on randomness provided by your device and operating system. It is stronger than the <code>Math.random</code> function used by many simple generators.</p>
+      <h3>What does "No repeats" require?</h3>
+      <p>With "No repeats" checked, each number can appear at most once, so the count must fit inside the range. The range holds max minus min plus 1 different numbers, so if you ask for more numbers than that, the tool shows an error instead of generating.</p>
+      <h3>Can this predict lottery numbers?</h3>
+      <p>No. The results are random, and every number in the range is equally likely on each draw. A random pick cannot predict a lottery or improve your odds of winning one.</p>
+      <h3>What values can I enter?</h3>
+      <p>The minimum and maximum must both be whole numbers, and the minimum must be smaller than the maximum. The count must be a whole number from 1 to 1000. Decimals and empty fields are rejected with an error message.</p>
+      <h3>Are my numbers saved or shared?</h3>
+      <p>No. The numbers are generated in your browser on your own device and shown only on this page. They are never uploaded, stored, or shared with anyone.</p>
+    </div>
+  </div>
+
+  <script>
+    const minEl = document.getElementById('min');
+    const maxEl = document.getElementById('max');
+    const countEl = document.getElementById('count');
+    const noRepeatsEl = document.getElementById('noRepeats');
+    const resultsEl = document.getElementById('results');
+    const messageEl = document.getElementById('message');
+    const copyBtn = document.getElementById('copyBtn');
+    const themeBtn = document.getElementById('themeBtn');
+    let lastResults = [];
+
+    function showError(text) {
+      messageEl.textContent = text;
+      messageEl.style.display = 'block';
+      resultsEl.style.display = 'none';
+    }
+
+    function randomIntInclusive(min, max) {
+      const range = max - min + 1;
+      const maxUint32 = 4294967296;
+      const limit = Math.floor(maxUint32 / range) * range;
+      const buf = new Uint32Array(1);
+      let value;
+      do {
+        crypto.getRandomValues(buf);
+        value = buf[0];
+      } while (value >= limit);
+      return min + (value % range);
+    }
+
+    function generateNumbers() {
+      const min = Number(minEl.value);
+      const max = Number(maxEl.value);
+      const count = Number(countEl.value);
+      if (!Number.isInteger(min) || !Number.isInteger(max)) { showError('Minimum and maximum must be whole numbers.'); return; }
+      if (min >= max) { showError('Minimum must be smaller than maximum.'); return; }
+      if (!Number.isInteger(count) || count < 1 || count > 1000) { showError('How many numbers must be a whole number from 1 to 1000.'); return; }
+      if (noRepeatsEl.checked && count > (max - min + 1)) { showError('With "No repeats", how many numbers cannot be larger than the size of the range (' + (max - min + 1) + ').'); return; }
+      messageEl.style.display = 'none';
+      const out = [];
+      if (noRepeatsEl.checked) {
+        const seen = new Set();
+        while (out.length < count) {
+          const n = randomIntInclusive(min, max);
+          if (!seen.has(n)) { seen.add(n); out.push(n); }
+        }
+      } else {
+        for (let i = 0; i < count; i++) out.push(randomIntInclusive(min, max));
+      }
+      lastResults = out;
+      resultsEl.innerHTML = '';
+      out.forEach(function (n) {
+        const span = document.createElement('span');
+        span.textContent = n;
+        resultsEl.appendChild(span);
+      });
+      resultsEl.style.display = 'block';
+    }
+
+    function copyResults() {
+      if (!lastResults.length) return;
+      const text = lastResults.join(', ');
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(function () {
+          copyBtn.textContent = 'Copied!';
+          setTimeout(function () { copyBtn.textContent = 'Copy results'; }, 1500);
+        });
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(function () { copyBtn.textContent = 'Copy results'; }, 1500);
+      }
+    }
+
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+
+    function toggleTheme() {
+      const dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+
+    // Remember the user's choice; otherwise follow the system setting
+    (function () {
+      let saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) {
+        applyTheme(saved === 'dark');
+      } else {
+        applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+    })();
+  </script>
+  <footer class="wtg-footer">
+    <div>&copy; <span class="wtg-year"></span> Web Tool Grove. All rights reserved.</div>
+    <div>
+      <a href="index.html">Home</a> &middot;
+      <a href="about.html">About</a> &middot;
+      <a href="contact.html">Contact</a> &middot;
+      <a href="privacy-policy.html">Privacy Policy</a> &middot;
+      <a href="terms-of-use.html">Terms of Use</a> &middot;
+      <a href="disclaimer.html">Disclaimer</a> &middot;
+      <a href="#" id="wtg-cookie-settings">Cookie settings</a>
+    </div>
+  </footer>
+  <script>document.querySelectorAll('.wtg-year').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+<style>
+#wtg-cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--card);color:var(--text);border-top:1px solid var(--border);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 -2px 12px rgba(0,0,0,.12)}
+#wtg-cookie-banner p{margin:0;flex:1 1 300px;font-size:14px;line-height:1.5}
+#wtg-cookie-banner a{color:var(--accent,var(--green,#1faa55))}
+#wtg-cookie-banner .wtg-cookie-btns{display:flex;gap:10px;flex-shrink:0}
+#wtg-cookie-banner button{background:var(--accent,var(--green,#1faa55));color:#fff;border:1px solid var(--accent,var(--green,#1faa55));border-radius:8px;padding:8px 18px;font-size:14px;cursor:pointer}
+</style>
+<div id="wtg-cookie-banner" style="display:none">
+  <p>We use cookies and Google Analytics to understand how this website is used. You can accept or decline. See our <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
+  <div class="wtg-cookie-btns">
+    <button type="button" id="wtg-cookie-accept">Accept</button>
+    <button type="button" id="wtg-cookie-decline">Decline</button>
+  </div>
+</div>
+<script>
+(function () {
+  var KEY = 'wtg_cookie_consent';
+  var banner = document.getElementById('wtg-cookie-banner');
+  function setConsent(granted) {
+    try {
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          'analytics_storage': granted ? 'granted' : 'denied',
+          'ad_storage': granted ? 'granted' : 'denied',
+          'ad_user_data': granted ? 'granted' : 'denied',
+          'ad_personalization': granted ? 'granted' : 'denied'
+        });
+      }
+    } catch (e) {}
+  }
+  function hide() { if (banner) banner.style.display = 'none'; }
+  function show() { if (banner) banner.style.display = 'flex'; }
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+  if (stored === 'granted') { setConsent(true); hide(); }
+  else if (stored === 'denied') { hide(); }
+  else { show(); }
+  var acceptBtn = document.getElementById('wtg-cookie-accept');
+  var declineBtn = document.getElementById('wtg-cookie-decline');
+  if (acceptBtn) acceptBtn.addEventListener('click', function () {
+    setConsent(true);
+    try { localStorage.setItem(KEY, 'granted'); } catch (e) {}
+    hide();
+  });
+  if (declineBtn) declineBtn.addEventListener('click', function () {
+    try { localStorage.setItem(KEY, 'denied'); } catch (e) {}
+    hide();
+  });
+  var settingsLink = document.getElementById('wtg-cookie-settings');
+  if (settingsLink) settingsLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    try { localStorage.removeItem(KEY); } catch (e2) {}
+    show();
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied'
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C1EL3CTMDR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-C1EL3CTMDR');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tip Calculator - Split the Bill and Tip Amount</title>
+  <meta name="description" content="Calculate a restaurant tip, the total bill, and the split per person. Free, in your browser.">
+  <link rel="canonical" href="https://webtoolgrove.com/tip-calculator">
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --text: #222222;
+      --muted: #555555;
+      --border: #cccccc;
+      --stat-bg: #e8f7ee;
+      --accent: #1faa55;
+      --accent-hover: #178a44;
+      --input-bg: #ffffff;
+    }
+    body.dark {
+      --bg: #12161c;
+      --card: #1c222b;
+      --text: #e8ecf1;
+      --muted: #9aa5b1;
+      --border: #3a4350;
+      --stat-bg: #243044;
+      --accent: #2ecc71;
+      --accent-hover: #27ae60;
+      --input-bg: #141a22;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 720px; margin: 40px auto; background: var(--card); padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 28px; }
+    .field { margin-top: 16px; }
+    .field label { display: block; font-size: 15px; font-weight: bold; margin-bottom: 6px; }
+    .field input { width: 100%; padding: 12px; font-size: 16px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; background: var(--input-bg); color: var(--text); }
+    .field small { color: var(--muted); font-size: 13px; }
+    .error { color: #c0392b; font-size: 14px; margin-top: 12px; min-height: 20px; }
+    body.dark .error { color: #e57373; }
+    .stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+    .stat { flex: 1; min-width: 120px; background: var(--stat-bg); padding: 14px; border-radius: 8px; text-align: center; }
+    .stat b { display: block; font-size: 26px; color: var(--accent); }
+    .stat span { font-size: 13px; color: var(--muted); }
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    button { padding: 10px 20px; font-size: 15px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+    button:hover { background: var(--accent-hover); }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; white-space: nowrap; }
+    button.theme:hover { background: var(--stat-bg); }
+    .tip-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+    .tip-btns button { background: var(--stat-bg); color: var(--text); border: 1px solid var(--border); }
+    .tip-btns button:hover { background: var(--border); }
+    .tip-btns button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p, .content li { margin-top: 4px; color: var(--muted); }
+    .content code { background: var(--stat-bg); padding: 2px 6px; border-radius: 4px; }
+  </style>
+  <style id="wtg-site">
+    .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+    .wtg-nav a { color: var(--accent, var(--green, #1faa55)); text-decoration: none; font-weight: 700; }
+    .wtg-nav a:hover { text-decoration: underline; }
+    .wtg-nav .wtg-logo { font-size: 18px; }
+    .wtg-footer { max-width: 1000px; margin: 10px auto 30px; padding: 18px 12px 0; border-top: 1px solid var(--border, #dcdcdc); text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 2; color: var(--muted, var(--secondary-text, #666)); }
+    .wtg-footer a { color: inherit; margin: 0 6px; text-decoration: none; }
+    .wtg-footer a:hover { color: var(--accent, var(--green, #1faa55)); text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wtg-nav">
+    <a class="wtg-logo" href="index.html">Web Tool Grove</a>
+    <a href="index.html#tools">All tools</a>
+  </div>
+  <div class="box">
+    <div class="top">
+      <h1>Tip Calculator</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p>Work out the tip, the total, and what each person pays.</p>
+
+    <div class="field">
+      <label for="bill">Bill amount ($)</label>
+      <input type="number" id="bill" min="0" step="0.01" value="100">
+    </div>
+    <div class="field">
+      <label>Tip percentage</label>
+      <div class="tip-btns" id="tipBtns">
+        <button type="button" data-tip="10">10%</button>
+        <button type="button" data-tip="15" class="active">15%</button>
+        <button type="button" data-tip="18">18%</button>
+        <button type="button" data-tip="20">20%</button>
+        <button type="button" data-tip="25">25%</button>
+      </div>
+      <div style="margin-top: 10px;">
+        <label for="customTip" style="font-weight: normal; font-size: 14px;">Or enter a custom tip (%)</label>
+        <input type="number" id="customTip" min="0" max="100" step="0.1" value="15">
+      </div>
+    </div>
+    <div class="field">
+      <label for="people">Number of people (1-100)</label>
+      <input type="number" id="people" min="1" max="100" step="1" value="1">
+    </div>
+
+    <div class="error" id="error"></div>
+
+    <div class="stats">
+      <div class="stat"><b id="tipAmount">$0.00</b><span>Tip amount</span></div>
+      <div class="stat"><b id="totalBill">$0.00</b><span>Total bill</span></div>
+      <div class="stat"><b id="perPerson">$0.00</b><span>Amount per person</span></div>
+      <div class="stat"><b id="tipPerPerson">$0.00</b><span>Tip per person</span></div>
+    </div>
+
+    <div class="buttons">
+      <button onclick="resetForm()">Reset</button>
+    </div>
+
+    <div class="content">
+      <h2>How the tip calculator works</h2>
+      <p>This free tip calculator works out the tip on a restaurant bill, adds it to the bill to give the total, and splits the total evenly between the people sharing it. Enter the bill amount, choose a tip percentage from the preset buttons or type a custom percentage, and set the number of people. The tip amount, total bill, amount per person, and tip per person update live as you change any value. Everything runs in your browser, so your numbers are never uploaded to a server or saved anywhere.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Enter the bill amount, before the tip. Use the amount on the check, before tax if you prefer to tip on the pre-tax amount.</li>
+        <li>Tap a preset tip percentage (10%, 15%, 18%, 20%, or 25%) or type your own percentage in the custom tip box.</li>
+        <li>Enter the number of people sharing the bill, from 1 to 100. Leave it at 1 if you are paying alone.</li>
+        <li>Read the tip amount and total bill, then the amount per person and tip per person if you are splitting the bill.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Dinner with friends.</strong> Split a restaurant check evenly in seconds instead of doing the division on a phone calculator, and see at a glance what each person owes including the tip.</p>
+      <p><strong>Choosing a tip.</strong> Compare 15%, 18%, and 20% on the same bill to see how much each level costs before you decide how generous to be.</p>
+      <p><strong>Group meals and outings.</strong> With up to 100 people, the calculator also works for large group dinners, office lunches, and shared celebrations where one person pays and the rest pay them back.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>How is the tip calculated?</h3>
+      <p>The tip is the bill amount multiplied by the tip percentage divided by 100. The total bill is the bill amount plus the tip. For example, a $100 bill with a 20% tip gives a $20.00 tip and a $120.00 total. With 4 people sharing, that is $30.00 per person and $5.00 of tip per person.</p>
+      <h3>How is the bill split between people?</h3>
+      <p>The per-person split divides the total evenly: the amount per person is the total bill divided by the number of people, and the tip per person is the tip amount divided by the number of people. Everyone is assumed to pay the same share, whatever they ordered.</p>
+      <h3>Why can the per-person amounts be a cent off when added up?</h3>
+      <p>All money amounts are rounded to 2 decimal places, so a split that does not divide evenly can leave a cent difference. For example, a $47.50 bill with a 15% tip totals $54.63, which is $18.21 per person for 3 people, and $18.21 x 3 = $54.63 exactly in this case, but other bills can be a cent higher or lower than the total when the rounded shares are added together. In practice, one person pays the extra cent or it is settled with the change.</p>
+      <h3>Should I tip on the bill before or after tax?</h3>
+      <p>That is a matter of custom, and it varies by place. Many people tip on the pre-tax amount, which is the food and drink total before sales tax is added, while others tip on the full amount shown on the check. This calculator tips on whatever bill amount you enter, so enter the pre-tax amount if you want to tip on that, or the full check total if you prefer that.</p>
+      <h3>Is this financial advice?</h3>
+      <p>No. The results are estimates for working out a tip and splitting a bill, not financial advice. Tip customs vary by country and by service, and a service charge may already be included in the bill, so check the check before adding a tip.</p>
+    </div>
+  </div>
+
+  <script>
+    var billEl = document.getElementById('bill');
+    var customTipEl = document.getElementById('customTip');
+    var peopleEl = document.getElementById('people');
+    var errorEl = document.getElementById('error');
+    var themeBtn = document.getElementById('themeBtn');
+    var tipBtns = document.querySelectorAll('#tipBtns button');
+
+    function fmt(n) {
+      return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function round2(n) {
+      return Math.round(n * 100) / 100;
+    }
+
+    function markActive(pct) {
+      tipBtns.forEach(function (btn) {
+        btn.classList.toggle('active', parseFloat(btn.getAttribute('data-tip')) === pct);
+      });
+    }
+
+    function update() {
+      var bill = parseFloat(billEl.value);
+      var pct = parseFloat(customTipEl.value);
+      var people = parseFloat(peopleEl.value);
+
+      if (isNaN(bill) || bill < 0) { errorEl.textContent = 'Please enter a bill amount of $0 or more.'; return; }
+      if (isNaN(pct) || pct < 0 || pct > 100) { errorEl.textContent = 'Please enter a tip between 0% and 100%.'; return; }
+      if (isNaN(people) || people < 1 || people > 100 || Math.floor(people) !== people) { errorEl.textContent = 'Please enter a whole number of people between 1 and 100.'; return; }
+      errorEl.textContent = '';
+
+      var tip = round2(bill * pct / 100);
+      var total = round2(bill + tip);
+      var perPerson = round2(total / people);
+      var tipPerPerson = round2(tip / people);
+      document.getElementById('tipAmount').textContent = fmt(tip);
+      document.getElementById('totalBill').textContent = fmt(total);
+      document.getElementById('perPerson').textContent = fmt(perPerson);
+      document.getElementById('tipPerPerson').textContent = fmt(tipPerPerson);
+    }
+
+    tipBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        customTipEl.value = btn.getAttribute('data-tip');
+        markActive(parseFloat(btn.getAttribute('data-tip')));
+        update();
+      });
+    });
+
+    customTipEl.addEventListener('input', function () {
+      markActive(parseFloat(customTipEl.value));
+      update();
+    });
+
+    function resetForm() {
+      billEl.value = '100';
+      customTipEl.value = '15';
+      peopleEl.value = '1';
+      markActive(15);
+      update();
+    }
+
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+
+    function toggleTheme() {
+      var dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+
+    // Remember the user's choice; otherwise follow the system setting
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) {
+        applyTheme(saved === 'dark');
+      } else {
+        applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+    })();
+
+    [billEl, peopleEl].forEach(function (el) {
+      el.addEventListener('input', update);
+      el.addEventListener('change', update);
+    });
+    update();
+  </script>
+  <footer class="wtg-footer">
+    <div>&copy; <span class="wtg-year"></span> Web Tool Grove. All rights reserved.</div>
+    <div>
+      <a href="index.html">Home</a> &middot;
+      <a href="about.html">About</a> &middot;
+      <a href="contact.html">Contact</a> &middot;
+      <a href="privacy-policy.html">Privacy Policy</a> &middot;
+      <a href="terms-of-use.html">Terms of Use</a> &middot;
+      <a href="disclaimer.html">Disclaimer</a> &middot;
+      <a href="#" id="wtg-cookie-settings">Cookie settings</a>
+    </div>
+  </footer>
+  <script>document.querySelectorAll('.wtg-year').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+<style>
+#wtg-cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--card);color:var(--text);border-top:1px solid var(--border);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 -2px 12px rgba(0,0,0,.12)}
+#wtg-cookie-banner p{margin:0;flex:1 1 300px;font-size:14px;line-height:1.5}
+#wtg-cookie-banner a{color:var(--accent,var(--green,#1faa55))}
+#wtg-cookie-banner .wtg-cookie-btns{display:flex;gap:10px;flex-shrink:0}
+#wtg-cookie-banner button{background:var(--accent,var(--green,#1faa55));color:#fff;border:1px solid var(--accent,var(--green,#1faa55));border-radius:8px;padding:8px 18px;font-size:14px;cursor:pointer}
+</style>
+<div id="wtg-cookie-banner" style="display:none">
+  <p>We use cookies and Google Analytics to understand how this website is used. You can accept or decline. See our <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
+  <div class="wtg-cookie-btns">
+    <button type="button" id="wtg-cookie-accept">Accept</button>
+    <button type="button" id="wtg-cookie-decline">Decline</button>
+  </div>
+</div>
+<script>
+(function () {
+  var KEY = 'wtg_cookie_consent';
+  var banner = document.getElementById('wtg-cookie-banner');
+  function setConsent(granted) {
+    try {
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          'analytics_storage': granted ? 'granted' : 'denied',
+          'ad_storage': granted ? 'granted' : 'denied',
+          'ad_user_data': granted ? 'granted' : 'denied',
+          'ad_personalization': granted ? 'granted' : 'denied'
+        });
+      }
+    } catch (e) {}
+  }
+  function hide() { if (banner) banner.style.display = 'none'; }
+  function show() { if (banner) banner.style.display = 'flex'; }
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+  if (stored === 'granted') { setConsent(true); hide(); }
+  else if (stored === 'denied') { hide(); }
+  else { show(); }
+  var acceptBtn = document.getElementById('wtg-cookie-accept');
+  var declineBtn = document.getElementById('wtg-cookie-decline');
+  if (acceptBtn) acceptBtn.addEventListener('click', function () {
+    setConsent(true);
+    try { localStorage.setItem(KEY, 'granted'); } catch (e) {}
+    hide();
+  });
+  if (declineBtn) declineBtn.addEventListener('click', function () {
+    try { localStorage.setItem(KEY, 'denied'); } catch (e) {}
+    hide();
+  });
+  var settingsLink = document.getElementById('wtg-cookie-settings');
+  if (settingsLink) settingsLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    try { localStorage.removeItem(KEY); } catch (e2) {}
+    show();
+  });
+})();
+</script>
+</body>
+</html>

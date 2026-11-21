@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied'
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C1EL3CTMDR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-C1EL3CTMDR');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free JPG to PDF Converter - Images to PDF Online</title>
+  <meta name="description" content="Convert JPG, PNG, or WebP images into a single PDF online, free, in your browser. No upload, no sign-up.">
+  <link rel="canonical" href="https://webtoolgrove.com/jpg-to-pdf">
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --text: #222222;
+      --muted: #555555;
+      --border: #cccccc;
+      --stat-bg: #e8f7ee;
+      --accent: #1faa55;
+      --accent-hover: #178a44;
+      --input-bg: #ffffff;
+    }
+    body.dark {
+      --bg: #12161c;
+      --card: #1c222b;
+      --text: #e8ecf1;
+      --muted: #9aa5b1;
+      --border: #3a4350;
+      --stat-bg: #243044;
+      --accent: #2ecc71;
+      --accent-hover: #27ae60;
+      --input-bg: #141a22;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background 0.2s, color 0.2s; }
+    .box { max-width: 720px; margin: 40px auto; background: var(--card); padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    h1 { margin: 0; font-size: 28px; }
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    button { padding: 10px 20px; font-size: 15px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+    button:hover { background: var(--accent-hover); }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; white-space: nowrap; }
+    button.theme:hover { background: var(--stat-bg); }
+    button.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    button.secondary:hover { background: var(--stat-bg); }
+    button.small { padding: 6px 10px; font-size: 13px; }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p, .content li { margin-top: 4px; color: var(--muted); }
+    .content code { background: var(--stat-bg); padding: 2px 6px; border-radius: 4px; }
+    .dropzone { border: 2px dashed var(--border); border-radius: 8px; padding: 24px 16px; text-align: center; background: var(--input-bg); color: var(--muted); cursor: pointer; margin-top: 8px; line-height: 1.6; }
+    .dropzone.drag { border-color: var(--accent); background: var(--stat-bg); }
+    .dropzone strong { color: var(--text); }
+    .options { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; }
+    .options label { display: block; font-size: 14px; color: var(--muted); }
+    .options select { margin-top: 6px; padding: 8px 10px; font-size: 15px; border: 1px solid var(--border); border-radius: 8px; background: var(--input-bg); color: var(--text); }
+    .item { display: flex; gap: 12px; align-items: center; padding: 10px; border: 1px solid var(--border); border-radius: 8px; margin-top: 10px; background: var(--card); }
+    .item img.thumb { width: 64px; height: 64px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); flex-shrink: 0; }
+    .item-info { flex: 1; min-width: 0; }
+    .item-name { font-weight: 700; overflow-wrap: anywhere; }
+    .item-meta { color: var(--muted); font-size: 13px; margin-top: 2px; }
+    .item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .summary { margin-top: 14px; font-size: 14px; color: var(--muted); }
+    .msg { margin-top: 12px; font-size: 14px; line-height: 1.5; }
+    .msg.error { font-weight: 700; }
+    .msg.ok { color: var(--accent); }
+    input[type="file"] { display: none; }
+  </style>
+  <style id="wtg-site">
+    .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+    .wtg-nav a { color: var(--accent, var(--green, #1faa55)); text-decoration: none; font-weight: 700; }
+    .wtg-nav a:hover { text-decoration: underline; }
+    .wtg-nav .wtg-logo { font-size: 18px; }
+    .wtg-footer { max-width: 1000px; margin: 10px auto 30px; padding: 18px 12px 0; border-top: 1px solid var(--border, #dcdcdc); text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 2; color: var(--muted, var(--secondary-text, #666)); }
+    .wtg-footer a { color: inherit; margin: 0 6px; text-decoration: none; }
+    .wtg-footer a:hover { color: var(--accent, var(--green, #1faa55)); text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wtg-nav">
+    <a class="wtg-logo" href="index.html">Web Tool Grove</a>
+    <a href="index.html#tools">All tools</a>
+  </div>
+  <div class="box">
+    <div class="top">
+      <h1>JPG to PDF Converter</h1>
+      <button class="theme" id="themeBtn" onclick="toggleTheme()">Dark mode</button>
+    </div>
+    <p>Convert JPG, PNG, or WebP images into a single PDF in your browser.</p>
+
+    <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Add images">
+      <strong>Drop images here, or click to choose files</strong><br>
+      JPG, PNG, or WebP &middot; you can add several images at once
+    </div>
+    <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.webp" multiple>
+
+    <div id="fileList"></div>
+    <div class="summary" id="summary">No images added yet.</div>
+
+    <div class="options">
+      <div>
+        <label for="pageSize">Page size</label>
+        <select id="pageSize">
+          <option value="a4" selected>A4</option>
+          <option value="letter">Letter</option>
+          <option value="fit">Fit to image</option>
+        </select>
+      </div>
+      <div>
+        <label for="orientation">Page orientation</label>
+        <select id="orientation">
+          <option value="portrait" selected>Portrait</option>
+          <option value="landscape">Landscape</option>
+        </select>
+      </div>
+      <div>
+        <label for="margin">Margin</label>
+        <select id="margin">
+          <option value="none">None</option>
+          <option value="small" selected>Small</option>
+          <option value="large">Large</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button id="createBtn" onclick="createPdf()">Create PDF</button>
+      <button class="secondary" onclick="clearAll()">Clear all</button>
+    </div>
+    <div class="msg" id="msg" role="status"></div>
+
+    <div class="content">
+      <h2>How the JPG to PDF converter works</h2>
+      <p>This free converter turns JPG, PNG, or WebP images into a single PDF file, with one image on each page. Your images are processed entirely in your browser, so nothing is uploaded to a server. Add your images in the order you want them to appear, choose a page size, orientation, and margin, then press Create PDF to download the finished file.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Click the drop area (or drag images onto it) and choose one or more JPG, PNG, or WebP files.</li>
+        <li>Check the thumbnail list. Use the up and down arrows to reorder the images, or the remove button to take one out.</li>
+        <li>Pick a page size: A4, Letter, or Fit to image. With A4 or Letter you can also choose Portrait or Landscape orientation, and a margin of None, Small, or Large.</li>
+        <li>Press Create PDF. The file downloads automatically, named after your first image.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Photos and scanned pages.</strong> Turn phone photos or scans of documents, receipts, and handwritten notes into one tidy PDF that is easy to share or archive.</p>
+      <p><strong>Portfolios and lookbooks.</strong> Combine a set of images into a single PDF in the order you choose, so a client or friend receives one file instead of many separate pictures.</p>
+      <p><strong>Forms and homework.</strong> If a school, employer, or office asks for a PDF, you can build one from image files in seconds without installing any software.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>Which image formats can I convert?</h3>
+      <p>JPG, JPEG, PNG, and WebP. Other file types are rejected with a message, so a document or video accidentally added to the list will not break the conversion.</p>
+      <h3>Are my images uploaded anywhere?</h3>
+      <p>No. The conversion runs entirely in your browser on your own device. Your images are never sent to a server, stored, or shared with anyone.</p>
+      <h3>Can I change the order of the images?</h3>
+      <p>Yes. Each image in the list has up and down buttons, so you can put the pages in exactly the order you want before creating the PDF. You can also remove any image you no longer need.</p>
+      <h3>What does "Fit to image" page size do?</h3>
+      <p>Instead of a fixed A4 or Letter page, each PDF page is sized to match that image, so the page has the same shape as the picture and the image fills the whole page with no margin. The orientation setting does not apply to this option, because the page shape already follows the image.</p>
+      <h3>Is the text in the PDF searchable?</h3>
+      <p>No. The PDF contains your images embedded as pictures, not as searchable text, so text inside a photo or scan cannot be selected or searched. If you need searchable text, use a scanner app or OCR tool first and then convert the result.</p>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+  <script>
+    var images = [];
+    var themeBtn = document.getElementById('themeBtn');
+    var dropzone = document.getElementById('dropzone');
+    var fileInput = document.getElementById('fileInput');
+    var fileList = document.getElementById('fileList');
+    var summaryEl = document.getElementById('summary');
+    var msgEl = document.getElementById('msg');
+    var createBtn = document.getElementById('createBtn');
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    function showMsg(text, kind) {
+      msgEl.textContent = text;
+      msgEl.className = 'msg' + (kind ? ' ' + kind : '');
+    }
+
+    function isImageFile(file) {
+      var ext = (file.name.split('.').pop() || '').toLowerCase();
+      return file.type.indexOf('image/') === 0 && ['jpg', 'jpeg', 'png', 'webp'].indexOf(ext) !== -1;
+    }
+
+    function loadImageSize(url) {
+      return new Promise(function (resolve) {
+        var img = new Image();
+        img.onload = function () { resolve({ width: img.naturalWidth, height: img.naturalHeight }); };
+        img.onerror = function () { resolve({ width: 0, height: 0 }); };
+        img.src = url;
+      });
+    }
+
+    function addFiles(fileListInput) {
+      var files = Array.prototype.slice.call(fileListInput);
+      var rejected = [];
+      var accepted = [];
+      files.forEach(function (file) {
+        if (isImageFile(file)) { accepted.push(file); }
+        else { rejected.push(file.name); }
+      });
+      if (rejected.length) {
+        showMsg('These files are not JPG, PNG, or WebP images and were skipped: ' + rejected.join(', '), 'error');
+      }
+      if (!accepted.length) { render(); return; }
+      var pending = accepted.length;
+      accepted.forEach(function (file) {
+        var url = URL.createObjectURL(file);
+        loadImageSize(url).then(function (size) {
+          images.push({ file: file, name: file.name, type: file.type, size: file.size, url: url, width: size.width, height: size.height });
+          pending -= 1;
+          if (pending === 0) {
+            if (!rejected.length) showMsg('', '');
+            render();
+          }
+        });
+      });
+    }
+
+    function render() {
+      fileList.innerHTML = '';
+      images.forEach(function (item, i) {
+        var row = document.createElement('div');
+        row.className = 'item';
+        var thumb = document.createElement('img');
+        thumb.className = 'thumb';
+        thumb.src = item.url;
+        thumb.alt = item.name;
+        var info = document.createElement('div');
+        info.className = 'item-info';
+        var nameEl = document.createElement('div');
+        nameEl.className = 'item-name';
+        nameEl.textContent = (i + 1) + '. ' + item.name;
+        var meta = document.createElement('div');
+        meta.className = 'item-meta';
+        meta.textContent = formatSize(item.size) + (item.width ? ' \u00b7 ' + item.width + ' \u00d7 ' + item.height + ' px' : '');
+        info.appendChild(nameEl);
+        info.appendChild(meta);
+        var actions = document.createElement('div');
+        actions.className = 'item-actions';
+        var up = document.createElement('button');
+        up.className = 'small secondary';
+        up.type = 'button';
+        up.textContent = '\u2191';
+        up.title = 'Move up';
+        up.disabled = i === 0;
+        up.onclick = function () { moveItem(i, -1); };
+        var down = document.createElement('button');
+        down.className = 'small secondary';
+        down.type = 'button';
+        down.textContent = '\u2193';
+        down.title = 'Move down';
+        down.disabled = i === images.length - 1;
+        down.onclick = function () { moveItem(i, 1); };
+        var remove = document.createElement('button');
+        remove.className = 'small secondary';
+        remove.type = 'button';
+        remove.textContent = 'Remove';
+        remove.onclick = function () { removeItem(i); };
+        actions.appendChild(up);
+        actions.appendChild(down);
+        actions.appendChild(remove);
+        row.appendChild(thumb);
+        row.appendChild(info);
+        row.appendChild(actions);
+        fileList.appendChild(row);
+      });
+      var total = images.reduce(function (sum, item) { return sum + item.size; }, 0);
+      summaryEl.textContent = images.length
+        ? images.length + (images.length === 1 ? ' image' : ' images') + ' \u00b7 ' + formatSize(total) + ' total'
+        : 'No images added yet.';
+    }
+
+    function moveItem(i, dir) {
+      var j = i + dir;
+      if (j < 0 || j >= images.length) return;
+      var tmp = images[i];
+      images[i] = images[j];
+      images[j] = tmp;
+      render();
+    }
+
+    function removeItem(i) {
+      URL.revokeObjectURL(images[i].url);
+      images.splice(i, 1);
+      render();
+    }
+
+    function clearAll() {
+      images.forEach(function (item) { URL.revokeObjectURL(item.url); });
+      images = [];
+      fileInput.value = '';
+      showMsg('', '');
+      render();
+    }
+
+    function webpToPngBytes(file) {
+      return new Promise(function (resolve, reject) {
+        var img = new Image();
+        var url = URL.createObjectURL(file);
+        img.onload = function () {
+          try {
+            var canvas = document.createElement('canvas');
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            canvas.getContext('2d').drawImage(img, 0, 0);
+            canvas.toBlob(function (blob) {
+              URL.revokeObjectURL(url);
+              if (!blob) { reject(new Error('Could not convert the WebP image.')); return; }
+              blob.arrayBuffer().then(function (buf) { resolve(new Uint8Array(buf)); }).catch(reject);
+            }, 'image/png');
+          } catch (e) { URL.revokeObjectURL(url); reject(e); }
+        };
+        img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('Could not read the WebP image.')); };
+        img.src = url;
+      });
+    }
+
+    function outputName() {
+      if (!images.length) return 'images.pdf';
+      var base = images[0].name.replace(/\.[^.]+$/, '');
+      base = base.replace(/[\\\/:*?"<>|]/g, '').trim() || 'images';
+      return base + '.pdf';
+    }
+
+    function createPdf() {
+      if (!images.length) { showMsg('Add at least one image before creating a PDF.', 'error'); return; }
+      if (typeof PDFLib === 'undefined') { showMsg('The PDF library failed to load. Check your connection and reload the page, then try again.', 'error'); return; }
+      createBtn.disabled = true;
+      showMsg('Creating your PDF\u2026', '');
+      var pageSize = document.getElementById('pageSize').value;
+      var pdfDocPromise = PDFLib.PDFDocument.create();
+      var orientation = document.getElementById('orientation').value;
+      var marginValue = document.getElementById('margin').value;
+      var margin = marginValue === 'small' ? 36 : (marginValue === 'large' ? 72 : 0);
+      var tasks = images.map(function (item) {
+        return function (pdfDoc) {
+          var bytesPromise;
+          if (item.type === 'image/webp' || /\.webp$/i.test(item.name)) {
+            bytesPromise = webpToPngBytes(item.file);
+          } else {
+            bytesPromise = item.file.arrayBuffer().then(function (buf) { return new Uint8Array(buf); });
+          }
+          return bytesPromise.then(function (bytes) {
+            var embedPromise;
+            if (item.type === 'image/png' || /\.png$/i.test(item.name) || item.type === 'image/webp') {
+              embedPromise = pdfDoc.embedPng(bytes);
+            } else {
+              embedPromise = pdfDoc.embedJpg(bytes);
+            }
+            return embedPromise.then(function (embedded) {
+              var pageWidth, pageHeight;
+              if (pageSize === 'fit') {
+                var maxSide = 1440;
+                var scale = Math.min(1, maxSide / Math.max(embedded.width, embedded.height));
+                pageWidth = embedded.width * scale;
+                pageHeight = embedded.height * scale;
+              } else {
+                var dims = pageSize === 'letter' ? [612, 792] : [595.28, 841.89];
+                pageWidth = dims[0];
+                pageHeight = dims[1];
+                if (orientation === 'landscape') { var t = pageWidth; pageWidth = pageHeight; pageHeight = t; }
+              }
+              var page = pdfDoc.addPage([pageWidth, pageHeight]);
+              var availW = pageWidth - margin * 2;
+              var availH = pageHeight - margin * 2;
+              var drawScale = Math.min(availW / embedded.width, availH / embedded.height);
+              var drawW = embedded.width * drawScale;
+              var drawH = embedded.height * drawScale;
+              page.drawImage(embedded, {
+                x: (pageWidth - drawW) / 2,
+                y: (pageHeight - drawH) / 2,
+                width: drawW,
+                height: drawH
+              });
+            });
+          });
+        };
+      });
+      pdfDocPromise.then(function (pdfDoc) {
+        var seq = Promise.resolve();
+        tasks.forEach(function (task) {
+          seq = seq.then(function () { return task(pdfDoc); });
+        });
+        return seq.then(function () { return pdfDoc.save(); });
+      }).then(function (pdfBytes) {
+        var blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = outputName();
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        showMsg('Your PDF was created and the download should have started.', 'ok');
+      }).catch(function (err) {
+        showMsg('Could not create the PDF: ' + (err && err.message ? err.message : 'an unknown error occurred.'), 'error');
+      }).finally(function () {
+        createBtn.disabled = false;
+      });
+    }
+
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+
+    function toggleTheme() {
+      var dark = !document.body.classList.contains('dark');
+      applyTheme(dark);
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    }
+
+    // Remember the user's choice; otherwise follow the system setting
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved) {
+        applyTheme(saved === 'dark');
+      } else {
+        applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+    })();
+
+    dropzone.addEventListener('click', function () { fileInput.click(); });
+    dropzone.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+    });
+    fileInput.addEventListener('change', function () {
+      addFiles(fileInput.files);
+      fileInput.value = '';
+    });
+    dropzone.addEventListener('dragover', function (e) { e.preventDefault(); dropzone.classList.add('drag'); });
+    dropzone.addEventListener('dragleave', function () { dropzone.classList.remove('drag'); });
+    dropzone.addEventListener('drop', function (e) {
+      e.preventDefault();
+      dropzone.classList.remove('drag');
+      if (e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files);
+    });
+    document.getElementById('orientation').disabled = false;
+    document.getElementById('pageSize').addEventListener('change', function (e) {
+      document.getElementById('orientation').disabled = (e.target.value === 'fit');
+    });
+    render();
+  </script>
+  <footer class="wtg-footer">
+    <div>&copy; <span class="wtg-year"></span> Web Tool Grove. All rights reserved.</div>
+    <div>
+      <a href="index.html">Home</a> &middot;
+      <a href="about.html">About</a> &middot;
+      <a href="contact.html">Contact</a> &middot;
+      <a href="privacy-policy.html">Privacy Policy</a> &middot;
+      <a href="terms-of-use.html">Terms of Use</a> &middot;
+      <a href="disclaimer.html">Disclaimer</a> &middot;
+      <a href="#" id="wtg-cookie-settings">Cookie settings</a>
+    </div>
+  </footer>
+  <script>document.querySelectorAll('.wtg-year').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+<style>
+#wtg-cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--card);color:var(--text);border-top:1px solid var(--border);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 -2px 12px rgba(0,0,0,.12)}
+#wtg-cookie-banner p{margin:0;flex:1 1 300px;font-size:14px;line-height:1.5}
+#wtg-cookie-banner a{color:var(--accent,var(--green,#1faa55))}
+#wtg-cookie-banner .wtg-cookie-btns{display:flex;gap:10px;flex-shrink:0}
+#wtg-cookie-banner button{background:var(--accent,var(--green,#1faa55));color:#fff;border:1px solid var(--accent,var(--green,#1faa55));border-radius:8px;padding:8px 18px;font-size:14px;cursor:pointer}
+</style>
+<div id="wtg-cookie-banner" style="display:none">
+  <p>We use cookies and Google Analytics to understand how this website is used. You can accept or decline. See our <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
+  <div class="wtg-cookie-btns">
+    <button type="button" id="wtg-cookie-accept">Accept</button>
+    <button type="button" id="wtg-cookie-decline">Decline</button>
+  </div>
+</div>
+<script>
+(function () {
+  var KEY = 'wtg_cookie_consent';
+  var banner = document.getElementById('wtg-cookie-banner');
+  function setConsent(granted) {
+    try {
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          'analytics_storage': granted ? 'granted' : 'denied',
+          'ad_storage': granted ? 'granted' : 'denied',
+          'ad_user_data': granted ? 'granted' : 'denied',
+          'ad_personalization': granted ? 'granted' : 'denied'
+        });
+      }
+    } catch (e) {}
+  }
+  function hide() { if (banner) banner.style.display = 'none'; }
+  function show() { if (banner) banner.style.display = 'flex'; }
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+  if (stored === 'granted') { setConsent(true); hide(); }
+  else if (stored === 'denied') { hide(); }
+  else { show(); }
+  var acceptBtn = document.getElementById('wtg-cookie-accept');
+  var declineBtn = document.getElementById('wtg-cookie-decline');
+  if (acceptBtn) acceptBtn.addEventListener('click', function () {
+    setConsent(true);
+    try { localStorage.setItem(KEY, 'granted'); } catch (e) {}
+    hide();
+  });
+  if (declineBtn) declineBtn.addEventListener('click', function () {
+    try { localStorage.setItem(KEY, 'denied'); } catch (e) {}
+    hide();
+  });
+  var settingsLink = document.getElementById('wtg-cookie-settings');
+  if (settingsLink) settingsLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    try { localStorage.removeItem(KEY); } catch (e2) {}
+    show();
+  });
+})();
+</script>
+</body>
+</html>
