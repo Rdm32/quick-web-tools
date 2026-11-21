@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-P338KZLP"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied'
+  });
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-C1EL3CTMDR"></script>
 <script>
@@ -785,9 +789,66 @@
       <a href="contact.html">Contact</a> &middot;
       <a href="privacy-policy.html">Privacy Policy</a> &middot;
       <a href="terms-of-use.html">Terms of Use</a> &middot;
-      <a href="disclaimer.html">Disclaimer</a>
+      <a href="disclaimer.html">Disclaimer</a> &middot;
+      <a href="#" id="wtg-cookie-settings">Cookie settings</a>
     </div>
   </footer>
   <script>document.querySelectorAll('.wtg-year').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
+<style>
+#wtg-cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--card);color:var(--text);border-top:1px solid var(--border);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 -2px 12px rgba(0,0,0,.12)}
+#wtg-cookie-banner p{margin:0;flex:1 1 300px;font-size:14px;line-height:1.5}
+#wtg-cookie-banner a{color:var(--accent,var(--green,#1faa55))}
+#wtg-cookie-banner .wtg-cookie-btns{display:flex;gap:10px;flex-shrink:0}
+#wtg-cookie-banner button{background:var(--accent,var(--green,#1faa55));color:#fff;border:1px solid var(--accent,var(--green,#1faa55));border-radius:8px;padding:8px 18px;font-size:14px;cursor:pointer}
+</style>
+<div id="wtg-cookie-banner" style="display:none">
+  <p>We use cookies and Google Analytics to understand how this website is used. You can accept or decline. See our <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
+  <div class="wtg-cookie-btns">
+    <button type="button" id="wtg-cookie-accept">Accept</button>
+    <button type="button" id="wtg-cookie-decline">Decline</button>
+  </div>
+</div>
+<script>
+(function () {
+  var KEY = 'wtg_cookie_consent';
+  var banner = document.getElementById('wtg-cookie-banner');
+  function setConsent(granted) {
+    try {
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          'analytics_storage': granted ? 'granted' : 'denied',
+          'ad_storage': granted ? 'granted' : 'denied',
+          'ad_user_data': granted ? 'granted' : 'denied',
+          'ad_personalization': granted ? 'granted' : 'denied'
+        });
+      }
+    } catch (e) {}
+  }
+  function hide() { if (banner) banner.style.display = 'none'; }
+  function show() { if (banner) banner.style.display = 'flex'; }
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+  if (stored === 'granted') { setConsent(true); hide(); }
+  else if (stored === 'denied') { hide(); }
+  else { show(); }
+  var acceptBtn = document.getElementById('wtg-cookie-accept');
+  var declineBtn = document.getElementById('wtg-cookie-decline');
+  if (acceptBtn) acceptBtn.addEventListener('click', function () {
+    setConsent(true);
+    try { localStorage.setItem(KEY, 'granted'); } catch (e) {}
+    hide();
+  });
+  if (declineBtn) declineBtn.addEventListener('click', function () {
+    try { localStorage.setItem(KEY, 'denied'); } catch (e) {}
+    hide();
+  });
+  var settingsLink = document.getElementById('wtg-cookie-settings');
+  if (settingsLink) settingsLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    try { localStorage.removeItem(KEY); } catch (e2) {}
+    show();
+  });
+})();
+</script>
 </body>
 </html>
