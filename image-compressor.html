@@ -395,6 +395,10 @@
                 width: 100%;
             }
         }
+        .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+        .content h2 { font-size: 20px; margin-top: 24px; }
+        .content h3 { font-size: 16px; margin-bottom: 4px; }
+        .content p, .content li { margin-top: 4px; color: var(--secondary-text); }
     </style>
   <style id="wtg-site">
     .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
@@ -516,6 +520,32 @@
                 Privacy: Your images are processed only in your browser and are never uploaded to a server.
             </p>
         </section>
+    <div class="content">
+      <h2>How the image compressor works</h2>
+      <p>The image compressor shrinks JPG, PNG, and WebP pictures so they take up less space. Choose an image from your device, set the quality with the slider, and pick the output format. The tool shows the original file size, the compressed size, and how much space you saved, then lets you download the smaller version. Images are processed in your browser, so nothing is uploaded to a server. The maximum file size is 20 MB.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Click Select Image and choose a JPG, PNG, or WebP file up to 20 MB.</li>
+        <li>Drag the quality slider to set the compression level for JPG or WebP output, from 10% to 100%. The default is 80%. The slider has no effect when the output format is PNG, because PNG is lossless.</li>
+        <li>Choose the output format: JPG, WebP, or PNG.</li>
+        <li>Check the before and after file sizes, then download the compressed image.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Preparing photos for a website.</strong> Large photos slow a page down and use mobile data. Compressing them to a smaller size keeps pages fast without an obvious loss of quality.</p>
+      <p><strong>Emailing and messaging pictures.</strong> Some email services limit attachment sizes. A compressed image is easier to send and quicker for the other person to download.</p>
+      <p><strong>Freeing up storage.</strong> If your phone or computer is full of photos, compressed copies take much less space while still looking good on screen.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>What is the maximum file size?</h3>
+      <p>You can compress images up to 20 MB. Larger files are rejected so the browser stays fast and responsive.</p>
+      <h3>Which output format should I choose?</h3>
+      <p>WebP usually gives the smallest file and is supported by all modern browsers. JPG is the safest choice for photos when you need wide compatibility. PNG keeps the best quality and supports transparency, but its files are larger.</p>
+      <h3>Does compressing reduce image quality?</h3>
+      <p>Yes, a little. Lower quality settings make smaller files but can show visible artefacts, especially in smooth areas such as skies. A quality of 80% is a good balance for most photos, and you can compare the result before downloading.</p>
+      <h3>Are my images uploaded to a server?</h3>
+      <p>No. The image never leaves your device. All compression happens in your browser, so your photos stay private.</p>
+      <h3>Why is my PNG barely smaller after compressing?</h3>
+      <p>PNG is a lossless format, so it cannot shrink as much as JPG or WebP, and the quality slider has no effect on PNG output. If the file is still too large, convert it to WebP or JPG instead. The tool may suggest trying a lower quality or another format when the saving is small, but lowering the quality only helps when the output is JPG or WebP.</p>
+    </div>
     </main>
 
     <canvas id="canvas" hidden></canvas>

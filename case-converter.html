@@ -57,6 +57,11 @@
     button.theme:hover { background: var(--soft); }
     button.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
     button.ghost:hover { background: var(--soft); }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p, .content li { margin-top: 4px; color: var(--muted); }
+    .content code { background: var(--soft); padding: 2px 6px; border-radius: 4px; }
   </style>
   <style id="wtg-site">
     .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
@@ -102,6 +107,32 @@
       <button id="copyBtn" onclick="copyText()">Copy Text</button>
       <button class="ghost" onclick="undo()">Undo</button>
       <button class="ghost" onclick="clearText()">Clear</button>
+    </div>
+    <div class="content">
+      <h2>How the case converter works</h2>
+      <p>The case converter changes the capitalization of your text in one click. It offers ten styles: UPPERCASE, lowercase, Title Case, Sentence case, aLtErNaTiNg, camelCase, PascalCase, snake_case, and kebab-case. Type or paste your text, click a button, and the converted text appears in the same box. The Copy Text button copies the result, Undo restores the previous version, and Clear empties the box.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Type or paste your text into the box.</li>
+        <li>Click one of the case buttons, for example UPPERCASE or Title Case.</li>
+        <li>Read the converted text in the same box. You can click another case button to convert it again.</li>
+        <li>Click Copy Text to copy the result, or Undo if you want the previous version back.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Fixing text typed in the wrong case.</strong> If you accidentally wrote a whole paragraph with Caps Lock on, one click converts it back to normal text instead of retyping it.</p>
+      <p><strong>Formatting headings and titles.</strong> Title Case gives headings a clean, professional look for documents, slides, and web pages, while UPPERCASE is useful for short labels and notices.</p>
+      <p><strong>Naming things in code.</strong> Programmers use camelCase for variables, PascalCase for class names, snake_case for Python and database fields, and kebab-case for URLs and CSS classes. This tool converts a plain phrase into any of those formats instantly.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>What does Title Case do?</h3>
+      <p>Title Case capitalizes the first letter of every word, for example "the quick brown fox" becomes "The Quick Brown Fox". It is the style most often used for book titles and headings.</p>
+      <h3>What is Sentence case?</h3>
+      <p>Sentence case capitalizes the first letter of each sentence and makes the rest lowercase, the way normal sentences are written. It is useful for cleaning up text that was typed in all caps.</p>
+      <h3>What is aLtErNaTiNg case?</h3>
+      <p>Alternating case switches between lowercase and uppercase letter by letter, like "hElLo WoRlD". It is mostly used for jokes and playful social media posts rather than formal writing.</p>
+      <h3>When should I use camelCase, snake_case, or kebab-case?</h3>
+      <p>These are naming conventions in programming. Use camelCase for JavaScript variables, PascalCase for class names, snake_case for Python variables and database columns, and kebab-case for web addresses and CSS class names.</p>
+      <h3>Does the converter change numbers or punctuation?</h3>
+      <p>No. Only letters change case. Numbers, punctuation, spaces, and symbols stay exactly as they were.</p>
     </div>
   </div>
 

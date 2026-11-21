@@ -56,6 +56,11 @@
     button:hover { background: var(--accent-hover); }
     button.theme { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 14px; white-space: nowrap; }
     button.theme:hover { background: var(--stat-bg); }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p, .content li { margin-top: 4px; color: var(--muted); }
+    .content code { background: var(--stat-bg); padding: 2px 6px; border-radius: 4px; }
   </style>
   <style id="wtg-site">
     .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
@@ -92,6 +97,32 @@
     <div class="buttons">
       <button id="copyBtn" onclick="copyText()">Copy Text</button>
       <button onclick="clearText()">Clear</button>
+    </div>
+    <div class="content">
+      <h2>How the word counter works</h2>
+      <p>This free word counter counts words, characters, sentences, paragraphs, and estimated reading time. Type or paste your text into the box and all six numbers update instantly as you type, so you can watch your count grow while you write. Everything runs in your browser, which means your text is never uploaded to a server or saved anywhere.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Type your text directly into the box, or paste it from another document.</li>
+        <li>Read the six live statistics above the box: Words, Characters, No spaces, Sentences, Paragraphs, and Min read.</li>
+        <li>Use the Copy Text button to copy the whole text back to your clipboard.</li>
+        <li>Use the Clear button to empty the box and start a new count.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Essays and assignments.</strong> Students and writers can check whether a draft meets a word count requirement before submitting it, without opening a word processor.</p>
+      <p><strong>Blog posts and articles.</strong> If you aim for a certain article length, the live count helps you stay on target while you write, and the reading time estimate shows how long the finished piece will take to read.</p>
+      <p><strong>Social media and search snippets.</strong> Character counts matter for post captions, profile bios, and meta descriptions. The character total, with and without spaces, tells you at a glance whether your text fits.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>How are words counted?</h3>
+      <p>Words are counted by splitting your text on spaces and line breaks. A word is any run of characters separated by whitespace, so hyphenated words and numbers each count as one word.</p>
+      <h3>What does "Min read" mean?</h3>
+      <p>It is the estimated reading time in minutes, calculated as your word count divided by 200 words per minute, rounded up. It is the same reading speed most reading-time estimates use for average adult readers.</p>
+      <h3>Does the tool save or upload my text?</h3>
+      <p>No. All counting happens in your browser on your own device. Your text is never sent to a server, stored, or shared with anyone.</p>
+      <h3>What counts as a sentence?</h3>
+      <p>Sentences are counted by splitting the text on sentence-ending punctuation: periods, exclamation marks, and question marks. Abbreviations such as "Mr." can be counted as a sentence ending, so the number is an estimate rather than an exact grammar check.</p>
+      <h3>What counts as a paragraph?</h3>
+      <p>Paragraphs are blocks of text separated by blank lines. If you paste a single block of text with no blank lines, it counts as one paragraph, even if it wraps across many lines on screen.</p>
     </div>
   </div>
 

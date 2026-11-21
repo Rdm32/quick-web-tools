@@ -312,6 +312,10 @@
                 width: 100%;
             }
         }
+        .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+        .content h2 { font-size: 20px; margin-top: 24px; }
+        .content h3 { font-size: 16px; margin-bottom: 4px; }
+        .content p, .content li { margin-top: 4px; color: var(--secondary-text); }
     </style>
   <style id="wtg-site">
     .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
@@ -404,6 +408,32 @@
                 Privacy: Your text and QR code are processed only in your browser and are not uploaded to our server.
             </p>
         </section>
+    <div class="content">
+      <h2>How the QR code generator works</h2>
+      <p>The QR code generator turns any text or web address into a QR code you can print or share. Type a link or a short message, choose the image size with the slider, and click Generate QR Code. The code is drawn in your browser with high error correction, which means it stays readable even if part of it is smudged or partly covered. The drawing library loads from the internet, so you need to be online when you generate a code. Click Download PNG to save the code as an image file you can use anywhere.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Type or paste text or a URL into the box, for example https://example.com.</li>
+        <li>Drag the size slider to set the image size, from 160 to 256 pixels. The default is 256 pixels.</li>
+        <li>Click Generate QR Code to draw the code on the page.</li>
+        <li>Click Download PNG to save the image, or Clear to start over.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Printed materials.</strong> Put a QR code on a flyer, poster, business card, or product label so people can open your website by pointing their phone camera at it instead of typing a long address.</p>
+      <p><strong>Menus and signs.</strong> Restaurants, shops, and event organizers use QR codes to link a printed menu, a price list, or an event page without reprinting anything when the link changes.</p>
+      <p><strong>Sharing a link quickly.</strong> When you want to send someone a web address in person, showing them a QR code is faster and more reliable than spelling the address out loud.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>What can I put in a QR code?</h3>
+      <p>Any short text or web address, up to 1000 characters. A counter under the box shows how many characters you have used. A URL is the most common choice, but plain text such as a phone number, an email address, or a short message works too.</p>
+      <h3>What size should I choose?</h3>
+      <p>Use 256 pixels for anything you plan to print, because a larger code scans more easily from a distance. Smaller sizes are fine for showing a code on a screen at close range.</p>
+      <h3>What format is the download?</h3>
+      <p>The code downloads as a PNG image, so you can place it on flyers, slides, and web pages.</p>
+      <h3>Will the QR code expire?</h3>
+      <p>No. The code itself never expires. If it points to a web address, the link keeps working as long as that page stays online.</p>
+      <h3>Do I need an account to use it?</h3>
+      <p>No. The generator is free, needs no sign-up, and the code is created entirely in your browser.</p>
+    </div>
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>

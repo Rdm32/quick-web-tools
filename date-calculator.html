@@ -335,6 +335,10 @@
                 width: 100%;
             }
         }
+        .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+        .content h2 { font-size: 20px; margin-top: 24px; }
+        .content h3 { font-size: 16px; margin-bottom: 4px; }
+        .content p, .content li { margin-top: 4px; color: var(--secondary-text); }
     </style>
   <style id="wtg-site">
     .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
@@ -490,6 +494,32 @@
                 This calculator works locally in your browser. Your dates are not uploaded or stored.
             </p>
         </section>
+    <div class="content">
+      <h2>How the date calculator works</h2>
+      <p>The date calculator answers two common questions about dates. The first mode, Days Between Dates, tells you how many days lie between a start date and an end date, and also shows the same gap in weeks and remaining days, plus the total in hours. The second mode, Add or Subtract Days, takes a start date and a number of days and gives you the resulting date. Both modes have Swap Dates and Use Today buttons for convenience, and the Copy Result button copies the answer. Dates are treated as UTC midnight, so daylight saving changes cannot shift the result by a day.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Choose a mode: Days Between Dates, or Add or Subtract Days.</li>
+        <li>For days between dates, pick a start date and an end date and read the result in days, weeks, and hours.</li>
+        <li>For adding or subtracting, pick a start date, choose Add or Subtract, enter the number of days, and read the resulting date.</li>
+        <li>Use Swap Dates to reverse the two dates, or Use Today to fill in the current date.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Counting down to an event.</strong> Find out exactly how many days remain until a holiday, a wedding, an exam, or a project deadline, and see the same gap expressed in weeks.</p>
+      <p><strong>Planning deadlines.</strong> If a task is due 30, 60, or 90 days from today, the add mode gives you the exact calendar date, which is useful for contracts, visas, and return windows.</p>
+      <p><strong>Checking past dates.</strong> Work out how many days have passed since an event, such as a start date at a job or the day a warranty began.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>How are the days counted?</h3>
+      <p>The calculator counts whole calendar days between the two dates, treating each date as midnight UTC. For example, the gap from January 1 to January 2 is 1 day, and the gap from a date to itself is 0 days.</p>
+      <h3>What do weeks and remaining days mean?</h3>
+      <p>The total is also shown as full weeks plus leftover days, so 10 days appears as 1 week and 3 days. The hours figure is the total days multiplied by 24.</p>
+      <h3>Can I count backwards in time?</h3>
+      <p>Yes. If the end date is earlier than the start date, the calculator still shows the gap and tells you the direction, so you can measure time in either direction.</p>
+      <h3>Does it handle leap years correctly?</h3>
+      <p>Yes. Because the calculation uses real calendar dates, February 29 in a leap year is counted like any other day, and the result is correct across leap years.</p>
+      <h3>Can I add days to today?</h3>
+      <p>Yes. Click Use Today to fill in the current date as the start date, choose Add, enter the number of days, and the tool shows the resulting date.</p>
+    </div>
     </main>
 
     <script>

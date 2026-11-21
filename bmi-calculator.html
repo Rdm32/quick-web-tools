@@ -62,6 +62,11 @@
     button.ghost:hover { background: var(--soft); }
     .note { margin-top: 20px; font-size: 13px; color: var(--muted); line-height: 1.5; }
     .hidden { display: none; }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p, .content li { margin-top: 4px; color: var(--muted); }
+    .content code { background: var(--soft); padding: 2px 6px; border-radius: 4px; }
   </style>
   <style id="wtg-site">
     .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
@@ -117,6 +122,32 @@
     </div>
 
     <p class="note">BMI = weight (kg) divided by height (m) squared. Categories follow the common WHO adult ranges: under 18.5 underweight, 18.5 to 24.9 normal, 25 to 29.9 overweight, 30 and above obese. BMI is a general screening number for adults and does not account for muscle, age or body type. It is not medical advice, so talk to a doctor about your health.</p>
+    <div class="content">
+      <h2>How the BMI calculator works</h2>
+      <p>The BMI calculator works out your body mass index, a number that relates your weight to your height. Enter your height and weight in metric units (kilograms and centimeters) or imperial units (pounds, feet, and inches). The tool divides your weight in kilograms by your height in meters squared and shows the result together with a weight category: Underweight below 18.5, Normal from 18.5 to 24.9, Overweight from 25 to 29.9, and Obese at 30 or above. You can copy the result or clear the form to start over.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Choose Metric (kg, cm) or Imperial (lb, ft, in) at the top.</li>
+        <li>Enter your weight and your height in the boxes.</li>
+        <li>Read your BMI number and the category it falls into.</li>
+        <li>Use Copy Result to save the result, or Clear to enter new values.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>A quick health check.</strong> BMI gives a rough idea of whether your weight is in a typical range for your height. It takes less than a minute and needs no equipment beyond a scale and a tape measure.</p>
+      <p><strong>Tracking fitness progress.</strong> If you are working toward a healthier weight, checking your BMI every few weeks shows whether you are moving in the right direction, even when the scale alone is hard to read.</p>
+      <p><strong>Preparing for a doctor visit.</strong> Having your BMI ready before an appointment saves time and gives the doctor a useful starting point for the conversation.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>How is BMI calculated?</h3>
+      <p>BMI equals your weight in kilograms divided by your height in meters squared. In imperial units the tool converts your pounds and inches to kilograms and meters first, then uses the same formula.</p>
+      <h3>What do the BMI categories mean?</h3>
+      <p>Below 18.5 is Underweight, 18.5 to 24.9 is Normal, 25 to 29.9 is Overweight, and 30 or above is Obese. These are the standard ranges used by the World Health Organization for adults.</p>
+      <h3>Is BMI accurate for everyone?</h3>
+      <p>No. BMI does not tell muscle apart from fat, so very muscular people can score as overweight even though they are healthy. It is also less meaningful for children, older adults, and pregnant people. Treat it as a rough guide, not a diagnosis.</p>
+      <h3>Is this calculator for children?</h3>
+      <p>No. This tool uses the adult BMI ranges and is meant for adults. Children's BMI is judged against age and sex growth charts, which this calculator does not use.</p>
+      <h3>Is my height and weight saved anywhere?</h3>
+      <p>No. The calculation happens in your browser and your numbers are never sent to a server or stored.</p>
+    </div>
   </div>
 
   <script>

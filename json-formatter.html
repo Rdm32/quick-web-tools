@@ -67,6 +67,11 @@
     button.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
     button.ghost:hover { background: var(--soft); }
     .note { margin-top: 18px; font-size: 13px; color: var(--muted); }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p, .content li { margin-top: 4px; color: var(--muted); }
+    .content code { background: var(--soft); padding: 2px 6px; border-radius: 4px; }
   </style>
   <style id="wtg-site">
     .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
@@ -124,6 +129,32 @@
     <div class="info" id="info"></div>
 
     <p class="note">Your data is processed in your browser. Nothing is uploaded or stored.</p>
+    <div class="content">
+      <h2>How the JSON formatter works</h2>
+      <p>The JSON formatter makes JSON data readable, compact, or checked for errors. Paste your JSON into the input box, choose an indent size of 2 spaces, 4 spaces, or a tab, then click Format to pretty-print it, Minify to squeeze out all whitespace, or Validate to check whether it is valid. The formatted result appears in the output box, where you can copy it or download it as a .json file. If the JSON has a mistake, the tool shows a clear error message from the parser so you can find the problem. The Load Example button fills in a sample so you can try the tool right away.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Paste your JSON into the input box, or click Load Example to try a sample.</li>
+        <li>Choose the indent size: 2 spaces, 4 spaces, or Tab.</li>
+        <li>Click Format to beautify it, Minify to compress it, or Validate to check it.</li>
+        <li>Copy the output, or click Download .json to save it as a file.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Reading API responses.</strong> Data from a web API usually arrives as one long line. Formatting it with indentation turns it into a readable structure you can scan and understand.</p>
+      <p><strong>Fixing config files.</strong> When a settings file fails to load, pasting it here and clicking Validate shows the exact error, such as a missing comma or an extra bracket.</p>
+      <p><strong>Preparing data to send.</strong> Minified JSON is smaller, which is useful when you paste data into a request or store it in a database, while formatted JSON is easier for people to read and review.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>What does Format do?</h3>
+      <p>Format rewrites your JSON with line breaks and indentation, so nested objects and arrays are easy to follow. You choose the indent size before formatting.</p>
+      <h3>What does Minify do?</h3>
+      <p>Minify removes all unnecessary spaces and line breaks, producing the shortest valid version of the same data. The content does not change, only the layout.</p>
+      <h3>How do I know if my JSON is valid?</h3>
+      <p>Click Validate. If the JSON is valid, the tool confirms it. If not, it shows the parser's error message, which usually points to the exact place where the problem is, such as a missing quote or a trailing comma.</p>
+      <h3>What indent options are available?</h3>
+      <p>You can indent with 2 spaces, 4 spaces, or a tab character. Two spaces is the most common style in JavaScript projects, while four spaces is common in Python.</p>
+      <h3>Can I download the result?</h3>
+      <p>Yes. The Download .json button saves the formatted output as a file on your device, ready to use in your project.</p>
+    </div>
   </div>
 
   <script>

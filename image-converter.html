@@ -387,6 +387,10 @@
                 width: 100%;
             }
         }
+        .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+        .content h2 { font-size: 20px; margin-top: 24px; }
+        .content h3 { font-size: 16px; margin-bottom: 4px; }
+        .content p, .content li { margin-top: 4px; color: var(--secondary-text); }
     </style>
   <style id="wtg-site">
     .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
@@ -496,6 +500,32 @@
                 Privacy: Your image is processed only in your browser and is never uploaded to a server.
             </p>
         </section>
+    <div class="content">
+      <h2>How the image converter works</h2>
+      <p>The image converter changes pictures between JPG, PNG, and WebP formats. Select an image from your device, pick the format you want, and download the converted file. The tool detects the original format automatically and shows a preview of your image. JPG and WebP images are saved at 0.92 quality, which keeps the picture looking sharp while keeping the file size reasonable. PNG output is lossless. Images are converted in your browser and never uploaded. The maximum file size is 20 MB.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Click Select Image and choose a JPG, PNG, or WebP file up to 20 MB.</li>
+        <li>Check the original format shown on the page.</li>
+        <li>Choose the format to convert to: JPG, PNG, or WebP.</li>
+        <li>Download the converted image.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Making images work everywhere.</strong> Some apps and older systems do not accept WebP files. Converting a WebP image to JPG makes it usable in almost any program.</p>
+      <p><strong>Smaller files for the web.</strong> Converting PNG screenshots or photos to WebP usually cuts the file size a lot, which makes web pages load faster without a visible change in quality.</p>
+      <p><strong>Keeping quality when you need it.</strong> Converting to PNG gives you a lossless file, which is useful when you plan to edit the image again later and do not want compression artefacts to build up.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>Which formats are supported?</h3>
+      <p>You can convert between JPG, PNG, and WebP in any direction. The tool accepts all three formats as input and can produce all three as output.</p>
+      <h3>What is the maximum file size?</h3>
+      <p>Images up to 20 MB are accepted. Larger files are rejected to keep the conversion fast in the browser.</p>
+      <h3>Will converting to JPG keep transparency?</h3>
+      <p>No. JPG does not support transparency, so any transparent areas in a PNG or WebP image become solid when converted to JPG. If you need transparency, convert to PNG or WebP instead.</p>
+      <h3>Is the conversion lossless?</h3>
+      <p>PNG output is lossless. JPG and WebP output use a quality level of 0.92, which looks the same as the original to most eyes but is not pixel-perfect. Converting the same image many times in a row can slowly reduce quality, so keep the original file.</p>
+      <h3>Are my images uploaded to a server?</h3>
+      <p>No. The conversion runs entirely in your browser on your own device. Your images are never sent anywhere.</p>
+    </div>
     </main>
 
     <canvas id="canvas" hidden></canvas>

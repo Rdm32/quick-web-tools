@@ -333,6 +333,10 @@
                 width: 100%;
             }
         }
+        .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+        .content h2 { font-size: 20px; margin-top: 24px; }
+        .content h3 { font-size: 16px; margin-bottom: 4px; }
+        .content p, .content li { margin-top: 4px; color: var(--secondary-text); }
     </style>
   <style id="wtg-site">
     .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
@@ -453,6 +457,32 @@
                 Privacy: Your text is processed locally in your browser and is never uploaded to a server.
             </p>
         </section>
+    <div class="content">
+      <h2>How the duplicate line remover works</h2>
+      <p>The duplicate line remover cleans a list by deleting repeated lines. Paste your text into the input box, one item per line, and the cleaned version appears in the output box. Three options control how lines are compared: case sensitive matching, trimming spaces from the start and end of each line, and removing empty lines. The first copy of each line is kept and later copies are removed, so the original order of your list is preserved.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Paste your text into the input box, with one item on each line.</li>
+        <li>Adjust the three options: case sensitive, trim spaces, and remove empty lines. All three are on by default.</li>
+        <li>Read the cleaned text in the output box.</li>
+        <li>Copy the cleaned text, or use Clear to start over.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Cleaning email and contact lists.</strong> If the same address appears several times in a mailing list, this tool leaves one copy of each and removes the rest, so nobody gets the same message twice.</p>
+      <p><strong>Preparing keyword and tag lists.</strong> Bloggers and online sellers often collect keywords or product tags from several places. Removing duplicates gives a clean list that is easier to paste into another tool.</p>
+      <p><strong>Tidying data copied from a spreadsheet.</strong> When you copy a column of values that contains repeats, pasting it here produces a unique list in seconds, without sorting or filtering the spreadsheet by hand.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>What counts as a duplicate?</h3>
+      <p>Two lines count as duplicates when they are identical after the selected options are applied. The first occurrence is kept in place and every later copy is deleted.</p>
+      <h3>What does "Case sensitive" do?</h3>
+      <p>When it is on, "Apple" and "apple" are treated as different lines and both are kept. When it is off, they count as the same line and only the first one remains.</p>
+      <h3>What does "Trim spaces" do?</h3>
+      <p>It removes spaces from the start and end of each line before comparing. That way "apple" and " apple " count as the same line instead of two different ones.</p>
+      <h3>Does the tool keep the original order?</h3>
+      <p>Yes. Lines are not sorted. The cleaned list keeps the order of the first time each line appeared in your text.</p>
+      <h3>Are empty lines removed?</h3>
+      <p>Yes, when the "Remove empty lines" option is on. Turn it off if you want blank lines in the output to stay where they are.</p>
+    </div>
     </main>
 
     <script>

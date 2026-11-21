@@ -49,6 +49,11 @@
     button.theme:hover { background: var(--soft); }
     button.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
     button.ghost:hover { background: var(--soft); }
+    .content { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; font-size: 15px; }
+    .content h2 { font-size: 20px; margin-top: 24px; }
+    .content h3 { font-size: 16px; margin-bottom: 4px; }
+    .content p, .content li { margin-top: 4px; color: var(--muted); }
+    .content code { background: var(--soft); padding: 2px 6px; border-radius: 4px; }
   </style>
   <style id="wtg-site">
     .wtg-nav { max-width: 1000px; margin: 0 auto; padding: 4px 4px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
@@ -95,6 +100,32 @@
     <div class="buttons">
       <button id="copyBtn" onclick="copyOutput()">Copy Text</button>
       <button class="ghost" onclick="clearAll()">Clear</button>
+    </div>
+    <div class="content">
+      <h2>How the Lorem Ipsum generator works</h2>
+      <p>The Lorem Ipsum generator creates placeholder text for designs, mockups, and layouts. Choose how much text you need, from 1 to 2000, and whether you want paragraphs, sentences, or words. Click Generate and the text appears in the box, ready to copy. The text is assembled from a pool of Latin-style words, so every generation is different. A checkbox lets the first paragraph begin with the classic opening line, "Lorem ipsum dolor sit amet"; it is on by default and you can untick it for a fully random passage. You can generate again for a fresh passage, copy the result, or clear the box.</p>
+      <h3>How to use it</h3>
+      <ol>
+        <li>Choose the type: Paragraphs, Sentences, or Words.</li>
+        <li>Enter the amount you need, from 1 to 2000.</li>
+        <li>Click Generate to create the placeholder text.</li>
+        <li>Click Copy Text to copy it, or Generate again for a different passage.</li>
+      </ol>
+      <h3>What you can use it for</h3>
+      <p><strong>Website mockups.</strong> When you design a page before the real content is written, placeholder text shows how headings, paragraphs, and spacing will look without waiting for the copy.</p>
+      <p><strong>Print and layout design.</strong> Brochures, posters, and magazines need realistic blocks of text to judge fonts and column widths. Lorem Ipsum fills the space without distracting anyone with readable words.</p>
+      <p><strong>Testing fonts and themes.</strong> If you want to compare typefaces or test a new blog theme, generating a few paragraphs gives you a realistic sample to look at right away.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>What is Lorem Ipsum?</h3>
+      <p>Lorem Ipsum is scrambled Latin text that has been used as placeholder copy since the 1500s. It looks like real writing but carries no meaning, which is exactly the point: readers focus on the design instead of the words.</p>
+      <h3>How much text can I generate?</h3>
+      <p>You can generate from 1 to 2000 paragraphs, sentences, or words in one click. For a full page mockup, a few paragraphs are usually enough; for a long article layout, generate more.</p>
+      <h3>Can I use Lorem Ipsum in a commercial design?</h3>
+      <p>Yes. Lorem Ipsum is public-domain placeholder text with no copyright restriction, so you can use it in client work, templates, and products you sell.</p>
+      <h3>Why use placeholder text instead of real words?</h3>
+      <p>Real words pull attention toward what the text says, while a design review should focus on how the page looks. Placeholder text lets clients and designers judge spacing, fonts, and layout without getting distracted by unfinished copy.</p>
+      <h3>Is the generated text the same every time?</h3>
+      <p>No. The text is assembled from a pool of Latin-style words, so each generation produces a different passage. The first paragraph starts with the classic line, "Lorem ipsum dolor sit amet", as long as the checkbox for it is ticked; untick the box if you want every paragraph to be fully random.</p>
     </div>
   </div>
 
